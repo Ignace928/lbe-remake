@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./renderer/*"]
+    },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -15,5 +19,6 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
+  "include": ["main", "renderer"], 
   "exclude": ["node_modules", "renderer/next.config.js", "app", "dist"]
 }

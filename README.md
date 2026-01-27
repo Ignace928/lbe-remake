@@ -1,9 +1,17 @@
 <p align="center"><img src="https://i.imgur.com/a9QWW0v.png"></p>
 
-## Usage
+# 🚀LBE Desktop NEXTRON 
+Application web de gestion des élèves recréer avec Nextjs et 👉electron pour desktop
+avec **Nextron**.
+
+Mes Remerciement : *Yoshihide Shiono* <shiono.yoshihide@gmail.com>
+
+## HOW TO MAKE IT WORK?
+
+## DOCUMENTATION
 
 ### Create an App
-
+0️⃣*J'utilise pnpm comme gestionnaire de paquet*
 ```
 # with npx
 $ npx create-nextron-app my-app --example with-tailwindcss
@@ -14,21 +22,221 @@ $ yarn create nextron-app my-app --example with-tailwindcss
 # with pnpm
 $ pnpm dlx create-nextron-app my-app --example with-tailwindcss
 ```
+1️⃣En utilisant pnpm, on doit creer un fichier `.npmrc` : `echo node-linker=hoisted > .npmrc` dans la racine
+**pourquoi?** -> pour resoudre les problèmes de système de fichier entre *Electron* et le *symlink* du pnpm
 
-### Install Dependencies
+### Installation de tailwindcss
+💥 Verifiez d'abord le package.json
+```
+{
+    //...
+    "next": "^14.2.4",
+    tailwindcss: "3.x.x"
+}
+```
+On peut mettre à jour les dépendance pour la stabilité, Mais suivant les règles suivant:
+**NEXTRON**, plus precisement electron supporte mal avec les changements modernes comme `/app` router de **next 15**
+
+**Tailwindcss v4** change de mode de configuration. Plus de `tailwind.config.js` tout passe par css
+
+0️⃣ Mettre à jour tailwindcss
+``` 
+pnpm add tailwindcss@latest @tailwindcss/postcss@latest postcss@latest 
+```
+
+Dans `renderer/styles/globals.css` : 
+```
+@import "tailwindcss";
+
+/* On indique à Tailwind où chercher tes classes */
+@source "../pages/**/*.{ts,tsx,js,jsx}";
+@source "../components/**/*.{ts,tsx,js,jsx}";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  body {
+    @apply bg-gray-900 text-white;
+  }
+}
+
+@layer components {
+  .btn-blue {
+    @apply text-white font-bold px-4 py-2 rounded bg-blue-600 hover:bg-blue-500;
+  }
+}
 
 ```
-$ cd my-app
 
+Creer ou modifier `postcss.config.mjs`: 
+```
+export default {
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
+}
+```
+1️⃣ On peut installer notre tailwindcss v4
+
+```
 # using yarn or npm
 $ yarn (or `npm install`)
 
 # using pnpm
-$ pnpm install --shamefully-hoist
+$ pnpm install
 ```
 
-### Use it
+### Installation de shadcnUI
+💥 Avec **Nextron**:  les fichiers Next.js sont cachés dans le dossier renderer/, le CLI de shadcn ne reconnaît pas la structure à la racine du projet
+Il faut configurer manuellement:
 
+0️⃣ Creer fichier `components.json` à la racine
+```
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "renderer/styles/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  }
+}
+
+```
+
+1️⃣ Creer le fichier utilitaire `renderer/lib/utils.ts`
+```
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+
+
+```
 ```
 # development mode
 $ yarn dev (or `npm run dev` or `pnpm run dev`)
