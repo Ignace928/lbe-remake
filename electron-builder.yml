@@ -1,6 +1,6 @@
-appId: com.example.nextron
-productName: My Nextron App
-copyright: Copyright © 2018 Yoshihide Shiono
+appId: com.lbe.nextron
+productName: LBE Schoolar
+copyright: Copyright © 2018 Edwardo Ignace
 directories:
   output: dist
   buildResources: resources
@@ -9,4 +9,8 @@ files:
     filter:
       - package.json
       - app
+win:
+  icon: resources/icon.ico
+mac:
+  icon: resources/icon.icns
 publish: null

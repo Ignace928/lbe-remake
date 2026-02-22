@@ -1,19 +1,20 @@
-import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
+import { IPC_CHANNELS } from './ipc/channels'
 
-const handler = {
-  send(channel: string, value: unknown) {
-    ipcRenderer.send(channel, value)
+const handler = Object.freeze({
+  hello: {
+    getMessage: () => {
+      return ipcRenderer.invoke(IPC_CHANNELS.helloGetMessage) as Promise<string>
+    },
   },
-  on(channel: string, callback: (...args: unknown[]) => void) {
-    const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
-      callback(...args)
-    ipcRenderer.on(channel, subscription)
+  file: {
+    createText: (fileName: string) => {
+      return ipcRenderer.invoke(IPC_CHANNELS.fileCreateText, fileName) as Promise<string>
+    },
+    listText: () => ipcRenderer.invoke(IPC_CHANNELS.fileListText) as Promise<Array<{name: string; path: string}>>,
 
-    return () => {
-      ipcRenderer.removeListener(channel, subscription)
-    }
   },
-}
+})
 
 contextBridge.exposeInMainWorld('ipc', handler)
 
