@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card'
 import { HeaderComponent } from '@/components/layout/header'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { HouseIcon, Search } from 'lucide-react'
+import { ArrowLeftFromLineIcon, Search } from 'lucide-react'
 
 export default function EtudiantPage() {
   const students = [
@@ -27,7 +27,7 @@ export default function EtudiantPage() {
       <div className='fixed top-0 z-20 w-full p-2'>
         <HeaderComponent title='Eleves'>
           <Button className='m-1 h-10 w-10 rounded-full' onClick={goHome}>
-            <HouseIcon />
+            <ArrowLeftFromLineIcon />
           </Button>
         </HeaderComponent>
       </div>

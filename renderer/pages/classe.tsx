@@ -3,7 +3,6 @@ import Head from 'next/head'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { HeaderComponent } from '@/components/layout/header'
-import { CreateTextFileComponent } from '@/components/createTextFile'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -13,7 +12,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { BookOpenCheck, GraduationCap, HouseIcon, Layers, Search, Sparkles, Users } from 'lucide-react'
+import { ArrowLeftFromLineIcon, BookOpenCheck, GraduationCap, Layers, Search, Sparkles, Users } from 'lucide-react'
 
 export default function ClassePage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -67,7 +66,7 @@ export default function ClassePage() {
       <div className='fixed top-0 z-20 w-full p-2'>
         <HeaderComponent title='Classes'>
           <Button className='m-1 h-10 w-10 rounded-full' onClick={goHome}>
-            <HouseIcon />
+            <ArrowLeftFromLineIcon />
           </Button>
         </HeaderComponent>
       </div>
@@ -215,7 +214,7 @@ export default function ClassePage() {
 
               <div className='mt-4 rounded-xl border border-white/15 bg-slate-950/40 p-3 sm:p-4'>
                 <p className='text-xs font-semibold uppercase tracking-wide text-slate-300'>Message</p>
-                <p className='mt-2 break-words text-sm text-slate-100 sm:text-base'>
+                <p className='mt-2 wrap-break-word text-sm text-slate-100 sm:text-base'>
                   {helloMessage || 'Aucun message recu pour le moment.'}
                 </p>
               </div>
@@ -226,9 +225,6 @@ export default function ClassePage() {
             <Card className='border-white/15 bg-white/10 p-4 backdrop-blur-sm sm:p-5'>
               <p className='text-sm font-semibold text-white'>Actions rapides</p>
               <p className='mt-1 text-xs text-slate-300'>Outils utilitaires pour tests locaux</p>
-              <div className='mt-4'>
-                <CreateTextFileComponent />
-              </div>
             </Card>
           </div>
         </section>

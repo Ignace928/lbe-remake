@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card'
 import { HeaderComponent } from '@/components/layout/header'
 import { Progress } from '@/components/ui/progress'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { BadgeCheck, HouseIcon, Wallet } from 'lucide-react'
+import { ArrowLeftFromLineIcon, BadgeCheck, Wallet } from 'lucide-react'
 
 export default function CashPage() {
   const fees = [
@@ -27,7 +27,7 @@ export default function CashPage() {
       <div className='fixed top-0 z-20 w-full p-2'>
         <HeaderComponent title='Frais & Scolarite'>
           <Button className='m-1 h-10 w-10 rounded-full' onClick={goHome}>
-            <HouseIcon />
+            <ArrowLeftFromLineIcon />
           </Button>
         </HeaderComponent>
       </div>

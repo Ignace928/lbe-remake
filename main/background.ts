@@ -2,7 +2,10 @@ import path from 'path'
 import { app, BrowserWindow, Menu, dialog, shell } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
-import { registerIpcControllers } from './ipc'
+import { connection, synchronize } from './lib/sequelize'
+import { readSelectedDb } from './lib/selected-db'
+import { initializeModels } from './lib/data-types'
+import { registerIpcControllers, setGlobalSequelize } from './ipc'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -110,6 +113,25 @@ if (isProd) {
 ;(async () => {
   await app.whenReady()
   registerIpcControllers()
+  
+  // Connexion à la BDD sélectionnée ou fallback sur initial.db avec synchronisation
+  const selectedDb = await readSelectedDb()
+  const fileName = selectedDb ? path.basename(selectedDb.path) : "initial.db"
+  
+  try {
+    const sequelize = await connection(fileName)
+    
+    // Partager l'instance Sequelize avec les controllers
+    setGlobalSequelize(sequelize)
+    
+    // Initialiser tous les modèles et associations (sans synchronisation)
+    initializeModels(sequelize)
+    
+    // Plus de synchronisation automatique au démarrage
+    console.log(`Base de données '${fileName}' connectée avec succès`)
+  } catch (err) {
+    throw new Error(`Erreur initialisation BDD '${fileName}': ${err.message}`)
+  }
 
   mainWindowRef = createWindow('main', {
     width: 1000,
