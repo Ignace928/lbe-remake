@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import {devtools, persist} from 'zustand/middleware'
+import {devtools, persist, createJSONStorage} from 'zustand/middleware'
 
 //STORE POUR page active dans /engineering
 interface AnneeState {
@@ -17,5 +17,8 @@ export const useAnneeStore = create<AnneeState>()(
         },
         setAnne_active: (page) => set({ anne_Active: page }),
         
-    }),{name:"anneScolaire"})
+    }),{
+        name:"anneScolaire",
+        storage: createJSONStorage(() => sessionStorage) // Utiliser sessionStorage comme authStore
+    })
 )

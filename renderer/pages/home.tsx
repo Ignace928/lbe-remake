@@ -12,20 +12,28 @@ import {
 import { buttonVariants } from '@/components/ui/button'
 import { MiniCard } from '@/components/miniCard'
 import { useAnneeStore } from '@/store/anneStore'
+import { useAuthStore } from '@/store/authStore'
 import LoadingPage from '@/components/loadingPage'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { LogoutButton } from '@/components/LogoutButton'
 
 export default function HomePage() {
   const {anne_Active, setAnne_active} = useAnneeStore()
+  const {user, hasHydrated} = useAuthStore()
   const [loading, setLoading] = useState<boolean>(true)
+  
   useEffect(()=>{
-    const anne_scolaire = JSON.parse(localStorage.getItem('anneScolaire')).state.anne_Active
-    if(!anne_scolaire.id_anne){
-      window.location.href = '/start'
+    if (!hasHydrated) return // Attendre l'hydratation officielle
+    
+    if(!user) window.location.href = '/'
+    else{
+      // Vérifier si une année scolaire est active
+      if(!anne_Active.id_anne){
+        window.location.href = '/start'
+      }
+      else setLoading(false)
     }
-    else setLoading(false)
-  },[anne_Active])
+  },[anne_Active, user, hasHydrated])
   const go = (path: string) => {
     if (typeof window !== 'undefined') window.location.href = path
   }
@@ -56,7 +64,7 @@ export default function HomePage() {
       action: () => go('/frais'),
     },
   ]
-  if(loading) return(<LoadingPage size={40}/>)
+  if(loading || !hasHydrated) return(<LoadingPage size={40}/>)
   return (
     <React.Fragment>
       <Head>

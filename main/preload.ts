@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { IPC_CHANNELS } from './ipc/channels'
+import { UserType, UserType_noMDP } from './ipc/USER/user.Type'
 
 const handler = Object.freeze({
   hello: {
@@ -20,8 +21,8 @@ const handler = Object.freeze({
   },
   user: {
     create: (userData: { nom_user: string; mdp: string; role: string }) => ipcRenderer.invoke(IPC_CHANNELS.userCreate, userData) as Promise<{success: boolean; message: string; data: any}>,
-    getAll: () => ipcRenderer.invoke(IPC_CHANNELS.userGetAll) as Promise<{success: boolean; message: string; data: any}>,
-    getById: (id_user: number) => ipcRenderer.invoke(IPC_CHANNELS.userGetById, id_user) as Promise<{success: boolean; message: string; data: any}>,
+    getAll: (includePasswords: boolean) => ipcRenderer.invoke(IPC_CHANNELS.userGetAll) as Promise<{success: boolean; message: string; data: any}>,
+    getById: (id_user: number, includePassword: boolean) => ipcRenderer.invoke(IPC_CHANNELS.userGetById, id_user) as Promise<{success: boolean; message: string; data: null | UserType | UserType_noMDP}>,
     update: (id_user: number, userData: { nom_user?: string; mdp?: string; role?: string }) => ipcRenderer.invoke(IPC_CHANNELS.userUpdate, id_user, userData) as Promise<{success: boolean; message: string; data: any}>,
     delete: (id_user: number) => ipcRenderer.invoke(IPC_CHANNELS.userDelete, id_user) as Promise<{success: boolean; message: string; data: any}>,
     auth: (credentials: { nom_user: string; mdp: string }) => ipcRenderer.invoke(IPC_CHANNELS.userAuth, credentials) as Promise<{success: boolean; message: string; data: any}>,

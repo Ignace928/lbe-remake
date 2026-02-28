@@ -14,7 +14,7 @@ export async function reconnectDatabase(newFileName: string): Promise<{ success:
     // Fermer l'ancienne connexion si elle existe
     if (globalSequelize) {
       await globalSequelize.close()
-      console.log('Ancienne connexion Sequelize fermée')
+      // console.log('Ancienne connexion Sequelize fermée')
     }
 
     // Importer la fonction de connexion

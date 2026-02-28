@@ -9,6 +9,7 @@ import {
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardDescription } from '@/components/ui/card'
 import { useAnneeStore } from '@/store/anneStore'
+import { useAuthStore } from '@/store/authStore'
 import { useDatabaseStatusQuery } from '@/features/database/database_VModel'
 import LoadingPage from '@/components/loadingPage'
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
@@ -18,15 +19,17 @@ export default function StarterPage() {
   
   const [me, setMe] = useState('')
   const {setAnne_active, anne_Active} = useAnneeStore()
+  const {user, hasHydrated} = useAuthStore()
   const {data, isLoading, error} = useDatabaseStatusQuery()
   // Debug logs pour comprendre ce qui se passe
   useEffect(()=>{
-    const utilisateur = JSON.parse(localStorage.getItem('user'))?.nom_user
-    if(!utilisateur) window.location.href = '/'
+    if (!hasHydrated) return // Attendre l'hydratation officielle
+    
+    if(!user) window.location.href = '/'
     else{
-      setMe(utilisateur)
+      setMe(user.nom_user)
     }
-  },[])
+  },[user, hasHydrated])
   
   const go = () => {
     if (typeof window !== 'undefined') window.location.href = "/home"
@@ -51,7 +54,7 @@ export default function StarterPage() {
     },
   ]
 
-  if(isLoading) return (<LoadingPage size={40}/>)
+  if(isLoading || !hasHydrated) return (<LoadingPage size={40}/>)
 
   // Vérifier si la base de données est initialisée
   if(error || !data?.initialized) {

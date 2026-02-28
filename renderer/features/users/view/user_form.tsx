@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { User, CreateUser, UpdateUser, UserFieldErrors, createUserSchema, updateUserSchema } from '../user_types'
+import { CreateUser, UpdateUser, UserFieldErrors, createUserSchema, updateUserSchema } from '../user_types'
 
 interface UserFormProps {
-  variant: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link",
-  size: "default" | "sm" | "lg" | "icon",
-  style:string,
-  trigger:string,
+  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
+  size?: "default" | "sm" | "lg" | "icon"
+  style?: string
+  trigger?: React.ReactNode
   onSubmit: (data: CreateUser | UpdateUser) => void
-  user?: User | null
+  user?: CreateUser | UpdateUser | null
   isLoading?: boolean
   title: string
   description: string
@@ -19,130 +21,89 @@ interface UserFormProps {
 }
 
 export function UserForm({
-  variant,
-  size,
-  style,
+  variant = "default",
+  size = "default",
+  style = "",
   trigger,
-  onSubmit, 
-  user, 
-  isLoading = false, 
-  title, 
-  description, 
-  submitButtonText 
+  onSubmit,
+  user,
+  isLoading = false,
+  title,
+  description,
+  submitButtonText = "Enregistrer"
 }: UserFormProps) {
-  const [formData, setFormData] = React.useState<CreateUser>({
-    nom_user: user?.nom_user || '',
-    mdp: '',
-    role: user?.role || 'secretaire'
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setValue
+  } = useForm<CreateUser | UpdateUser>({
+    resolver: zodResolver(user ? updateUserSchema : createUserSchema),
+    defaultValues: user || {
+      nom_user: '',
+      mdp: '',
+      role: 'secretaire'
+    }
   })
-  const [fieldErrors, setFieldErrors] = React.useState<UserFieldErrors>({})
 
-  const validateField = (field: keyof CreateUser, value: any) => {
-    const schema = user ? updateUserSchema : createUserSchema
-    const result = schema.safeParse({ ...formData, [field]: value })
-    
-    if (!result.success) {
-      const fieldError = result.error.issues.find(err => err.path[0] === field)
-      return fieldError ? [fieldError.message] : []
+  // Synchroniser le formulaire avec les données utilisateur
+  useEffect(() => {
+    if (user) {
+      reset(user)
     }
-    
-    return []
+  }, [user, reset])
+
+  const onFormSubmit = (data: CreateUser | UpdateUser) => {
+    onSubmit(data)
   }
 
-  const handleInputChange = (field: keyof CreateUser) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setFormData(prev => ({ ...prev, [field]: value }))
-    
-    const errors = validateField(field, value)
-    setFieldErrors(prev => ({ ...prev, [field]: errors }))
-  }
-
-  const handleSelectChange = (field: keyof CreateUser) => (value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
-    
-    const errors = validateField(field, value)
-    setFieldErrors(prev => ({ ...prev, [field]: errors }))
-  }
-
-  const validateForm = (): boolean => {
-    const schema = user ? updateUserSchema : createUserSchema
-    const result = schema.safeParse(formData)
-    
-    if (!result.success) {
-      const errors: UserFieldErrors = {}
-      result.error.issues.forEach(err => {
-        const field = err.path[0] as keyof CreateUser
-        if (!errors[field]) {
-          errors[field] = []
-        }
-        errors[field]!.push(err.message)
-      })
-      setFieldErrors(errors)
-      return false
-    }
-    
-    setFieldErrors({})
-    return true
-  }
-
-  const handleSubmit = () => {
-    if (validateForm()) {
-      onSubmit(formData)
-    }
-  }
-
-  React.useEffect(() => {
-      setFormData({
-        nom_user: user?.nom_user || '',
-        mdp: '',
-        role: user?.role || 'secretaire'
-      })
-      setFieldErrors({})
-  }, [user])
   return (
     <AlertDialog>
-      <AlertDialogTrigger className={`${buttonVariants({variant:`${variant}`, className:`${style}`, size:`${size}`})}`}>
+      <AlertDialogTrigger className={buttonVariants({ variant, className: `${style}`, size })}>
         {trigger}
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader className='text-[#1A1A1D] text-2xl'>
           <AlertDialogTitle>{title}</AlertDialogTitle>
         </AlertDialogHeader>
-
         <AlertDialogDescription className='text-[#252324] text-lg font-extralight'>
           {description}
         </AlertDialogDescription>
-        <div className="space-y-4 py-4">
+        
+        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 py-4">
           <div>
             <label className="text-sm font-medium text-[#1A1A1D]">Nom d'utilisateur</label>
             <Input
-              value={formData.nom_user}
-              onChange={handleInputChange('nom_user')}
+              {...register('nom_user')}
               placeholder="Entrez le nom d'utilisateur"
-              className={`text-[#181A18] font-medium ${fieldErrors.nom_user ? 'border-red-500' : ''}`}
+              className={`text-[#181A18] font-medium ${errors.nom_user ? 'border-red-500' : ''}`}
             />
-            {fieldErrors.nom_user && (
-              <p className="text-sm text-red-600 mt-1">{fieldErrors.nom_user[0]}</p>
+            {errors.nom_user && (
+              <p className="text-sm text-red-600 mt-1">{errors.nom_user.message}</p>
             )}
           </div>
+
           <div>
-            <label className="text-sm font-medium text-[#1A1A1D]">
-              {user ? 'Nouveau mot de passe (laissez vide pour ne pas changer)' : 'Mot de passe'}
-            </label>
+            <label className="text-sm font-medium text-[#1A1A1D]">Mot de passe</label>
             <Input
+              {...register('mdp')}
               type="password"
-              value={formData.mdp}
-              onChange={handleInputChange('mdp')}
-              placeholder={user ? "Laissez vide pour ne pas modifier" : "Entrez le mot de passe"}
-              className={`text-[#181A18] font-medium ${fieldErrors.mdp ? 'border-red-500' : ''}`}
+              placeholder="Entrez le mot de passe"
+              className={`text-[#181A18] font-medium ${errors.mdp ? 'border-red-500' : ''}`}
             />
-            {fieldErrors.mdp && (
-              <p className="text-sm text-red-600 mt-1">{fieldErrors.mdp[0]}</p>
+            {errors.mdp && (
+              <p className="text-sm text-red-600 mt-1">{errors.mdp.message}</p>
             )}
           </div>
+
           <div>
             <label className="text-sm font-medium text-[#1A1A1D]">Rôle</label>
-            <Select value={formData.role} onValueChange={handleSelectChange('role')}>
+            <Select 
+              {...register('role')}
+              onValueChange={(value) => setValue('role', value as 'admin' | 'professeur' | 'secretaire')}
+              defaultValue="secretaire"
+            >
               <SelectTrigger className='text-[#181A18] font-medium'>
                 <SelectValue placeholder="Sélectionnez un rôle" />
               </SelectTrigger>
@@ -152,19 +113,24 @@ export function UserForm({
                 <SelectItem value="secretaire">Secrétaire</SelectItem>
               </SelectContent>
             </Select>
+            {errors.role && (
+              <p className="text-sm text-red-600 mt-1">{errors.role.message}</p>
+            )}
           </div>
-        </div>
 
-        <AlertDialogFooter>
-          <AlertDialogCancel className={buttonVariants({variant:'secondary'})}>Annuler</AlertDialogCancel>
-          <AlertDialogAction 
-            onClick={handleSubmit} 
-            disabled={isLoading}
-            className='rounded-full cursor-pointer'
-          >
-            {isLoading ? 'Traitement...' : submitButtonText}
-          </AlertDialogAction>
-        </AlertDialogFooter>
+          <AlertDialogFooter>
+            <AlertDialogCancel className={buttonVariants({ variant: 'secondary' })}>
+              Annuler
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              type="submit" 
+              disabled={isLoading}
+              className='rounded-full cursor-pointer'
+            >
+              {isLoading ? 'Traitement...' : submitButtonText}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </form>
       </AlertDialogContent>
     </AlertDialog>
   )

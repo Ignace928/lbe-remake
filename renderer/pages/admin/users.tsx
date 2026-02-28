@@ -20,7 +20,6 @@ export default function UsersPage() {
   const router = useRouter()
   const { data: users, isLoading, error, createUser, updateUser, deleteUser } = useUserVm()
 
-  const [selectedUser, setSelectedUser] = React.useState<User | null>(null)
   const [search, setSearch] = React.useState('')
 
   const handleCreateUser = async (data: CreateUser) => {
@@ -31,15 +30,12 @@ export default function UsersPage() {
     }
   }
 
-  const handleUpdateUser = async (data: UpdateUser) => {
-    if (!selectedUser) return
-
+  const handleUpdateUser = async (user: User, data: UpdateUser) => {
     try {
       await updateUser.mutateAsync({ 
-        id: selectedUser.id_user, 
+        id: user.id_user, 
         input: data 
       })
-      setSelectedUser(null)
     } catch (err) {
       console.error('Error updating user:', err)
     }
@@ -53,10 +49,7 @@ export default function UsersPage() {
     }
   }
 
-  const openEditDialog = (user: User) => {
-    setSelectedUser(user)
-  }
-
+  
   const filteredUsers = users.filter(user => 
     user.nom_user?.toLowerCase().includes(search.toLowerCase())
   )
@@ -197,10 +190,7 @@ export default function UsersPage() {
                                 variant = "ghost"
                                 style = "bg-amber-500 text-black hover:bg-amber-300 h-8 text-xs rounded-l-full rounded-r-full cursor-pointer"
                                 trigger='Modifier'
-                                onSubmit={(data) => {
-                                  setSelectedUser(user)
-                                  handleUpdateUser(data)
-                                }}
+                                onSubmit={(data) => handleUpdateUser(user, data)}
                                 user={user}
                                 isLoading={updateUser.isPending}
                                 title="Modifier l'utilisateur"
