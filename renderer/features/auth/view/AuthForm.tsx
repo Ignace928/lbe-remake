@@ -23,7 +23,7 @@ export function AuthForm({ onSubmit, isLoading = false, error }: AuthFormProps) 
   })
 
   return (
-    <Card className="w-full max-w-md m-4">
+    <Card className="border border-sidebar-ring w-full max-w-md m-4">
       <CardHeader className="text-center space-y-2">
         <CardTitle className="text-2xl font-bold">Connexion</CardTitle>
         <p className="text-sm text-muted-foreground">

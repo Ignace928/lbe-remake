@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { ArrowLeftFromLineIcon, BookOpenCheck, GraduationCap, Layers, Search, Sparkles, Users } from 'lucide-react'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export default function ClassePage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -70,164 +71,115 @@ export default function ClassePage() {
           </Button>
         </HeaderComponent>
       </div>
-      <div className='app-page relative overflow-hidden'>
-        <div className='pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl' />
-        <div className='pointer-events-none absolute -bottom-20 -right-20 h-72 w-72 rounded-full bg-emerald-400/20 blur-3xl' />
-
-        <section className='app-page-content'>
-          <Card className='border-white/20 bg-white/10 p-4 backdrop-blur-sm sm:p-6'>
-            <div className='flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between'>
-              <div className='space-y-2'>
-                <p className='inline-flex items-center gap-2 rounded-full border border-cyan-300/40 bg-cyan-400/10 px-3 py-1 text-xs font-semibold tracking-wide text-cyan-100'>
-                  <Sparkles className='h-4 w-4' />
-                  Espace Classes
-                </p>
-                <h1 className='text-2xl font-black tracking-tight text-white sm:text-3xl md:text-4xl'>
-                  Gestion des classes moderne et claire
-                </h1>
-                <p className='max-w-2xl text-sm text-slate-200 sm:text-base'>
-                  Accede rapidement aux informations essentielles, lance des actions et verifie l etat de
-                  communication avec le process principal.
-                </p>
-              </div>
-
-              <div className='flex flex-wrap gap-2 sm:gap-3'>
-                <Button
-                  onClick={getHelloWorldFromMain}
-                  disabled={isLoading}
-                  className='min-w-32 bg-cyan-400 text-slate-950 hover:bg-cyan-300'
-                >
-                  {isLoading ? 'Chargement...' : 'Tester IPC'}
-                </Button>
-                <Button
-                  variant='outline'
-                  onClick={goHome}
-                  className='border-slate-200/50 bg-transparent text-slate-100 hover:bg-white/10'
-                >
-                  Retour accueil
-                </Button>
+      <div className='app-page fixed w-full h-screen overflow-hidden pt-15'>
+        <ScrollArea className='h-full border-x-2 border-primary/20 rounded-3xl p-3'>
+          <Card className='border-none bg-gradient-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
+            <div className='mb-6'>
+              <div className='flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/20 transition-all duration-300'>
+                <div className='rounded-full p-3 shadow-lg transition-all duration-300 bg-gradient-to-r from-primary to-secondary'>
+                  <Layers className='h-6 w-6 text-primary-foreground transition-all duration-300' />
+                </div>
+                <div className='flex-1'>
+                  <p className='text-lg font-bold text-foreground'>Gestion des classes</p>
+                  <p className='mt-1 text-sm text-muted-foreground'>
+                    👉 {filteredClasses.length} classe{(filteredClasses.length || 0) > 1 ? 's' : ''} trouvée{(filteredClasses.length || 0) > 1 ? 's' : ''}
+                  </p>
+                </div>
+                <span className="text-sm font-bold text-primary px-3 py-1 rounded-full bg-primary/10">
+                  {classes.length} totale
+                </span>
               </div>
             </div>
-          </Card>
 
-          <Card className='border-white/15 bg-white/10 p-4 backdrop-blur-sm sm:p-5'>
-            <div className='grid grid-cols-1 gap-3 lg:grid-cols-3'>
-              <div className='relative lg:col-span-2'>
-                <Search className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
-                <Input
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                  placeholder='Rechercher une classe ou un responsable'
-                  className='border-white/20 bg-slate-900/50 pl-9 text-slate-100 placeholder:text-slate-400'
-                />
+            <div className='mb-6'>
+              <div className='grid grid-cols-1 gap-3 lg:grid-cols-3'>
+                <div className='relative lg:col-span-2'>
+                  <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                    <div className='rounded-full bg-gradient-to-r from-primary to-secondary p-1.5 shadow-lg shadow-primary/20'>
+                      <Search className='h-4 w-4 text-primary-foreground' />
+                    </div>
+                  </div>
+                  <Input
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                    placeholder='🔍 Rechercher une classe ou un responsable'
+                    className='pl-12 border-2 border-primary/20 bg-gradient-to-r from-muted/50 to-card text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl'
+                  />
+                </div>
+                <Select value={level} onValueChange={setLevel}>
+                  <SelectTrigger className='border-2 border-primary/20 bg-gradient-to-r from-muted/50 to-card text-foreground rounded-xl'>
+                    <SelectValue placeholder='Filtrer par niveau' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='all'>Tous les niveaux</SelectItem>
+                    <SelectItem value='6e'>6e</SelectItem>
+                    <SelectItem value='5e'>5e</SelectItem>
+                    <SelectItem value='4e'>4e</SelectItem>
+                    <SelectItem value='3e'>3e</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              <Select value={level} onValueChange={setLevel}>
-                <SelectTrigger className='border-white/20 bg-slate-900/50 text-slate-100'>
-                  <SelectValue placeholder='Filtrer par niveau' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='all'>Tous les niveaux</SelectItem>
-                  <SelectItem value='6e'>6e</SelectItem>
-                  <SelectItem value='5e'>5e</SelectItem>
-                  <SelectItem value='4e'>4e</SelectItem>
-                  <SelectItem value='3e'>3e</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
 
-            <div className='mt-4 rounded-xl border border-white/10 bg-slate-950/35 p-2 sm:p-3'>
-              <Table>
-                <TableHeader>
-                  <TableRow className='border-white/10 hover:bg-white/5'>
-                    <TableHead className='text-slate-300'>Code</TableHead>
-                    <TableHead className='text-slate-300'>Classe</TableHead>
-                    <TableHead className='text-slate-300'>Niveau</TableHead>
-                    <TableHead className='text-slate-300'>Effectif</TableHead>
-                    <TableHead className='text-right text-slate-300'>Responsable</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredClasses.map((item) => (
-                    <TableRow key={item.code} className='border-white/10 hover:bg-white/5'>
-                      <TableCell className='font-mono text-slate-200'>{item.code}</TableCell>
-                      <TableCell className='font-semibold text-white'>{item.nom}</TableCell>
-                      <TableCell className='text-slate-200'>{item.niveau}</TableCell>
-                      <TableCell className='text-slate-200'>{item.effectif}</TableCell>
-                      <TableCell className='text-right text-slate-200'>{item.principal}</TableCell>
+            <div className='mb-6'>
+              <div className='rounded-xl border-2 border-primary/20 bg-gradient-to-br from-muted/20 to-card p-4'>
+                <Table>
+                  <TableHeader>
+                    <TableRow className='border-primary/10 hover:bg-primary/5'>
+                      <TableHead className='text-foreground'>Code</TableHead>
+                      <TableHead className='text-foreground'>Classe</TableHead>
+                      <TableHead className='text-foreground'>Niveau</TableHead>
+                      <TableHead className='text-foreground'>Effectif</TableHead>
+                      <TableHead className='text-right text-foreground'>Responsable</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredClasses.map((item) => (
+                      <TableRow key={item.code} className='border-primary/10 hover:bg-primary/5'>
+                        <TableCell className='font-mono text-foreground'>{item.code}</TableCell>
+                        <TableCell className='font-semibold text-foreground'>{item.nom}</TableCell>
+                        <TableCell className='text-muted-foreground'>{item.niveau}</TableCell>
+                        <TableCell className='text-muted-foreground'>{item.effectif}</TableCell>
+                        <TableCell className='text-right text-muted-foreground'>{item.principal}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+
+            <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4'>
+              <Card className='border-primary/20 bg-gradient-to-br from-muted/20 to-card p-4'>
+                <p className='text-sm text-muted-foreground'>Classes actives</p>
+                <div className='mt-3 flex items-end justify-between'>
+                  <p className='text-3xl font-extrabold text-foreground'>12</p>
+                  <Layers className='h-6 w-6 text-primary' />
+                </div>
+              </Card>
+              <Card className='border-primary/20 bg-gradient-to-br from-muted/20 to-card p-4'>
+                <p className='text-sm text-muted-foreground'>Etudiants</p>
+                <div className='mt-3 flex items-end justify-between'>
+                  <p className='text-3xl font-extrabold text-foreground'>328</p>
+                  <Users className='h-6 w-6 text-primary' />
+                </div>
+              </Card>
+              <Card className='border-primary/20 bg-gradient-to-br from-muted/20 to-card p-4'>
+                <p className='text-sm text-muted-foreground'>Matieres</p>
+                <div className='mt-3 flex items-end justify-between'>
+                  <p className='text-3xl font-extrabold text-foreground'>26</p>
+                  <BookOpenCheck className='h-6 w-6 text-primary' />
+                </div>
+              </Card>
+              <Card className='border-primary/20 bg-gradient-to-br from-muted/20 to-card p-4'>
+                <p className='text-sm text-muted-foreground'>Enseignants</p>
+                <div className='mt-3 flex items-end justify-between'>
+                  <p className='text-3xl font-extrabold text-foreground'>41</p>
+                  <GraduationCap className='h-6 w-6 text-primary' />
+                </div>
+              </Card>
             </div>
           </Card>
-
-          <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4'>
-            <Card className='border-white/15 bg-white/10 p-4 backdrop-blur-sm'>
-              <p className='text-xs uppercase tracking-wide text-slate-300'>Classes actives</p>
-              <div className='mt-3 flex items-end justify-between'>
-                <p className='text-3xl font-extrabold text-white'>12</p>
-                <Layers className='h-6 w-6 text-cyan-200' />
-              </div>
-            </Card>
-            <Card className='border-white/15 bg-white/10 p-4 backdrop-blur-sm'>
-              <p className='text-xs uppercase tracking-wide text-slate-300'>Etudiants</p>
-              <div className='mt-3 flex items-end justify-between'>
-                <p className='text-3xl font-extrabold text-white'>328</p>
-                <Users className='h-6 w-6 text-emerald-200' />
-              </div>
-            </Card>
-            <Card className='border-white/15 bg-white/10 p-4 backdrop-blur-sm'>
-              <p className='text-xs uppercase tracking-wide text-slate-300'>Matieres</p>
-              <div className='mt-3 flex items-end justify-between'>
-                <p className='text-3xl font-extrabold text-white'>26</p>
-                <BookOpenCheck className='h-6 w-6 text-indigo-200' />
-              </div>
-            </Card>
-            <Card className='border-white/15 bg-white/10 p-4 backdrop-blur-sm'>
-              <p className='text-xs uppercase tracking-wide text-slate-300'>Enseignants</p>
-              <div className='mt-3 flex items-end justify-between'>
-                <p className='text-3xl font-extrabold text-white'>41</p>
-                <GraduationCap className='h-6 w-6 text-amber-200' />
-              </div>
-            </Card>
-          </div>
-
-          <div className='grid grid-cols-1 gap-4 xl:grid-cols-3'>
-            <Card className='xl:col-span-2 border-white/15 bg-white/10 p-4 backdrop-blur-sm sm:p-5'>
-              <div className='flex items-start justify-between gap-3'>
-                <div>
-                  <p className='text-sm font-semibold text-white'>Etat de la communication IPC</p>
-                  <p className='text-xs text-slate-300'>Resultat du message "hello" depuis le process main</p>
-                </div>
-                <div
-                  className={`rounded-full px-3 py-1 text-xs font-bold ${
-                    errorMessage
-                      ? 'bg-red-500/20 text-red-200'
-                      : helloMessage
-                        ? 'bg-emerald-500/20 text-emerald-200'
-                        : 'bg-slate-500/20 text-slate-200'
-                  }`}
-                >
-                  {errorMessage ? 'Erreur' : helloMessage ? 'Connecte' : 'En attente'}
-                </div>
-              </div>
-
-              <div className='mt-4 rounded-xl border border-white/15 bg-slate-950/40 p-3 sm:p-4'>
-                <p className='text-xs font-semibold uppercase tracking-wide text-slate-300'>Message</p>
-                <p className='mt-2 wrap-break-word text-sm text-slate-100 sm:text-base'>
-                  {helloMessage || 'Aucun message recu pour le moment.'}
-                </p>
-              </div>
-
-              {errorMessage && <p className='mt-3 text-sm font-medium text-red-300'>Erreur: {errorMessage}</p>}
-            </Card>
-
-            <Card className='border-white/15 bg-white/10 p-4 backdrop-blur-sm sm:p-5'>
-              <p className='text-sm font-semibold text-white'>Actions rapides</p>
-              <p className='mt-1 text-xs text-slate-300'>Outils utilitaires pour tests locaux</p>
-            </Card>
-          </div>
-        </section>
+        </ScrollArea>
       </div>
     </React.Fragment>
   )

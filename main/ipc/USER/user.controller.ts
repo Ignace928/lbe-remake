@@ -103,7 +103,8 @@ export function registerUserController() {
         : ['id_user', 'nom_user', 'role']
 
       const user = await User.findByPk(id_user, {
-        attributes: attributes
+        attributes: attributes,
+        raw: true
       })
       
       if (!user) {
@@ -247,10 +248,18 @@ export function registerUserController() {
         }
       }
       
-      // Vérifier le mot de passe
-      const inputPassword = credentials.mdp ? Buffer.from(credentials.mdp).toString('base64') : ''
+      // Gérer le mot de passe (vide autorisé pour l'utilisateur par défaut)
+      let isValidPassword = false
       const storedPassword = user.dataValues.mdp || ''
-      const isValidPassword = inputPassword === storedPassword
+      
+      if (!credentials.mdp && !storedPassword) {
+        // Mot de passe vide des deux côtés (utilisateur par défaut)
+        isValidPassword = true
+      } else if (credentials.mdp && storedPassword) {
+        // Mot de passe fourni des deux côtés
+        const inputPassword = Buffer.from(credentials.mdp).toString('base64')
+        isValidPassword = inputPassword === storedPassword
+      }
       
       if (!isValidPassword) {
         return {
@@ -270,9 +279,10 @@ export function registerUserController() {
         }
       }
     } catch (error) {
+      console.error('Erreur authentification:', error)
       return {
         success: false,
-        message: error.message,
+        message: error.message || 'Erreur lors de l\'authentification',
         data: null
       }
     }

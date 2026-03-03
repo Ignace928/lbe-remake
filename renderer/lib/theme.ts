@@ -32,7 +32,6 @@ export const theme1 = {
   "--sidebar-border": "oklch(0.92 0.004 286.32)",
   "--sidebar-ring": "oklch(0.841 0.238 128.85)"
 }
-
 export const dark1 = {
   "--background": "oklch(0.141 0.005 285.823)",
   "--foreground": "oklch(0.985 0 0)",
@@ -66,6 +65,7 @@ export const dark1 = {
   "--sidebar-border": "oklch(1 0 0 / 10%)",
   "--sidebar-ring": "oklch(0.405 0.101 131.063)",
 };
+
 
 export const theme2 = {
    "--background": "oklch(0.9779 0.0042 56.3756)",
@@ -211,7 +211,6 @@ export const theme3 = {
   "--sidebar-border": "oklch(0.92 0.004 286.32)",
   "--sidebar-ring": "oklch(0.712 0.194 13.428)",
 };
-
 export const dark3 = {
   "--background": "oklch(0.141 0.005 285.823)",
   "--foreground": "oklch(0.985 0 0)",
@@ -307,7 +306,6 @@ export const theme4 = {
   "--tracking-normal": "0em",
   "--spacing": "0.25rem",
 }
-
 export const dark4 = {
   "--background": "oklch(0.1743 0.0227 283.7998)",
   "--foreground": "oklch(0.9185 0.0257 285.8834)",
@@ -417,7 +415,6 @@ export const theme5 = {
   "--tracking-normal": "0em",
   "--spacing": "0.25rem",
 }
-
 export const dark5 = {
   "--background": "oklch(0.2598 0.0306 262.6666)",
   "--foreground": "oklch(0.9219 0 0)",
@@ -505,7 +502,6 @@ export const themeDefault = {
   "--sidebar-border": "oklch(0.922 0 0)",
   "--sidebar-ring": "oklch(0.708 0 0)",
 };
-
 export const themeDarkDefault = {
   "--background": "oklch(0.145 0 0)",
   "--foreground": "oklch(0.985 0 0)",
@@ -552,6 +548,7 @@ export const themes = {
 // 👉 TypeScript déduit automatiquement :
 // type ThemeKey = 1 | 2 | 3 | 4 | "default"
 export type ThemeKey = keyof typeof themes;
+
 
 export function applyThemeVars(vars: Record<string, string>) {
   const root = document.documentElement;

@@ -2,7 +2,6 @@ import { BackendUserResponse, UserResponse, UserSingleResponse } from './user_ty
 
 export async function getAllUsers(includePasswords: boolean = false): Promise<UserResponse> {
   const result = await window.ipc.user.getAll(includePasswords)
-  console.log('UserService - getAllUsers result:', result)
   return result
 }
 

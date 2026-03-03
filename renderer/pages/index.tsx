@@ -11,7 +11,9 @@ import { ConfigurationPage } from '@/features/auth/view/ConfigurationPage'
 import { AuthForm } from '@/features/auth/view/AuthForm'
 import { getUserById } from '@/features/users/user_service'
 import { BackendUserResponse, UserWithoutPassword } from '@/features/users/user_types'
-import { CardContent } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
+import { toast } from 'sonner'
+import { HeaderComponent } from '@/components/layout/header'
 
 export default function NextPage() {
   const { setAnne_active } = useAnneeStore()
@@ -37,39 +39,45 @@ export default function NextPage() {
           if (userValidation.success && userValidation.data) {
             const backendUser = userValidation.data
             
-            // 🔒 Conversion des données du backend vers le type UserWithoutPassword
+            // 🔒 Conversion sécurisée des données du backend vers le type UserWithoutPassword
             const validUser: UserWithoutPassword = {
               id_user: typeof backendUser.id_user === 'string' 
-                ? parseInt(backendUser.id_user) 
+                ? parseInt(backendUser.id_user, 10) 
                 : backendUser.id_user,
               nom_user: backendUser.nom_user,
               role: backendUser.role as 'admin' | 'professeur' | 'secretaire'
             }
             
-            // 🔒 Vérifier que le nom d'utilisateur correspond
-            if (validUser.nom_user === user.nom_user) {
-              // Redirection selon le rôle VALIDÉ
+            // 🔒 Vérifier que le nom d'utilisateur correspond (plus tolérant)
+            if (validUser.nom_user && user.nom_user && 
+                validUser.nom_user.trim().toLowerCase() === user.nom_user.trim().toLowerCase()) {
+              // Mettre à jour le store avec les données validées
+              setUser(validUser)
+              
+              // Redirection selon le rôle VALIDÉ (avec délai pour éviter les problèmes de race condition)
               const redirectUrl = validUser.role === 'admin' ? '/admin' : 
                                  validUser.role === 'secretaire' ? '/start' : 
                                  '/start'
               
-              // Mettre à jour le store avec les données validées
-              setUser(validUser)
-              
-              window.location.href = redirectUrl
+              setTimeout(() => {
+                window.location.href = redirectUrl
+              }, 100)
             } else {
               // ❌ Nom d'utilisateur ne correspond pas -> déconnexion
-              console.error('Session falsifiée: nom utilisateur invalide')
+              console.error('Session falsifiée: nom utilisateur invalide', { 
+                expected: user.nom_user, 
+                got: validUser.nom_user,
+                expectedType: typeof user.nom_user,
+                gotType: typeof validUser.nom_user
+              })
               setUser(null)
             }
           } else {
             // ❌ Utilisateur n'existe pas -> déconnexion
-            console.error('Session falsifiée: utilisateur inexistant')
             setUser(null)
           }
         } catch (error) {
           // ❌ Erreur de validation -> déconnexion
-          console.error('Erreur validation session:', error)
           setUser(null)
         }
       }
@@ -84,13 +92,17 @@ export default function NextPage() {
       
       if (result.success && result.data) {
         // La redirection se fera automatiquement via le useEffect ci-dessus
-        // quand le store sera mis à jour avec les données validées
+        // // quand le store sera mis à jour avec les données validées
+        // console.log('Login successful, waiting for validation and redirect...')
+        toast.success('Connecté avec sucess✔')
       } else {
         // Gérer les erreurs ici si nécessaire
-        console.error('Login failed:', result.message)
+        toast.error(result.message)
+        // Afficher un message d'erreur à l'utilisateur si nécessaire
       }
     } catch (err) {
-      console.error('Login error:', err)
+      toast.error(err)
+      // Afficher un message d'erreur à l'utilisateur si nécessaire
     }
   }
 
@@ -114,16 +126,22 @@ export default function NextPage() {
       <Head>
         <title>Se connecter - LBE Schoolar✨</title>
       </Head>
-      
-      <ScrollArea className="p-4 space-y-6 h-screen">
-        <CardContent className="flex items-center justify-center min-h-full">
-          <AuthForm 
-            onSubmit={handleSubmit}
-            isLoading={loginMutation.isPending}
-            error={loginMutation.error ? 'Erreur de connexion. Veuillez réessayer.' : undefined}
-          />
-        </CardContent>
-      </ScrollArea>
+      <div className='fixed top-0 z-20 w-full p-2'>
+        <HeaderComponent title='Lycée Benjamin Escande'></HeaderComponent>
+      </div>
+      <div className='app-page fixed w-full h-screen overflow-hidden pt-15'>
+        <ScrollArea className='h-full border-x-2 border-primary/20 rounded-3xl p-3'>
+          <Card className='border-none bg-gradient-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
+            <CardContent className="flex items-center justify-center min-h-full">
+              <AuthForm 
+                onSubmit={handleSubmit}
+                isLoading={loginMutation.isPending}
+                error={loginMutation.error ? 'Erreur de connexion. Veuillez réessayer.' : undefined}
+              />
+            </CardContent>
+          </Card>
+        </ScrollArea>
+      </div>
     </React.Fragment>
   )
 }

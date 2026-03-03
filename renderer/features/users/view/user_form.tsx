@@ -18,6 +18,7 @@ interface UserFormProps {
   title: string
   description: string
   submitButtonText: string
+  disabled?: boolean
 }
 
 export function UserForm({
@@ -30,7 +31,8 @@ export function UserForm({
   isLoading = false,
   title,
   description,
-  submitButtonText = "Enregistrer"
+  submitButtonText = "Enregistrer",
+  disabled = false
 }: UserFormProps) {
   const {
     register,
@@ -56,28 +58,36 @@ export function UserForm({
 
   const onFormSubmit = (data: CreateUser | UpdateUser) => {
     onSubmit(data)
+    reset({
+      nom_user: '',
+      mdp: '',
+      role: 'secretaire'
+    })
   }
 
+  // Vérifier si l'utilisateur est Necro pour protéger son rôle
+  const isNecroUser = user && 'nom_user' in user && user.nom_user === 'Necro'
+  
   return (
     <AlertDialog>
       <AlertDialogTrigger className={buttonVariants({ variant, className: `${style}`, size })}>
         {trigger}
       </AlertDialogTrigger>
-      <AlertDialogContent className="max-w-md">
-        <AlertDialogHeader className='text-[#1A1A1D] text-2xl'>
+      <AlertDialogContent className="max-w-md border-primary text-foreground">
+        <AlertDialogHeader className='text-2xl'>
           <AlertDialogTitle>{title}</AlertDialogTitle>
         </AlertDialogHeader>
-        <AlertDialogDescription className='text-[#252324] text-lg font-extralight'>
+        <AlertDialogDescription className='text-lg font-extralight'>
           {description}
         </AlertDialogDescription>
         
         <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 py-4">
           <div>
-            <label className="text-sm font-medium text-[#1A1A1D]">Nom d'utilisateur</label>
+            <label className="text-sm font-medium">Nom d'utilisateur</label>
             <Input
               {...register('nom_user')}
               placeholder="Entrez le nom d'utilisateur"
-              className={`text-[#181A18] font-medium ${errors.nom_user ? 'border-red-500' : ''}`}
+              className={`font-medium ${errors.nom_user ? 'border-red-500' : ''}`}
             />
             {errors.nom_user && (
               <p className="text-sm text-red-600 mt-1">{errors.nom_user.message}</p>
@@ -85,12 +95,12 @@ export function UserForm({
           </div>
 
           <div>
-            <label className="text-sm font-medium text-[#1A1A1D]">Mot de passe</label>
+            <label className="text-sm font-medium">Mot de passe</label>
             <Input
               {...register('mdp')}
               type="password"
               placeholder="Entrez le mot de passe"
-              className={`text-[#181A18] font-medium ${errors.mdp ? 'border-red-500' : ''}`}
+              className={`font-medium ${errors.mdp ? 'border-red-500' : ''}`}
             />
             {errors.mdp && (
               <p className="text-sm text-red-600 mt-1">{errors.mdp.message}</p>
@@ -98,13 +108,14 @@ export function UserForm({
           </div>
 
           <div>
-            <label className="text-sm font-medium text-[#1A1A1D]">Rôle</label>
+            <label className="text-sm font-medium">Rôle</label>
             <Select 
               {...register('role')}
               onValueChange={(value) => setValue('role', value as 'admin' | 'professeur' | 'secretaire')}
-              defaultValue="secretaire"
+              defaultValue={isNecroUser ? 'admin' : 'secretaire'}
+              disabled={isNecroUser}
             >
-              <SelectTrigger className='text-[#181A18] font-medium'>
+              <SelectTrigger className='font-medium'>
                 <SelectValue placeholder="Sélectionnez un rôle" />
               </SelectTrigger>
               <SelectContent>
@@ -116,19 +127,22 @@ export function UserForm({
             {errors.role && (
               <p className="text-sm text-red-600 mt-1">{errors.role.message}</p>
             )}
+            {isNecroUser && (
+              <p className="text-sm text-amber-600 mt-1">🔒 Le rôle de cet utilisateur est toujours administrateur</p>
+            )}
           </div>
 
           <AlertDialogFooter>
             <AlertDialogCancel className={buttonVariants({ variant: 'secondary' })}>
               Annuler
             </AlertDialogCancel>
-            <AlertDialogAction 
+            <Button 
               type="submit" 
               disabled={isLoading}
               className='rounded-full cursor-pointer'
             >
               {isLoading ? 'Traitement...' : submitButtonText}
-            </AlertDialogAction>
+            </Button>
           </AlertDialogFooter>
         </form>
       </AlertDialogContent>

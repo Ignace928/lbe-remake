@@ -5,7 +5,8 @@ import { Card } from '@/components/ui/card'
 import { HeaderComponent } from '@/components/layout/header'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { ArrowLeftFromLineIcon, Search } from 'lucide-react'
+import { ArrowLeftFromLineIcon, Search, Users } from 'lucide-react'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export default function EtudiantPage() {
   const students = [
@@ -31,58 +32,75 @@ export default function EtudiantPage() {
           </Button>
         </HeaderComponent>
       </div>
-
-      <div className='app-page'>
-        <section className='app-page-content'>
-          <Card className='border-white/20 bg-white/10 p-4 backdrop-blur-sm sm:p-6'>
-            <div className='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
-              <div>
-                <h1 className='text-2xl font-black tracking-tight text-white sm:text-3xl'>Suivi des etudiants</h1>
-                <p className='mt-2 text-sm text-slate-200'>Consulte rapidement les informations principales.</p>
-              </div>
-              <div className='flex w-full items-center gap-2 lg:max-w-sm'>
-                <div className='relative w-full'>
-                  <Search className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
-                  <Input className='border-white/20 bg-slate-900/50 pl-9 text-slate-100' placeholder='Rechercher un etudiant' />
+      <div className='app-page fixed w-full h-screen overflow-hidden pt-15'>
+        <ScrollArea className='h-full border-x-2 border-primary/20 rounded-3xl p-3'>
+          <Card className='border-none bg-gradient-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
+            <div className='mb-6'>
+              <div className='flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/20 transition-all duration-300'>
+                <div className='rounded-full p-3 shadow-lg transition-all duration-300 bg-gradient-to-r from-primary to-secondary'>
+                  <Users className='h-6 w-6 text-primary-foreground transition-all duration-300' />
                 </div>
-                <Button className='bg-cyan-400 text-slate-950 hover:bg-cyan-300'>Ajouter</Button>
+                <div className='flex-1'>
+                  <p className='text-lg font-bold text-foreground'>Suivi des étudiants</p>
+                  <p className='mt-1 text-sm text-muted-foreground'>
+                    👉 {students.length} étudiant{(students.length || 0) > 1 ? 's' : ''} inscrit{(students.length || 0) > 1 ? 's' : ''}
+                  </p>
+                </div>
+                <span className="text-sm font-bold text-primary px-3 py-1 rounded-full bg-primary/10">
+                  {students.filter(s => s.etat === 'Actif').length} actifs
+                </span>
               </div>
             </div>
-          </Card>
 
-          <Card className='border-white/20 bg-white/10 p-3 backdrop-blur-sm sm:p-4'>
-            <Table>
-              <TableHeader>
-                <TableRow className='border-white/15 hover:bg-white/5'>
-                  <TableHead className='text-slate-300'>ID</TableHead>
-                  <TableHead className='text-slate-300'>Nom</TableHead>
-                  <TableHead className='text-slate-300'>Classe</TableHead>
-                  <TableHead className='text-slate-300'>Moyenne</TableHead>
-                  <TableHead className='text-right text-slate-300'>Etat</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {students.map((student) => (
-                  <TableRow key={student.id} className='border-white/10 hover:bg-white/5'>
-                    <TableCell className='font-mono text-xs text-slate-300 sm:text-sm'>{student.id}</TableCell>
-                    <TableCell className='font-medium text-white'>{student.nom}</TableCell>
-                    <TableCell className='text-slate-200'>{student.classe}</TableCell>
-                    <TableCell className='text-slate-200'>{student.moyenne}</TableCell>
-                    <TableCell className='text-right'>
-                      <span
-                        className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
-                          student.etat === 'Actif' ? 'bg-emerald-500/20 text-emerald-200' : 'bg-amber-500/20 text-amber-200'
-                        }`}
-                      >
-                        {student.etat}
-                      </span>
-                    </TableCell>
+            <div className='mb-6'>
+              <div className='relative'>
+                <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                  <div className='rounded-full bg-gradient-to-r from-primary to-secondary p-1.5 shadow-lg shadow-primary/20'>
+                    <Search className='h-4 w-4 text-primary-foreground' />
+                  </div>
+                </div>
+                <Input
+                  className='pl-12 border-2 border-primary/20 bg-gradient-to-r from-muted/50 to-card text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl'
+                  placeholder='🔍 Rechercher un étudiant'
+                />
+              </div>
+            </div>
+            <div className='rounded-xl border-2 border-primary/20 bg-gradient-to-br from-muted/20 to-card p-4'>
+              <Table>
+                <TableHeader>
+                  <TableRow className='border-primary/10 hover:bg-primary/5'>
+                    <TableHead className='text-foreground'>ID</TableHead>
+                    <TableHead className='text-foreground'>Nom</TableHead>
+                    <TableHead className='text-foreground'>Classe</TableHead>
+                    <TableHead className='text-foreground'>Moyenne</TableHead>
+                    <TableHead className='text-right text-foreground'>Etat</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {students.map((student) => (
+                    <TableRow key={student.id} className='border-primary/10 hover:bg-primary/5'>
+                      <TableCell className='font-mono text-xs text-muted-foreground sm:text-sm'>{student.id}</TableCell>
+                      <TableCell className='font-medium text-foreground'>{student.nom}</TableCell>
+                      <TableCell className='text-muted-foreground'>{student.classe}</TableCell>
+                      <TableCell className='text-muted-foreground'>{student.moyenne}</TableCell>
+                      <TableCell className='text-right'>
+                        <span
+                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                            student.etat === 'Actif' 
+                              ? 'bg-emerald-500/20 text-emerald-700' 
+                              : 'bg-amber-500/20 text-amber-700'
+                          }`}
+                        >
+                          {student.etat}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </Card>
-        </section>
+        </ScrollArea>
       </div>
     </React.Fragment>
   )

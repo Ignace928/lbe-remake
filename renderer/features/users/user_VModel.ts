@@ -2,18 +2,18 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAllUsers, createUser, updateUser, deleteUser } from "./user_service";
-import { User, CreateUser, UpdateUser } from "./user_types";
+import { CreateUser, UpdateUser } from "./user_types";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store/authStore";
 
 export function useUserVm() {
+    const { user: currentUser } = useAuthStore()
     /*
     ----✅ queryClient() permet de garder ton UI synchronisée avec les mutations côté serveur.
     Après une mutation (createUser, updateUser, deleteUser), tu veux que la liste des utilisateurs se mette à jour
     ----✅ invalidateQueries() marque la query comme « périmée », donc React Query va la refetcher.
     */
     const queryClient = useQueryClient()
-    const { user: currentUser } = useAuthStore()
 
     // Vérifier si l'utilisateur connecté est admin
     const isAdmin = currentUser?.role === 'admin'
@@ -24,10 +24,6 @@ export function useUserVm() {
         queryFn: () => getAllUsers(isAdmin), // Inclure les mots de passe seulement si admin
         staleTime: 10_000, // 10 secondes
     });
-
-    // Debug: voir ce que retourne le service
-    console.log('UserVM - data:', data);
-    console.log('UserVM - isAdmin:', isAdmin);
 
     // ✅ Mutations
     const createUserMutation = useMutation({

@@ -40,7 +40,6 @@ export const useReconnectDatabaseMutation = () => {
   return useMutation({
     mutationFn: databaseService.reconnect,
     onSuccess: (data) => {
-      console.log('Reconnexion réussie:', data)
       // Invalider les queries liées à la base de données
       queryClient.invalidateQueries({ queryKey: ['database'] })
     },
@@ -57,7 +56,6 @@ export const useCreateDatabaseMutation = () => {
   return useMutation({
     mutationFn: databaseService.create,
     onSuccess: (data) => {
-      console.log('Base de données créée:', data)
       // Invalider la liste des bases de données
       queryClient.invalidateQueries({ queryKey: ['database', 'list'] })
     },
@@ -90,7 +88,6 @@ export const useDeleteDatabaseMutation = () => {
   return useMutation({
     mutationFn: databaseService.delete,
     onSuccess: (data) => {
-      console.log('Base de données supprimée:', data)
       // Invalider la liste des bases de données
       queryClient.invalidateQueries({ queryKey: ['database', 'list'] })
     },
@@ -107,7 +104,6 @@ export const useSyncDatabaseMutation = () => {
   return useMutation({
     mutationFn: databaseService.sync,
     onSuccess: (data) => {
-      console.log('Base de données synchronisée:', data)
       // Invalider le statut de la base de données
       queryClient.invalidateQueries({ queryKey: ['database', 'status'] })
     },
@@ -139,7 +135,6 @@ export const useSelectDatabaseMutation = () => {
   return useMutation({
     mutationFn: databaseService.setSelected,
     onSuccess: (data) => {
-      console.log('Base de données sélectionnée:', data)
       // Invalider les queries liées
       queryClient.invalidateQueries({ queryKey: ['database', 'selected'] })
       queryClient.invalidateQueries({ queryKey: ['database', 'status'] })
@@ -157,7 +152,6 @@ export const useClearSelectedDatabaseMutation = () => {
   return useMutation({
     mutationFn: databaseService.clearSelected,
     onSuccess: () => {
-      console.log('Sélection effacée')
       // Invalider les queries liées
       queryClient.invalidateQueries({ queryKey: ['database', 'selected'] })
       queryClient.invalidateQueries({ queryKey: ['database', 'status'] })
