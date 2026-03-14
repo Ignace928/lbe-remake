@@ -14,5 +14,17 @@ export const IPC_CHANNELS = {
   userUpdate: 'user:update',
   userDelete: 'user:delete',
   userAuth: 'user:auth',
+  //ANNEE SCOLAIRE
+  anneeScolaireCreate: 'anneeScolaire:create',
+  anneeScolaireGetAll: 'anneeScolaire:get-all',
+  anneeScolaireGetById: 'anneeScolaire:get-by-id',
+  anneeScolaireUpdate: 'anneeScolaire:update',
+  anneeScolaireDelete: 'anneeScolaire:delete',
+  //ELEVE
+  eleveCreate: 'eleve:create',
+  eleveGetAll: 'eleve:get-all',
+  eleveGetById: 'eleve:get-by-id',
+  eleveUpdate: 'eleve:update',
+  eleveDelete: 'eleve:delete',
   databaseStatus: 'database:status',
 } as const

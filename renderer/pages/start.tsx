@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { HeaderComponent } from '@/components/layout/header'
 import {
   LogOutIcon,
@@ -11,6 +12,9 @@ import { Card, CardContent, CardDescription } from '@/components/ui/card'
 import { useAnneeStore } from '@/store/anneStore'
 import { useAuthStore } from '@/store/authStore'
 import { useDatabaseStatusQuery } from '@/features/database/database_VModel'
+import { useAnneeScolaireVm } from '@/features/anneescolaire/anneeScolaire_VModel'
+import { CreateAnneeScolaire } from '@/features/anneescolaire/anneeScolaire_types'
+import { AnneeScolaireForm } from '@/features/anneescolaire/view/anneeScolaire_form'
 import LoadingPage from '@/components/loadingPage'
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { LogoutButton } from '@/components/LogoutButton'
@@ -18,10 +22,12 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 
 export default function StarterPage() {
   
+  const router = useRouter()
   const [me, setMe] = useState('')
   const {setAnne_active} = useAnneeStore()
   const {user, hasHydrated} = useAuthStore()
   const {data, isLoading, error} = useDatabaseStatusQuery()
+  const { data: anneesScolaires, isLoading: isLoadingAnnees, createAnneeScolaire } = useAnneeScolaireVm()
   // Debug logs pour comprendre ce qui se passe
   useEffect(()=>{
     if (!hasHydrated) return // Attendre l'hydratation officielle
@@ -31,31 +37,48 @@ export default function StarterPage() {
       setMe(user.nom_user)
     }
   },[user, hasHydrated])
+
+  useEffect(() => {
+    console.log('Router status:', {
+      isReady: router.isReady,
+      pathname: router.pathname,
+      query: router.query
+    })
+  }, [router])
   
   const go = () => {
-    if (typeof window !== 'undefined') window.location.href = "/home"
+    console.log('Tentative de redirection vers /home')
+    console.log('Router disponible:', !!router)
+    try {
+      router.push('/home')
+    } catch (error) {
+      console.error('Erreur router.push:', error)
+      // Fallback vers window.location
+      if (typeof window !== 'undefined') {
+        console.log('Fallback vers window.location')
+        window.location.href = '/home'
+      }
+    }
   }
   
-  const Add_annee = () => {
-    alert("add année")
-  }
-  
-  const menu = [
-    {
-      id_annee: 1,
-      libelle: '2023-2024',
-    },
-    {
-      id_annee: 2,
-      libelle: '2024-2025',
-    },
-    {
-      id_annee: 3,
-      libelle: '2025-2026',
-    },
-  ]
+  const [showAddForm, setShowAddForm] = useState(false)
 
-  if(isLoading || !hasHydrated) return (<LoadingPage size={40}/>)
+  const Add_annee = () => {
+    setShowAddForm(true)
+  }
+
+  const handleCreateAnneeScolaire = async (data: CreateAnneeScolaire) => {
+    console.log('handleCreateAnneeScolaire appelé avec:', data)
+    try {
+      await createAnneeScolaire.mutateAsync(data)
+      console.log('Création réussie, fermeture du formulaire')
+      setShowAddForm(false) // Fermer le formulaire après la création
+    } catch (err) {
+      console.error('Error creating annee scolaire:', err)
+    }
+  }
+
+  if(isLoading || !hasHydrated || isLoadingAnnees) return (<LoadingPage size={40}/>)
 
   // Vérifier si la base de données est initialisée
   if(error || !data?.initialized) {
@@ -133,21 +156,27 @@ export default function StarterPage() {
                   </p>
                 </div>
                 <span className="text-sm font-bold text-primary px-3 py-1 rounded-full bg-primary/10">
-                  {menu.length} disponibles
+                  {anneesScolaires?.length || 0} disponibles
                 </span>
               </div>
             </div>
             <div className='grid grid-cols-1 gap-4 sm:grid-cols-4 lg:grid-cols-5 lg:gap-5'>
-              {menu.map((item) => (
+              {anneesScolaires?.map((item) => (
                   <Card
                     key={item.id_annee}
                     className='group h-full min-h-36 cursor-pointer border-2 border-primary/20 text-card-foreground transition-all duration-200 hover:-translate-y-1 hover:shadow-xl bg-gradient-to-br from-muted/20 to-card'
                     onClick={()=>{
-                      setAnne_active({
-                        id_anne:item.id_anne,
-                        labelle:item.libelle
-                      })
-                      go()
+                      console.log('Click sur année scolaire:', item)
+                      try {
+                        setAnne_active({
+                          id_anne: item.id_annee,
+                          labelle: item.libelle
+                        })
+                        console.log('Année active définie')
+                        go()
+                      } catch (error) {
+                        console.error('Erreur dans le onClick:', error)
+                      }
                     }}
                     role='button'
                     tabIndex={0}
@@ -172,7 +201,6 @@ export default function StarterPage() {
                       <div className='rounded-full p-2 text-muted-foreground border-2 border-dashed border-primary/20 transition-colors bg-muted group-hover:bg-primary/10 group-hover:text-primary'>
                           <Plus className='h-5 w-5 sm:h-6 sm:w-6' />
                       </div>
-                      <span className='font-semibold text-muted-foreground'>Ajouter</span>
                   </CardContent>
                   <CardDescription className='px-4 pb-4 text-center text-sm leading-relaxed text-muted-foreground sm:px-5 sm:pb-5'>
                   </CardDescription>
@@ -181,6 +209,21 @@ export default function StarterPage() {
           </Card>
         </ScrollArea>
       </div>
+      
+      {/* Formulaire d'ajout d'année scolaire */}
+      <AnneeScolaireForm
+        size="default"
+        variant="default"
+        style=""
+        trigger={null} // Pas de trigger car on utilise showAddForm
+        onSubmit={handleCreateAnneeScolaire}
+        isLoading={createAnneeScolaire.isPending}
+        title="Ajouter une année scolaire"
+        description="Créez une nouvelle année scolaire."
+        submitButtonText="Créer"
+        open={showAddForm}
+        onOpenChange={setShowAddForm}
+      />
     </React.Fragment>
   )
 }

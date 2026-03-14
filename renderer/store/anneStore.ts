@@ -4,10 +4,10 @@ import {devtools, persist, createJSONStorage} from 'zustand/middleware'
 //STORE POUR page active dans /engineering
 interface AnneeState {
   anne_Active: {
-    id_anne:number | null
+    id_anne:string | null
     labelle:string
   }
-  setAnne_active: (anne: {id_anne:number | null, labelle:string}) => void;
+  setAnne_active: (anne: {id_anne:string | null, labelle:string}) => void;
 }
 export const useAnneeStore = create<AnneeState>()(
     persist((set) => ({

@@ -5,7 +5,7 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { CreateUser, UpdateUser, UserFieldErrors, createUserSchema, updateUserSchema } from '../user_types'
+import { CreateUser, UpdateUser, UserFieldErrors, createUserSchema, updateUserSchema, User } from '../user_types'
 
 interface UserFormProps {
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
@@ -13,7 +13,7 @@ interface UserFormProps {
   style?: string
   trigger?: React.ReactNode
   onSubmit: (data: CreateUser | UpdateUser) => void
-  user?: CreateUser | UpdateUser | null
+  user?: User | CreateUser | UpdateUser | null
   isLoading?: boolean
   title: string
   description: string
@@ -65,9 +65,7 @@ export function UserForm({
     })
   }
 
-  // Vérifier si l'utilisateur est Necro pour protéger son rôle
-  const isNecroUser = user && 'nom_user' in user && user.nom_user === 'Necro'
-  
+  const isNecroUser = user && 'id_user' in user && user.id_user === 1;
   return (
     <AlertDialog>
       <AlertDialogTrigger className={buttonVariants({ variant, className: `${style}`, size })}>

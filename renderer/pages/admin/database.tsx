@@ -160,7 +160,7 @@ export default function dataBasesPage() {
                 </Button>
                 <Button 
                   onClick={handleSyncDatabase} 
-                  disabled={isSyncing || isInitialized}
+                  disabled={isSyncing}
                   variant='secondary' 
                   className={`w-full sm:w-auto transition-all duration-200 hover:scale-105 font-bold ${
                     !selectedDatabase 
@@ -187,11 +187,11 @@ export default function dataBasesPage() {
                   <div className='text-center'>
                     <p className='text-xs text-muted-foreground'>Créez et gérez vos sources de données</p>
                   </div>
-                  <div className='h-full overflow-hidden'>
+                  <ScrollArea className="h-[calc(65vh-200px)] border-none p-3">
                     <CreateTextFileComponent/>
+                  </ScrollArea>
                   </div>
                 </div>
-              </div>
           </Card>
         </ScrollArea>
       </div>

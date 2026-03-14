@@ -38,7 +38,7 @@ export const initUser = (sequelize: Sequelize) => {
 
 // Modèle ANNEESCOLAIRE
 export class AnneeScolaire extends Model {
-  public id_annee!: number
+  public id_annee!: string
   public libelle!: string
 }
 
@@ -46,8 +46,8 @@ export const initAnneeScolaire = (sequelize: Sequelize) => {
   AnneeScolaire.init(
     {
       id_annee: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       libelle: {
@@ -70,19 +70,20 @@ export class Eleve extends Model {
   public id_eleve!: number
   public matricule!: string
   public nom_eleve!: string
-  public bapteme!: string
-  public sexe!: string
-  public date_de_naissance!: Date
-  public lieu_de_naissance!: string
-  public pere!: string
-  public mere!: string
-  public tel!: string
-  public adresse!: string
-  public tutelle!: string
-  public tel_tutelle!: string
-  public address_tutelle!: string
-  public religion!: string
-  public maladie!: string
+  public post_nom_eleve?: string
+  public sexe!: 'M' | 'F'
+  public date_naissance!: string
+  public lieu_naissance?: string
+  public nationalite?: string
+  public adresse?: string
+  public telephone?: string
+  public email?: string
+  public nom_pere?: string
+  public nom_mere?: string
+  public profession_pere?: string
+  public profession_mere?: string
+  public etat!: 'Actif' | 'Inactif'
+  public maladie?: string
   public taille!: number
   public created_at!: Date
 }
@@ -92,8 +93,8 @@ export const initEleve = (sequelize: Sequelize) => {
     {
       id_eleve: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
         primaryKey: true,
+        autoIncrement: true,
       },
       matricule: {
         type: DataTypes.STRING(20),
@@ -104,7 +105,7 @@ export const initEleve = (sequelize: Sequelize) => {
         type: DataTypes.STRING(100),
         allowNull: false,
       },
-      bapteme: {
+      post_nom_eleve: {
         type: DataTypes.STRING(100),
         allowNull: true,
       },
@@ -112,53 +113,59 @@ export const initEleve = (sequelize: Sequelize) => {
         type: DataTypes.ENUM('M', 'F'),
         allowNull: false,
       },
-      date_de_naissance: {
+      date_naissance: {
         type: DataTypes.DATEONLY,
         allowNull: false,
       },
-      lieu_de_naissance: {
+      lieu_naissance: {
         type: DataTypes.STRING(100),
         allowNull: true,
       },
-      pere: {
-        type: DataTypes.STRING(100),
-        allowNull: true,
-      },
-      mere: {
-        type: DataTypes.STRING(100),
-        allowNull: true,
-      },
-      tel: {
-        type: DataTypes.STRING(20),
+      nationalite: {
+        type: DataTypes.STRING(50),
         allowNull: true,
       },
       adresse: {
         type: DataTypes.TEXT,
         allowNull: true,
       },
-      tutelle: {
-        type: DataTypes.STRING(100),
-        allowNull: true,
-      },
-      tel_tutelle: {
+      telephone: {
         type: DataTypes.STRING(20),
         allowNull: true,
       },
-      address_tutelle: {
-        type: DataTypes.TEXT,
+      email: {
+        type: DataTypes.STRING(100),
         allowNull: true,
       },
-      religion: {
-        type: DataTypes.STRING(50),
+      nom_pere: {
+        type: DataTypes.STRING(100),
         allowNull: true,
+      },
+      nom_mere: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+      },
+      profession_pere: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+      },
+      profession_mere: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+      },
+      etat: {
+        type: DataTypes.ENUM('Actif', 'Inactif'),
+        allowNull: false,
+        defaultValue: 'Actif',
       },
       maladie: {
         type: DataTypes.TEXT,
         allowNull: true,
       },
       taille: {
-        type: DataTypes.DECIMAL(5, 2),
-        allowNull: true,
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
       },
       created_at: {
         type: DataTypes.DATE,

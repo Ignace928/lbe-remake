@@ -31,6 +31,20 @@ const handler = Object.freeze({
     getStatus: () => ipcRenderer.invoke(IPC_CHANNELS.databaseStatus) as Promise<{success: boolean; message: string; initialized: boolean}>,
     reconnect: (fileName: string) => ipcRenderer.invoke(IPC_CHANNELS.dbReconnect, fileName) as Promise<{success: boolean; message: string}>
   },
+  anneeScolaire: {
+    create: (anneeData: { libelle: string }) => ipcRenderer.invoke(IPC_CHANNELS.anneeScolaireCreate, anneeData) as Promise<{success: boolean; message: string; data: any}>,
+    getAll: () => ipcRenderer.invoke(IPC_CHANNELS.anneeScolaireGetAll) as Promise<{success: boolean; message: string; data: any}>,
+    getById: (id_annee: string) => ipcRenderer.invoke(IPC_CHANNELS.anneeScolaireGetById, id_annee) as Promise<{success: boolean; message: string; data: any}>,
+    update: (id_annee: string, anneeData: { libelle?: string }) => ipcRenderer.invoke(IPC_CHANNELS.anneeScolaireUpdate, id_annee, anneeData) as Promise<{success: boolean; message: string; data: any}>,
+    delete: (id_annee: string) => ipcRenderer.invoke(IPC_CHANNELS.anneeScolaireDelete, id_annee) as Promise<{success: boolean; message: string; data: any}>,
+  },
+  eleve: {
+    create: (eleveData: any) => ipcRenderer.invoke(IPC_CHANNELS.eleveCreate, eleveData) as Promise<{success: boolean; message: string; data: any}>,
+    getAll: () => ipcRenderer.invoke(IPC_CHANNELS.eleveGetAll) as Promise<{success: boolean; message: string; data: any}>,
+    getById: (id_eleve: number) => ipcRenderer.invoke(IPC_CHANNELS.eleveGetById, id_eleve) as Promise<{success: boolean; message: string; data: any}>,
+    update: (id_eleve: number, eleveData: any) => ipcRenderer.invoke(IPC_CHANNELS.eleveUpdate, id_eleve, eleveData) as Promise<{success: boolean; message: string; data: any}>,
+    delete: (id_eleve: number) => ipcRenderer.invoke(IPC_CHANNELS.eleveDelete, id_eleve) as Promise<{success: boolean; message: string; data: any}>,
+  },
 })
 
 contextBridge.exposeInMainWorld('ipc', handler)
