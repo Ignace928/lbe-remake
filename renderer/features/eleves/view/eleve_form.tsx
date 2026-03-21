@@ -21,25 +21,19 @@ interface EleveFormProps {
   description: string
   submitButtonText: string
   disabled?: boolean
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
   isFirstStudent?: boolean // Pour savoir si c'est le premier étudiant
 }
 
 export function EleveForm({
-  variant = "default",
-  size = "default",
-  style = "",
+  // variant = "default",
+  // size = "default",
+  // style = "",
   trigger,
   onSubmit,
   eleve,
   isLoading = false,
-  title,
-  description,
   submitButtonText = "Enregistrer",
   disabled = false,
-  open,
-  onOpenChange,
   isFirstStudent = false
 }: EleveFormProps) {
   const {
@@ -52,7 +46,6 @@ export function EleveForm({
   } = useForm<CreateEleve | UpdateEleve>({
     resolver: zodResolver(eleve ? updateEleveSchema : createEleveSchema),
     defaultValues: eleve || {
-      matricule: '',
       nom_eleve: '',
       post_nom_eleve: '',
       sexe: 'M',
@@ -61,7 +54,7 @@ export function EleveForm({
       nationalite: '',
       adresse: '',
       telephone: '',
-      email: '',
+      email: 'x@gmail.com',
       nom_pere: '',
       nom_mere: '',
       profession_pere: '',
@@ -92,7 +85,7 @@ export function EleveForm({
     if (id && sexe) {
       const sexeCode = sexe === 'F' ? 'F' : 'M'
       const matricule = `${id}${sexeCode}/${yearCode}`
-      setValue('matricule', matricule)
+      return matricule
     }
   }
 
@@ -109,7 +102,6 @@ export function EleveForm({
     if (!eleve) {
       // Réinitialiser seulement pour la création
       reset({
-        matricule: '',
         nom_eleve: '',
         post_nom_eleve: '',
         sexe: 'M',
@@ -118,7 +110,7 @@ export function EleveForm({
         nationalite: '',
         adresse: '',
         telephone: '',
-        email: '',
+        email: 'x@gmail.com',
         nom_pere: '',
         nom_mere: '',
         profession_pere: '',
@@ -128,23 +120,13 @@ export function EleveForm({
         taille: 0
       })
     }
-    if (onOpenChange) {
-      onOpenChange(false) // Fermer la boîte de dialogue après soumission
-    }
+    
   }
 
   // Si trigger est null, afficher directement le contenu, sinon utiliser AlertDialog
   if (trigger === null) {
     return (
-      <AlertDialog open={open} onOpenChange={onOpenChange}>
-        <AlertDialogContent className="max-w-8xl border-primary text-foreground max-h-[90vh] overflow-y-auto">
             <ScrollArea>
-                <AlertDialogHeader className='text-2xl'>
-                    <AlertDialogTitle>{title}</AlertDialogTitle>
-                </AlertDialogHeader>
-                <AlertDialogDescription className='text-lg font-extralight'>
-                    {description}
-                </AlertDialogDescription>
                 
                 <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 py-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -171,7 +153,7 @@ export function EleveForm({
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Matricule *</label>
                         <Input
-                        value={watch('matricule')}
+                        value={generateMatricule()}
                         readOnly
                         className="font-medium bg-muted/50 border-muted-foreground/30 cursor-not-allowed"
                         placeholder="Généré automatiquement"
@@ -179,9 +161,6 @@ export function EleveForm({
                         <p className="text-xs text-muted-foreground">
                         Format: ID+Sexe/AA (ex: 123M/24) - ID: champ ci-dessus, Sexe: champ ci-dessous, AA: année actuelle
                         </p>
-                        {errors.matricule && (
-                        <p className="text-sm text-red-600 mt-1">{errors.matricule.message}</p>
-                        )}
                     </div>
 
                     {/* Nom */}
@@ -404,13 +383,7 @@ export function EleveForm({
                     </div>
                     </div>
 
-                    <AlertDialogFooter>
-                    <AlertDialogCancel 
-                        className={buttonVariants({ variant: 'secondary' })}
-                        onClick={() => onOpenChange?.(false)}
-                    >
-                        Annuler
-                    </AlertDialogCancel>
+
                     <Button 
                         type="submit" 
                         disabled={isLoading || disabled}
@@ -418,70 +391,68 @@ export function EleveForm({
                     >
                         {isLoading ? 'Traitement...' : submitButtonText}
                     </Button>
-                    </AlertDialogFooter>
                 </form>
-            </ScrollArea>
-        </AlertDialogContent>
-      </AlertDialog>
+                    
+          </ScrollArea>
     )
   }
 
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger className={buttonVariants({ variant, className: `${style}`, size })}>
-        {trigger}
-      </AlertDialogTrigger>
-      <AlertDialogContent className="max-w-4xl border-primary text-foreground max-h-[90vh] overflow-y-auto">
-        <AlertDialogHeader className='text-2xl'>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-        </AlertDialogHeader>
-        <AlertDialogDescription className='text-lg font-extralight'>
-          {description}
-        </AlertDialogDescription>
+  // return (
+  //   <AlertDialog>
+  //     <AlertDialogTrigger className={buttonVariants({ variant, className: `${style}`, size })}>
+  //       {trigger}
+  //     </AlertDialogTrigger>
+  //     <AlertDialogContent className="max-w-4xl border-primary text-foreground max-h-[90vh] overflow-y-auto">
+  //       <AlertDialogHeader className='text-2xl'>
+  //         <AlertDialogTitle>{title}</AlertDialogTitle>
+  //       </AlertDialogHeader>
+  //       <AlertDialogDescription className='text-lg font-extralight'>
+  //         {description}
+  //       </AlertDialogDescription>
         
-        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 py-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Même formulaire que ci-dessus */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Matricule *</label>
-              <div className="flex gap-2">
-                <Input
-                  {...register('matricule')}
-                  placeholder="Ex: 123M/22"
-                  className={`font-medium ${errors.matricule ? 'border-red-500' : ''}`}
-                />
-                <Button 
-                  type="button" 
-                  onClick={generateMatricule}
-                  variant="outline"
-                  size="sm"
-                  className="whitespace-nowrap"
-                >
-                  Générer
-                </Button>
-              </div>
-              {errors.matricule && (
-                <p className="text-sm text-red-600 mt-1">{errors.matricule.message}</p>
-              )}
-            </div>
+  //       <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 py-4">
+  //         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  //           {/* Même formulaire que ci-dessus */}
+  //           <div className="space-y-2">
+  //             <label className="text-sm font-medium">Matricule *</label>
+  //             <div className="flex gap-2">
+  //               <Input
+  //                 {...register('matricule')}
+  //                 placeholder="Ex: 123M/22"
+  //                 className={`font-medium ${errors.matricule ? 'border-red-500' : ''}`}
+  //               />
+  //               <Button 
+  //                 type="button" 
+  //                 onClick={generateMatricule}
+  //                 variant="outline"
+  //                 size="sm"
+  //                 className="whitespace-nowrap"
+  //               >
+  //                 Générer
+  //               </Button>
+  //             </div>
+  //             {errors.matricule && (
+  //               <p className="text-sm text-red-600 mt-1">{errors.matricule.message}</p>
+  //             )}
+  //           </div>
 
-            {/* ... autres champs identiques ... */}
-          </div>
+  //           {/* ... autres champs identiques ... */}
+  //         </div>
 
-          <AlertDialogFooter>
-            <AlertDialogCancel className={buttonVariants({ variant: 'secondary' })}>
-              Annuler
-            </AlertDialogCancel>
-            <Button 
-              type="submit" 
-              disabled={isLoading || disabled}
-              className='rounded-full cursor-pointer'
-            >
-              {isLoading ? 'Traitement...' : submitButtonText}
-            </Button>
-          </AlertDialogFooter>
-        </form>
-      </AlertDialogContent>
-    </AlertDialog>
-  )
+  //         <AlertDialogFooter>
+  //           <AlertDialogCancel className={buttonVariants({ variant: 'secondary' })}>
+  //             Annuler
+  //           </AlertDialogCancel>
+  //           <Button 
+  //             type="submit" 
+  //             disabled={isLoading || disabled}
+  //             className='rounded-full cursor-pointer'
+  //           >
+  //             {isLoading ? 'Traitement...' : submitButtonText}
+  //           </Button>
+  //         </AlertDialogFooter>
+  //       </form>
+  //     </AlertDialogContent>
+  //   </AlertDialog>
+  // )
 }

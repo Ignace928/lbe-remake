@@ -18,29 +18,13 @@ export function registerEleveController() {
         }
       }
 
-      // Vérifier si le matricule existe déjà
-      const existingEleve = await Eleve.findOne({
-        where: { matricule: eleveData.matricule }
-      })
-
-      if (existingEleve) {
-        return {
-          success: false,
-          message: 'Ce matricule existe déjà',
-          data: null
-        }
-      }
-
-      // Vérifier si la table est vide pour gérer l'auto-incrément conditionnel
-      const eleveCount = await Eleve.count()
-      
       let createData: any = {
         ...eleveData,
         created_at: new Date()
       }
 
       // Si la table est vide et qu'un id_eleve est fourni, l'utiliser
-      if (eleveCount === 0 && eleveData.id_eleve) {
+      if (eleveData.id_eleve) {
         createData.id_eleve = eleveData.id_eleve
       }
       // Sinon, laisser l'auto-incrément gérer
@@ -53,7 +37,6 @@ export function registerEleveController() {
         message: 'Élève créé avec succès',
         data: {
           id_eleve: eleve.dataValues.id_eleve,
-          matricule: eleve.dataValues.matricule,
           nom_eleve: eleve.dataValues.nom_eleve,
           post_nom_eleve: eleve.dataValues.post_nom_eleve,
           sexe: eleve.dataValues.sexe,
@@ -177,24 +160,6 @@ export function registerEleveController() {
           data: null
         }
       }
-
-      // Si on met à jour le matricule, vérifier qu'il n'existe pas déjà
-      if (eleveData.matricule) {
-        const existingEleve = await Eleve.findOne({
-          where: { 
-            matricule: eleveData.matricule,
-            id_eleve: { [sequelize.Sequelize.Op.ne]: id_eleve } // Exclure l'élève actuel
-          }
-        })
-
-        if (existingEleve) {
-          return {
-            success: false,
-            message: 'Ce matricule existe déjà',
-            data: null
-          }
-        }
-      }
       
       // Mettre à jour l'élève
       await eleve.update(eleveData)
@@ -204,7 +169,6 @@ export function registerEleveController() {
         message: 'Élève mis à jour avec succès',
         data: {
           id_eleve: eleve.dataValues.id_eleve,
-          matricule: eleve.dataValues.matricule,
           nom_eleve: eleve.dataValues.nom_eleve,
           bapteme: eleve.dataValues.bapteme,
           sexe: eleve.dataValues.sexe,
@@ -297,7 +261,7 @@ export function registerEleveController() {
         message: 'Élève supprimé avec succès',
         data: {
           id_eleve: eleve.dataValues.id_eleve,
-          matricule: eleve.dataValues.matricule,
+          matricule: `${eleve.dataValues.id_eleve}${eleve.dataValues.sexe}/...`,
           nom_eleve: eleve.dataValues.nom_eleve,
         }
       }

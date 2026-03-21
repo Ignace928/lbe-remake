@@ -3,9 +3,9 @@ import { z } from 'zod'
 // Types basés sur le modèle Sequelize
 export const eleveSchema = z.object({
   id_eleve: z.number(),
-  matricule: z.string()
-    .min(1, 'Le matricule est requis')
-    .regex(/^\d+[MF]\/\d{2}$/, 'Format invalide. Ex: 123M/22'),
+  // matricule: z.string()
+  //   .min(1, 'Le matricule est requis')
+  //   .regex(/^\d+[MF]\/\d{2}$/, 'Format invalide. Ex: 123M/22'),
   nom_eleve: z.string()
     .min(1, 'Le nom est requis')
     .min(2, 'Le nom doit contenir au moins 2 caractères')
@@ -31,9 +31,6 @@ export const eleveSchema = z.object({
 
 export const createEleveSchema = eleveSchema.omit({ id_eleve: true, created_at: true }).extend({
   id_eleve: z.number().optional(), // Optionnel, seulement si la table est vide
-  matricule: z.string()
-    .min(1, 'Le matricule est requis')
-    .regex(/^\d+[MF]\/\d{2}$/, 'Format invalide. Ex: 123M/22'),
   nom_eleve: z.string()
     .min(1, 'Le nom est requis')
     .min(2, 'Le nom doit contenir au moins 2 caractères')
@@ -81,7 +78,6 @@ export interface BackendEleveResponse {
   message: string
   data: {
     id_eleve: number | string  // IPC peut convertir en string
-    matricule: string
     nom_eleve: string
     post_nom_eleve?: string
     bapteme?: string

@@ -76,23 +76,8 @@ export default function EtudiantPage() {
       </div>
       <div className='app-page fixed w-full h-screen overflow-hidden pt-15'>
         <ScrollArea className='h-full border-x-2 border-primary/20 rounded-3xl p-3'>
-          <Card className='border-none bg-gradient-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
-            <div className='mb-6'>
-              <div className='flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/20 transition-all duration-300'>
-                <div className='rounded-full p-3 shadow-lg transition-all duration-300 bg-gradient-to-r from-primary to-secondary'>
-                  <Users className='h-6 w-6 text-primary-foreground transition-all duration-300' />
-                </div>
-                <div className='flex-1'>
-                  <p className='text-lg font-bold text-foreground'>Suivi des étudiants</p>
-                  <p className='mt-1 text-sm text-muted-foreground'>
-                    👉 {students.length} étudiant{(students.length || 0) > 1 ? 's' : ''} inscrit{(students.length || 0) > 1 ? 's' : ''}
-                  </p>
-                </div>
-                <span className="text-sm font-bold text-primary px-3 py-1 rounded-full bg-primary/10">
-                  {students.filter(s => s.etat === 'Actif').length} actifs
-                </span>
-              </div>
-            </div>
+          <Card className='border-none bg-linear-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
+            
 
             <EleveTable
               students={students}

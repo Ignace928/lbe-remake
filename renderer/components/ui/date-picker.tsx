@@ -57,7 +57,7 @@ export function DatePicker({
           mode="single"
           selected={selectedDate}
           onSelect={handleSelect}
-          initialFocus
+          className="rounded-md border shadow w-60"
           locale={fr}
         />
       </PopoverContent>

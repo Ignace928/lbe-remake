@@ -68,7 +68,6 @@ export const initAnneeScolaire = (sequelize: Sequelize) => {
 // Modèle ELEVE
 export class Eleve extends Model {
   public id_eleve!: number
-  public matricule!: string
   public nom_eleve!: string
   public post_nom_eleve?: string
   public sexe!: 'M' | 'F'
@@ -95,11 +94,6 @@ export const initEleve = (sequelize: Sequelize) => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-      },
-      matricule: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
-        unique: true,
       },
       nom_eleve: {
         type: DataTypes.STRING(100),

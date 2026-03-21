@@ -16,9 +16,6 @@ import { ArrowLeftFromLineIcon, BookOpenCheck, GraduationCap, Layers, Search, Sp
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 export default function ClassePage() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [helloMessage, setHelloMessage] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
   const [search, setSearch] = useState('')
   const [level, setLevel] = useState('all')
 
@@ -46,18 +43,7 @@ export default function ClassePage() {
     if (typeof window !== 'undefined') window.location.href = '/home'
   }
 
-  const getHelloWorldFromMain = async () => {
-    setIsLoading(true)
-    setErrorMessage('')
-    try {
-      const result = await window.ipc.hello.getMessage()
-      setHelloMessage(result)
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Unknown error')
-    } finally {
-      setIsLoading(false)
-    }
-  }
+
 
   return (
     <React.Fragment>

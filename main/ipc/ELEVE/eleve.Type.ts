@@ -1,6 +1,5 @@
 export type EleveType = {
     id_eleve: number;
-    matricule: string;
     nom_eleve: string;
     post_nom_eleve?: string;
     sexe: 'M' | 'F';
@@ -22,7 +21,6 @@ export type EleveType = {
 
 export type EleveCreateType = {
     id_eleve?: number; // Optionnel, seulement si la table est vide
-    matricule: string;
     nom_eleve: string;
     post_nom_eleve?: string;
     sexe: 'M' | 'F';
@@ -42,7 +40,6 @@ export type EleveCreateType = {
 }
 
 export type EleveUpdateType = {
-    matricule?: string;
     nom_eleve?: string;
     post_nom_eleve?: string;
     sexe?: 'M' | 'F';
