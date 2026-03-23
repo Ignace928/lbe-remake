@@ -131,7 +131,7 @@ export default function NextPage() {
       </div>
       <div className='app-page fixed w-full h-screen overflow-hidden pt-15'>
         <ScrollArea className='h-full border-x-2 border-primary/20 rounded-3xl p-3'>
-          <Card className='border-none bg-gradient-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
+          <Card className='border-none bg-linear-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
             <CardContent className="flex items-center justify-center min-h-full">
               <AuthForm 
                 onSubmit={handleSubmit}

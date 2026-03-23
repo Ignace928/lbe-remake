@@ -57,6 +57,7 @@ export function DatePicker({
           mode="single"
           selected={selectedDate}
           onSelect={handleSelect}
+          captionLayout="dropdown"
           className="rounded-md border shadow w-60"
           locale={fr}
         />

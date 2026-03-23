@@ -35,12 +35,15 @@ const convertBackendToFrontend = (backendData: any): Eleve => {
 
 export const api = {
   // CREATE
-  create: async (data: CreateEleve): Promise<Eleve> => {
+  create: async (data: CreateEleve): Promise<{data: Eleve, message: string}> => {
     const response = await window.ipc.eleve.create(data) as BackendEleveResponse
     if (!response.success) {
       throw new Error(response.message)
     }
-    return convertBackendToFrontend(response.data)
+    return {
+      data: convertBackendToFrontend(response.data),
+      message: response.message
+    }
   },
 
   // READ ALL
@@ -62,19 +65,25 @@ export const api = {
   },
 
   // UPDATE
-  update: async (id: number, data: UpdateEleve): Promise<Eleve> => {
+  update: async (id: number, data: UpdateEleve): Promise<{data: Eleve, message: string}> => {
     const response = await window.ipc.eleve.update(id, data) as BackendEleveResponse
     if (!response.success) {
       throw new Error(response.message)
     }
-    return convertBackendToFrontend(response.data)
+    return {
+      data: convertBackendToFrontend(response.data),
+      message: response.message
+    }
   },
 
   // DELETE
-  delete: async (id: number): Promise<void> => {
+  delete: async (id: number): Promise<{message: string}> => {
     const response = await window.ipc.eleve.delete(id) as EleveSingleResponse
     if (!response.success) {
       throw new Error(response.message)
+    }
+    return {
+      message: response.message
     }
   }
 }

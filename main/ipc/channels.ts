@@ -26,5 +26,35 @@ export const IPC_CHANNELS = {
   eleveGetById: 'eleve:get-by-id',
   eleveUpdate: 'eleve:update',
   eleveDelete: 'eleve:delete',
+  //CLASSE
+  classeCreate: 'classe:create',
+  classeGetAll: 'classe:get-all',
+  classeGetById: 'classe:get-by-id',
+  classeUpdate: 'classe:update',
+  classeDelete: 'classe:delete',
+  //INSCRIPTION
+  inscriptionCreate: 'inscription:create',
+  inscriptionGetAll: 'inscription:get-all',
+  inscriptionGetById: 'inscription:get-by-id',
+  inscriptionUpdate: 'inscription:update',
+  inscriptionDelete: 'inscription:delete',
+  //TYPEFRAIS
+  typeFraisCreate: 'typeFrais:create',
+  typeFraisGetAll: 'typeFrais:get-all',
+  typeFraisGetById: 'typeFrais:get-by-id',
+  typeFraisUpdate: 'typeFrais:update',
+  typeFraisDelete: 'typeFrais:delete',
+  //TARIF
+  tarifCreate: 'tarif:create',
+  tarifGetAll: 'tarif:get-all',
+  tarifGetById: 'tarif:get-by-id',
+  tarifUpdate: 'tarif:update',
+  tarifDelete: 'tarif:delete',
+  //PAIEMENT
+  paiementCreate: 'paiement:create',
+  paiementGetAll: 'paiement:get-all',
+  paiementGetById: 'paiement:get-by-id',
+  paiementUpdate: 'paiement:update',
+  paiementDelete: 'paiement:delete',
   databaseStatus: 'database:status',
 } as const

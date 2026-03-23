@@ -33,12 +33,4 @@ export const useAuthStore = create<AuthStore>()(
   )
 )
 
-// Hook pour nettoyer le storage lors de la déconnexion
-export const useAuthLogout = () => {
-  const logout = useAuthStore((state) => state.logout)
-  
-  return () => {
-    logout()
-    sessionStorage.removeItem('auth-storage')
-  }
-}
+

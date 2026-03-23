@@ -28,7 +28,28 @@ export const useCreateEleveMutation = () => {
   
   return useMutation({
     mutationFn: api.create,
-    onSuccess: () => {
+    onMutate: async (newEleve) => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ['eleves'] })
+      
+      // Snapshot the previous value
+      const previousEleves = queryClient.getQueryData(['eleves'])
+      
+      // Optimistically update to the new value (newEleve contient déjà l'objet Eleve)
+      queryClient.setQueryData(['eleves'], (old: any) => 
+        old ? [...old, newEleve] : [newEleve]
+      )
+      
+      return { previousEleves }
+    },
+    onError: (err, newEleve, context) => {
+      // If the mutation fails, use the context returned from onMutate to roll back
+      if (context?.previousEleves) {
+        queryClient.setQueryData(['eleves'], context.previousEleves)
+      }
+    },
+    onSettled: () => {
+      // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['eleves'] })
     },
   })
@@ -40,7 +61,30 @@ export const useUpdateEleveMutation = () => {
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: UpdateEleve }) => 
       api.update(id, data),
-    onSuccess: () => {
+    onMutate: async ({ id, data }) => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ['eleves'] })
+      
+      // Snapshot the previous value
+      const previousEleves = queryClient.getQueryData(['eleves'])
+      
+      // Optimistically update the item
+      queryClient.setQueryData(['eleves'], (old: any) => 
+        old?.map((eleve: any) => 
+          eleve.id_eleve === id ? { ...eleve, ...data } : eleve
+        )
+      )
+      
+      return { previousEleves }
+    },
+    onError: (err, variables, context) => {
+      // If the mutation fails, use the context returned from onMutate to roll back
+      if (context?.previousEleves) {
+        queryClient.setQueryData(['eleves'], context.previousEleves)
+      }
+    },
+    onSettled: () => {
+      // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['eleves'] })
     },
   })
@@ -51,7 +95,28 @@ export const useDeleteEleveMutation = () => {
   
   return useMutation({
     mutationFn: api.delete,
-    onSuccess: () => {
+    onMutate: async (id) => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ['eleves'] })
+      
+      // Snapshot the previous value
+      const previousEleves = queryClient.getQueryData(['eleves'])
+      
+      // Optimistically remove the item
+      queryClient.setQueryData(['eleves'], (old: any) => 
+        old?.filter((eleve: any) => eleve.id_eleve !== id)
+      )
+      
+      return { previousEleves }
+    },
+    onError: (err, id, context) => {
+      // If the mutation fails, use the context returned from onMutate to roll back
+      if (context?.previousEleves) {
+        queryClient.setQueryData(['eleves'], context.previousEleves)
+      }
+    },
+    onSettled: () => {
+      // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['eleves'] })
     },
   })

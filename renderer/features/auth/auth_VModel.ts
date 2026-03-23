@@ -23,7 +23,15 @@ export const useLoginMutation = () => {
     }
   })
 }
-
+// Hook pour nettoyer le storage lors de la déconnexion
+export const useAuthLogout = () => {
+  const logout = useAuthStore((state) => state.logout)
+  
+  return () => {
+    logout()
+    sessionStorage.removeItem('auth-storage')
+  }
+}
 export const useAuthState = () => {
   // Utiliser uniquement le cache React Query pour l'état d'authentification
   const { data: user, isLoading, error } = useQuery({

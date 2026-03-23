@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
-import { useAuthStore, useAuthLogout } from '@/store/authStore'
 import { useAnneeStore } from '@/store/anneStore'
 import { LogOut } from 'lucide-react'
+import { useAuthLogout } from '@/features/auth/auth_VModel'
 
 interface LogoutButtonProps {
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"

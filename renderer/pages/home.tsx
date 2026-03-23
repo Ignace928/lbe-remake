@@ -5,7 +5,6 @@ import {
   BookMarkedIcon,
   GraduationCap,
   LayoutDashboard,
-  LogOut,
   LucideUsers,
   PowerOffIcon,
 } from 'lucide-react'

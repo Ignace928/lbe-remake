@@ -1,24 +1,26 @@
 import React, { useState } from 'react'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { ArrowLeftFromLine, Eye, FileDown, FilePenLine, FileScan, PenBoxIcon, Plus, Users } from 'lucide-react'
-import { Eleve } from '../eleve_types'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { EleveForm } from './eleve_form'
-import ModalHandleDelete from '@/components/ModalHandleDelete'
+import { EleveTableContent } from './eleve_table_content'
+import { Eleve } from '../eleve_types'
 import { SchoolCertificate } from './certificat'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import { useAnneeStore } from '@/store/anneStore'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale/fr'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { ArrowLeftFromLine, Eye, FileDown, FilePenLine, FileScan, PenBoxIcon, Plus, Users } from 'lucide-react'
+import ModalHandleDelete from '@/components/ModalHandleDelete'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 interface EleveTableProps {
   students: Eleve[]
-  onUpdateStudent: (id: number, data: any) => void
-  onDeleteStudent: (id: number) => void
-  createEleve: any
+  onUpdateStudent: (id: number, data: any) => Promise<void>
+  onDeleteStudent: (id: number) => Promise<void>
+  createEleve: (data: any) => Promise<void>
+  createEleveMutation: any
   isUpdatePending?: boolean
 }
 
@@ -27,6 +29,7 @@ export function EleveTable({
   onUpdateStudent, 
   onDeleteStudent, 
   createEleve,
+  createEleveMutation,
   isUpdatePending = false 
 }: EleveTableProps) {
   const [showAddForm, setShowAddForm] = useState(false)
@@ -48,7 +51,7 @@ export function EleveTable({
 
   const handleCreateStudent = async (data: any) => {
     try {
-      await createEleve.mutateAsync(data)
+      await createEleve(data)
       setShowAddForm(false)
     } catch (err) {
       console.error('Error creating student:', err)
@@ -66,29 +69,7 @@ export function EleveTable({
     }
   }
 
-  const getStatusBadge = (etat: string) => {
-    return etat === 'Actif' ? (
-      <Badge className="bg-green-100 text-green-800 hover:bg-green-200">
-        Actif
-      </Badge>
-    ) : (
-      <Badge className="bg-red-100 text-red-800 hover:bg-red-200">
-        Inactif
-      </Badge>
-    )
-  }
-
-  const getSexeBadge = (sexe: string) => {
-    return sexe === 'M' ? (
-      <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">
-        M
-      </Badge>
-    ) : (
-      <Badge className="bg-pink-100 text-pink-800 hover:bg-pink-200">
-        F
-      </Badge>
-    )
-  }
+  
 
   return (
     <div className="space-y-4">
@@ -211,7 +192,7 @@ export function EleveTable({
                   style=""
                   trigger={null}
                   onSubmit={handleCreateStudent}
-                  isLoading={createEleve.isPending}
+                  isLoading={createEleveMutation?.isPending || false}
                   title="Ajouter un étudiant"
                   description="Créez un nouvel étudiant dans le système."
                   submitButtonText="Créer"
@@ -259,73 +240,12 @@ export function EleveTable({
                     </Button>
                   </div>
                 ) : (
-                  <div className="w-full overflow-auto">
-                    <Table className="w-full">
-                      <TableHeader>
-                        <TableRow className='border-primary/10 hover:bg-primary/5'>
-                          <TableHead className='text-foreground'>Matricule</TableHead>
-                          <TableHead className='text-foreground'>Nom complet</TableHead>
-                          <TableHead className='text-foreground'>Sexe</TableHead>
-                          <TableHead className='text-foreground'>Date de naissance</TableHead>
-                          <TableHead className='text-foreground'>Téléphone</TableHead>
-                          <TableHead className='text-foreground'>État</TableHead>
-                          <TableHead className='text-foreground'>Actions</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {students.map((student) => (
-                          <TableRow key={student.id_eleve} className="border-primary/10 hover:bg-primary/5 transition-colors">
-                            <TableCell className="">
-                              <span className="font-mono text-sm">{
-                                Matricule(student)
-                            }</span>
-                            </TableCell>
-                            <TableCell className="">
-                              <div>
-                                <span className="font-medium">{student.nom_eleve}</span>
-                                {student.post_nom_eleve && (
-                                  <span className="text-muted-foreground ml-2">{student.post_nom_eleve}</span>
-                                )}
-                              </div>
-                            </TableCell>
-                            <TableCell className="">
-                              {getSexeBadge(student.sexe)}
-                            </TableCell>
-                            <TableCell className="">
-                              <span className="text-sm">{student.date_naissance}</span>
-                            </TableCell>
-                            <TableCell className="">
-                              <span className="text-sm">{student.telephone || '-'}</span>
-                            </TableCell>
-                            <TableCell className="">
-                              {getStatusBadge(student.etat)}
-                            </TableCell>
-                            <TableCell className="">
-                              <div className="flex gap-2">
-                                <Button
-                                  variant="outline"
-                                  onClick={() => setEditingStudent(student)}
-                                  className='bg-amber-400 text-black hover:border-amber-400 hover:cursor-pointer'
-                                  disabled={isUpdatePending}
-                                >
-                                  <PenBoxIcon/>
-                                </Button>
-                                
-                                <ModalHandleDelete
-                                  personalization='bg-red-500 text-black hover:text-red-500 hover:border-red-500 hover:cursor-pointer'
-                                  btnVariant='outline'
-                                  title={`Supprimer le Matricule N°${Matricule(student)}`}
-                                  description={`Voulez-vous supprimer definitivement ${student.nom_eleve} ${student.post_nom_eleve}?`}
-                                  onConfirm={()=>onDeleteStudent(student.id_eleve)}
-                                  state={isUpdatePending}
-                                />
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
+                  <EleveTableContent
+                    students={students}
+                    onEditStudent={setEditingStudent}
+                    onDeleteStudent={onDeleteStudent}
+                    isUpdatePending={isUpdatePending}
+                  />
                 )}
               </ScrollArea>
             </CardContent>
