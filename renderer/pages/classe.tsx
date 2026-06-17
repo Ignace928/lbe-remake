@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { BookOpenCheck, GraduationCap, HouseIcon, Layers, Search, Sparkles, Users } from 'lucide-react'
+import { ArrowLeftFromLineIcon, BookOpenCheck, GraduationCap, Layers, Search, Sparkles, Users } from 'lucide-react'
 
 export default function ClassePage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -67,7 +67,7 @@ export default function ClassePage() {
       <div className='fixed top-0 z-20 w-full p-2'>
         <HeaderComponent title='Classes'>
           <Button className='m-1 h-10 w-10 rounded-full' onClick={goHome}>
-            <HouseIcon />
+            <ArrowLeftFromLineIcon />
           </Button>
         </HeaderComponent>
       </div>

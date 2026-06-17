@@ -11,8 +11,8 @@ let isDevToolsEnabled = false
 
 function getWindowIconPath() {
   return isProd
-    ? path.join(process.resourcesPath, 'icon.ico')
-    : path.join(app.getAppPath(), 'resources', 'icon.ico')
+    ? path.join(process.resourcesPath, 'taurus.ico')
+    : path.join(app.getAppPath(), 'resources', 'taurus.ico')
 }
 
 function setDevToolsEnabled(enabled: boolean) {

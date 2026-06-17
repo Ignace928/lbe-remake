@@ -5,7 +5,8 @@ import { Card } from '@/components/ui/card'
 import { HeaderComponent } from '@/components/layout/header'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { HouseIcon, Search } from 'lucide-react'
+import { ArrowLeftFromLineIcon, Search } from 'lucide-react'
+import { useRouter } from 'next/router'
 
 export default function EtudiantPage() {
   const students = [
@@ -14,10 +15,7 @@ export default function EtudiantPage() {
     { id: 'STD-003', nom: 'Fatou Sarr', classe: '4e A', etat: 'En attente', moyenne: '12.6/20' },
     { id: 'STD-004', nom: 'Lucas Ndao', classe: '3e C', etat: 'Actif', moyenne: '15.2/20' },
   ]
-
-  const goHome = () => {
-    if (typeof window !== 'undefined') window.location.href = '/home'
-  }
+  const router = useRouter()
 
   return (
     <React.Fragment>
@@ -26,8 +24,8 @@ export default function EtudiantPage() {
       </Head>
       <div className='fixed top-0 z-20 w-full p-2'>
         <HeaderComponent title='Eleves'>
-          <Button className='m-1 h-10 w-10 rounded-full' onClick={goHome}>
-            <HouseIcon />
+          <Button className='m-1 h-10 w-10 rounded-full' onClick={()=>router.push("/home")}>
+            <ArrowLeftFromLineIcon />
           </Button>
         </HeaderComponent>
       </div>
