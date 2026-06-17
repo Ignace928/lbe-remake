@@ -3,31 +3,46 @@ import Head from 'next/head'
 import { HeaderComponent } from '@/components/layout/header'
 import {
   BookMarkedIcon,
+  BotIcon,
+  DollarSignIcon,
   GraduationCap,
+  GraduationCapIcon,
+  Home,
   LayoutDashboard,
-  LogOut,
   LucideUsers,
-  Power,
+  PowerOffIcon,
+  Wallet,
 } from 'lucide-react'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { MiniCard } from '@/components/miniCard'
 import { useAnneeStore } from '@/store/anneStore'
+import { useAuthStore } from '@/store/authStore'
 import LoadingPage from '@/components/loadingPage'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { LogoutButton } from '@/components/LogoutButton'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Card } from '@/components/ui/card'
+import Link from 'next/link'
+import { TitleComponent } from '@/components/layout/title_component'
 
 export default function HomePage() {
   const {anne_Active, setAnne_active} = useAnneeStore()
+  const {user, hasHydrated} = useAuthStore()
   const [loading, setLoading] = useState<boolean>(true)
+  
   useEffect(()=>{
-    const anne_scolaire = JSON.parse(localStorage.getItem('anneScolaire')).state.anne_Active
-    if(!anne_scolaire.id_anne){
-      window.location.href = '/start'
+    if (!hasHydrated) return // Attendre l'hydratation officielle
+    
+    if(!user) window.location.href = '/'
+    else{
+      // Vérifier si une année scolaire est active
+      if(!anne_Active.id_anne){
+        window.location.href = '/start'
+      }
+      else setLoading(false)
     }
-    else setLoading(false)
-  },[anne_Active])
-  const go = (path: string) => {
-    if (typeof window !== 'undefined') window.location.href = path
-  }
+  },[anne_Active, user, hasHydrated])
+  
 
   const menu = [
     {
@@ -43,74 +58,91 @@ export default function HomePage() {
       route:'/classe',
     },
     {
-      title: 'Eleves',
+      title: 'Elèves',
       description: 'Gerer les informations des eleves',
       icon: LucideUsers,
       route:'/etudiant',
     },
+    {
+      title: 'Inscriptions',
+      description: `Gerer l'inscription / réinscription pour l'année ${anne_Active.labelle}`,
+      icon: GraduationCapIcon,
+      route:'/inscription',
+    },
+    {
+      title: 'Frais de Scolarité',
+      description: "Gérez les Frais / Tarifs de l'établissement",
+      icon: Wallet,
+      route:'/frais',
+    },
+    {
+      title: 'Payements',
+      description: "Suivre les payements effectué",
+      icon: DollarSignIcon,
+      route:'/paiements',
+    }
   ]
-  if(loading) return(<LoadingPage size={40}/>)
+  if(loading || !hasHydrated) return(<LoadingPage size={40}/>)
   return (
-    <React.Fragment>
+    <>
       <Head>
-        <title>Home - LBE Schoolar</title>
+        <title>Lycée Benjamin Escande - Accueil</title>
       </Head>
-      <div className='fixed top-0 z-20 w-full p-2 backdrop-blur-sm'>
-        <HeaderComponent title='Home'>
-          <AlertDialog>
-            <AlertDialogTrigger className={`${buttonVariants({variant:"default", className:'m-1 h-10 w-10 rounded-b-full rounded-t-full'})}`}>
-                <Power />
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader className='text-[#1A1A1D] text-2xl'>
-                  <AlertDialogTitle>Quitter et/ou Fermer session?</AlertDialogTitle>
-              </AlertDialogHeader>
-              
-              <AlertDialogDescription className='text-[#252324] text-lg font-extralight'>Voulez-vous fermer la session {anne_Active.labelle} et/ou vous deconnecter 💤?</AlertDialogDescription>
-              <AlertDialogFooter>
-                <AlertDialogCancel className={buttonVariants({variant:'secondary'})}>Annuler</AlertDialogCancel>
+      <div className="flex h-dvh flex-col overflow-hidden">
+        <header className="z-20 shrink-0 p-2">
+          <HeaderComponent title='Accueil'>
+            
+          </HeaderComponent>
+        </header>
+        <main className="flex min-h-0 flex-1 flex-col overflow-hidden px-3 pb-3">        
+          <Card className="flex h-full min-h-0 flex-col overflow-hidden rounded-3xl border-x-2 border-primary/20 bg-linear-to-br from-card via-card to-muted/30 p-2 shadow-xl shadow-primary/5 backdrop-blur-md">  
+              <ScrollArea>
+                <TitleComponent Icon={Home}>
+                    <div className='flex-1'>
+                      <p className='text-lg font-bold text-foreground'>Année Scolaire Active</p>
+                      <p className='mt-1 text-sm text-muted-foreground'>
+                        👉 {anne_Active.labelle}
+                      </p>
+                    </div>
+                    <span className="text-sm font-bold text-primary px-3 py-1 rounded-full bg-primary/10">
+                      Session active
+                    </span>
+                </TitleComponent>
+{/* ______________________________________________STYLE_____________________________________________________ */}
+                <div className="grid grid-cols-2 gap-20 justify-end z-2 pr-30 absolute top-4 right-0">
+                  <p className="h-10 w-15 rounded bg-amber-800 dark:bg-amber-500"></p>
+                  <p className="h-10 w-15 rounded bg-lime-700 dark:bg-lime-500"></p>
+                </div>
 
-                <AlertDialogAction className='rounded-full cursor-pointer' onClick={()=>{
-                  setAnne_active({id_anne:null, labelle:""})
-                }}>
-                  Fermer session
-                </AlertDialogAction>
+                
+              <div className='mb-6'>
+                <p className='text-lg p-4 font-bold text-foreground '>Modules disponibles</p>
+                <div className='grid px-4 gap-4 grid-cols-3 lg:grid-cols-4 lg:gap-5'>
+                  {menu.map((item) => (
+                    <MiniCard
+                      key={item.title}
+                      title={item.title}
+                      icon={item.icon}
+                      description={item.description}
+                      to={item.route}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className='sticky z-1 bottom-0 rounded-xl flex flex-row sm:text-sm my-4 mx-6 gap-1 mt-6 bg-card p-4'>   
+                  <p className='text-card-foreground font-bold'>
+                    Astuce:
+                  </p>
+                  <p className='dark:text-amber-400'>
+                    💡 Utilisez les cartes pour naviguer rapidement vers les ecrans de gestion
+                  </p>
+              </div>
 
-                <AlertDialogAction className='rounded-full cursor-pointer' onClick={()=>{window.location.href = '/'}}>
-                  <LogOut/>
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </HeaderComponent>
+            </ScrollArea>
+            </Card>
+        </main>
       </div>
-      <main className='app-page'>
-        <section className='app-page-content'>
-          <div className='mb-6 rounded-2xl border border-lime-300/70 bg-white/80 p-4 shadow-sm sm:p-5'>
-            <h1 className='text-xl font-bold text-slate-900 sm:text-2xl'>Année Scolaire : {anne_Active.labelle}</h1>
-            <p className='mt-1 text-sm text-slate-700 sm:text-base'>
-              Choisis un module pour continuer. L&apos;interface est optimisee pour mobile, tablette
-              et desktop.
-            </p>
-          </div>
+    </>
 
-          <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5'>
-            {menu.map((item) => (
-              <MiniCard
-                key={item.title}
-                title={item.title}
-                icon={item.icon}
-                description={item.description}
-                to={item.route}
-              />
-            ))}
-          </div>
-
-          <div className='mt-6 rounded-xl border border-lime-300/60 bg-white/75 p-3 text-xs text-slate-700 sm:text-sm'>
-            Astuce: utilise les cartes pour naviguer rapidement vers les ecrans de gestion.
-          </div>
-        </section>
-      </main>
-    </React.Fragment>
   )
 }

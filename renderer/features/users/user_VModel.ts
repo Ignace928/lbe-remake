@@ -1,0 +1,76 @@
+"use client";
+
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getAllUsers, createUser, updateUser, deleteUser } from "./user_service";
+import { CreateUser, UpdateUser } from "./user_types";
+import { toast } from "sonner";
+import { useAuthStore } from "@/store/authStore";
+
+export function useUserVm() {
+    const { user: currentUser } = useAuthStore()
+    /*
+    ----✅ queryClient() permet de garder ton UI synchronisée avec les mutations côté serveur.
+    Après une mutation (createUser, updateUser, deleteUser), tu veux que la liste des utilisateurs se mette à jour
+    ----✅ invalidateQueries() marque la query comme « périmée », donc React Query va la refetcher.
+    */
+    const queryClient = useQueryClient()
+
+    // Vérifier si l'utilisateur connecté est admin
+    const isAdmin = currentUser?.role === 'admin'
+
+    // Query principale
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["users"], // <----- Clé de cache pour la liste des utilisateurs
+        queryFn: () => getAllUsers(isAdmin), // Inclure les mots de passe seulement si admin
+        staleTime: 10_000, // 10 secondes
+    });
+
+    // ✅ Mutations
+    const createUserMutation = useMutation({
+        mutationFn: (input: CreateUser) => createUser(input),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["users"] as const
+            });
+            toast.success("Utilisateur créé avec succès");
+        },
+        onError: (e) => {
+            toast.error("Erreur lors de la création de l'utilisateur");
+        }
+    });
+
+    const updateUserMutation = useMutation({
+        mutationFn: ({ input, id }: { input: UpdateUser; id: number }) => updateUser(id, input),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["users"] as const
+            });
+            toast.success("Utilisateur modifié avec succès");
+        },
+        onError: (e) => {
+            toast.error("Erreur lors de la modification de l'utilisateur");
+        }
+    });
+
+    const deleteUserMutation = useMutation({
+        mutationFn: (id: number) => deleteUser(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["users"] as const
+            });
+            toast.success("Utilisateur supprimé avec succès");
+        },
+        onError: (e) => {
+            toast.error("Erreur lors de la suppression de l'utilisateur");
+        }
+    });
+
+    return {
+        data: data?.success ? data.data : data?.data || [],
+        isLoading,
+        error,
+        createUser: createUserMutation,
+        updateUser: updateUserMutation,
+        deleteUser: deleteUserMutation
+    };
+}
