@@ -2,11 +2,12 @@ import { ipcMain } from 'electron'
 import { IPC_CHANNELS } from '../channels'
 import { User } from '../../lib/data-types'
 import { getGlobalSequelize } from '../database'
+import { UserDataType } from './user.Type'
 
 export function registerUserController() {
   // CREATE - Créer un utilisateur
   ipcMain.removeHandler(IPC_CHANNELS.userCreate)
-  ipcMain.handle(IPC_CHANNELS.userCreate, async (_event, userData: { nom_user: string; mdp: string; role: string }) => {
+  ipcMain.handle(IPC_CHANNELS.userCreate, async (_event, userData: UserDataType) => {
     try {
       const sequelize = getGlobalSequelize()
       if (!sequelize) {
@@ -47,7 +48,7 @@ export function registerUserController() {
 
   // READ - Obtenir tous les utilisateurs
   ipcMain.removeHandler(IPC_CHANNELS.userGetAll)
-  ipcMain.handle(IPC_CHANNELS.userGetAll, async () => {
+  ipcMain.handle(IPC_CHANNELS.userGetAll, async (_event, includePasswords: boolean = false) => {
     try {
       const sequelize = getGlobalSequelize()
       if (!sequelize) {
@@ -58,13 +59,16 @@ export function registerUserController() {
         }
       }
 
+      // Inclure le mot de passe seulement si includePasswords est true
+      const attributes = includePasswords 
+        ? ['id_user', 'nom_user', 'role', 'mdp'] 
+        : ['id_user', 'nom_user', 'role']
+
       const users = await User.findAll({
-        attributes: ['id_user', 'nom_user', 'role'], // Exclure le mot de passe
+        attributes: attributes,
         order: [['nom_user', 'ASC']],
         raw: true // Utiliser raw: true pour obtenir des objets simples
       })
-      
-      console.log('UserController - users found:', users.length, users)
       
       return {
         success: true,
@@ -72,7 +76,6 @@ export function registerUserController() {
         data: users
       }
     } catch (error) {
-      console.error('UserController - error:', error)
       return {
         success: false,
         message: error.message,
@@ -83,7 +86,7 @@ export function registerUserController() {
 
   // READ - Obtenir un utilisateur par ID
   ipcMain.removeHandler(IPC_CHANNELS.userGetById)
-  ipcMain.handle(IPC_CHANNELS.userGetById, async (_event, id_user: number) => {
+  ipcMain.handle(IPC_CHANNELS.userGetById, async (_event, id_user: number, includePassword: boolean = false) => {
     try {
       const sequelize = getGlobalSequelize()
       if (!sequelize) {
@@ -94,8 +97,14 @@ export function registerUserController() {
         }
       }
 
+      // Inclure le mot de passe seulement si includePassword est true
+      const attributes = includePassword 
+        ? ['id_user', 'nom_user', 'role', 'mdp'] 
+        : ['id_user', 'nom_user', 'role']
+
       const user = await User.findByPk(id_user, {
-        attributes: ['id_user', 'nom_user', 'role'] // Exclure le mot de passe
+        attributes: attributes,
+        raw: true
       })
       
       if (!user) {
@@ -239,15 +248,23 @@ export function registerUserController() {
         }
       }
       
-      // Vérifier le mot de passe
-      const inputPassword = credentials.mdp ? Buffer.from(credentials.mdp).toString('base64') : ''
+      // Gérer le mot de passe (vide autorisé pour l'utilisateur par défaut)
+      let isValidPassword = false
       const storedPassword = user.dataValues.mdp || ''
-      const isValidPassword = inputPassword === storedPassword
+      
+      if (!credentials.mdp && !storedPassword) {
+        // Mot de passe vide des deux côtés (utilisateur par défaut)
+        isValidPassword = true
+      } else if (credentials.mdp && storedPassword) {
+        // Mot de passe fourni des deux côtés
+        const inputPassword = Buffer.from(credentials.mdp).toString('base64')
+        isValidPassword = inputPassword === storedPassword
+      }
       
       if (!isValidPassword) {
         return {
           success: false,
-          message: 'Nom d\'utilisateur ou mot de passe incorrect',
+          message: 'Mot de passe incorrect',
           data: null
         }
       }
@@ -262,9 +279,10 @@ export function registerUserController() {
         }
       }
     } catch (error) {
+      console.error('Erreur authentification:', error)
       return {
         success: false,
-        message: error.message,
+        message: error.message || 'Erreur lors de l\'authentification',
         data: null
       }
     }

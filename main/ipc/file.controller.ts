@@ -104,9 +104,9 @@ export function registerFileController() {
               mdp: Buffer.from('').toString('base64'), // Mot de passe vide encodé en base64
               role: 'admin'
             })
-            console.log('Utilisateur par défaut "Necro" créé avec succès')
+            // Utilisateur par défaut "Necro" créé avec succès
           } else {
-            console.log('L\'utilisateur "Necro" existe déjà')
+            // L'utilisateur "Necro" existe déjà
           }
         } catch (userError) {
           console.error('Erreur lors de la création de l\'utilisateur par défaut:', userError)

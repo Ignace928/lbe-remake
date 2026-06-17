@@ -75,72 +75,123 @@ export default function dataBasesPage() {
           </Button>
         </HeaderComponent>
       </div>
-      <div className='app-page'>
-        <ScrollArea className='h-full border border-lime-500/50 rounded-2xl p-2'>
-          <Card className='border-white/15 bg-white/10 h-full p-4 backdrop-blur-sm sm:p-5'>
-            {/* Header avec statut de la source de données */}
-            {/* Indicateur de statut */}
-                  <div className='mt-4 flex items-center gap-2'>
-                    <div className={`h-2 w-2 rounded-full ${!selectedDatabase ? 'hidden' : isInitialized ? 'bg-emerald-500' : 'bg-amber-500'}`} />
-                    <span className='text-sm text-slate-300'>
-                      {!selectedDatabase ? "" : isInitialized ? 'Base de données initialisée' : 'Base de données Asynchronisé'}
-                    </span>
-                    <span className="text-md text-lime-500 ml-auto">
+      <div className='app-page fixed w-full h-screen overflow-hidden pt-15'> {/* Offset pour le header fixe */}
+        <ScrollArea className='h-full border-x-2 border-primary/20 rounded-3xl p-3'>
+            <Card className='border-none bg-gradient-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
+            {/* Header et statut combinés */}
+            <div className='mb-6'>
+              <div className={`flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-primary/10 to-secondary/10 border-2 transition-all duration-300 ${
+                !selectedDatabase 
+                  ? 'border-destructive/50' 
+                  : isInitialized 
+                    ? 'border-green-500/50' 
+                    : 'border-yellow-500/50'
+              }`}>
+                <div className={`rounded-full p-3 shadow-lg transition-all duration-300 ${
+                  !selectedDatabase 
+                    ? 'bg-gradient-to-r from-destructive to-destructive/80' 
+                    : isInitialized 
+                      ? 'bg-gradient-to-r from-green-500 to-green-600' 
+                      : 'bg-gradient-to-r from-yellow-500 to-yellow-600'
+                }`}>
+                  <Database className={`h-6 w-6 text-white transition-all duration-300 ${
+                    !selectedDatabase 
+                      ? 'animate-pulse' 
+                      : isInitialized 
+                        ? '' 
+                        : 'animate-pulse'
+                  }`} />
+                </div>
+                <div className='flex-1'>
+                  <p className='text-lg font-bold text-foreground'>Source de données actuelle</p>
+                  <p className='mt-1 text-sm text-muted-foreground'>
+                    {selectedDatabase 
+                      ? `👉 ${selectedDatabase.name}` 
+                      : 'Aucune source de données sélectionnée'
+                    }
+                  </p>
+                  <div className='mt-4 flex justify-end'>
+                </div>
+                <span className='flex flex-row gap-2 items-center justify-start text-sm text-muted-foreground'>
+                <div className={`h-3 w-3 rounded-full shadow-lg ${!selectedDatabase ? 'hidden' : isInitialized ? 'bg-gradient-to-r from-green-400 to-green-600 animate-pulse' : 'bg-gradient-to-r from-yellow-400 to-yellow-600'}`} />
+                  <p>
+                    {
+                      !selectedDatabase 
+                      ? 'Aucune base de données connectée' 
+                      : isInitialized 
+                      ? 'Base de données prête et synchronisée' 
+                      : 'Base de données nécessite une synchronisation'
+                    }
+                  </p>
+                </span>
+              </div>
+              
+              {/* Compteur compact */}
+              
+                    <span className="text-sm font-bold text-primary px-3 py-1 rounded-full bg-primary/10">
                       {databases?.length || 0} base{(databases?.length || 0) > 1 ? 's' : ''} disponible{(databases?.length || 0) > 1 ? 's' : ''}
                     </span>
                   </div>
+            </div>
 
-            <div className={`mt-4 rounded-md border p-3 ${!selectedDatabase ? 'border-red-500/50 bg-[crimson]/30' : isInitialized ? 'border-emerald-500/30 bg-emerald-950/20' : 'border-amber-500/30 bg-amber-950/20'}`}>
-              <div className='flex items-center gap-3'>
-                <div className='mb-6'>
-                  <div className='flex items-center gap-3'>
-                    <Database className={`h-5 w-5 ${!selectedDatabase ? 'text-red-500' : isInitialized ? 'text-emerald-500' : 'text-amber-500'}`} />
-                    <div>
-                      <p className='text-lg font-semibold text-white'>Source de données actuelle</p>
-                      <p className='mt-1 text-lg text-bold text-slate-300'>
-                        {selectedDatabase 
-                          ? `👉${selectedDatabase.name}` 
-                          : 'Aucune source de données sélectionnée'
-                        }
-                      </p>
+            {/* Section de gestion compacte */}
+            <div className='mb-6'>
+              <div className='grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1fr)_auto_auto_auto] items-center'>
+                <div className='relative'>
+                  <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                    <div className='rounded-full bg-gradient-to-r from-primary to-secondary p-1.5 shadow-lg shadow-primary/20'>
+                      <Database className='h-4 w-4 text-primary-foreground' />
                     </div>
                   </div>
-                  
-                  
+                  <Input
+                    className='pl-12 border-2 border-primary/20 bg-gradient-to-r from-muted/50 to-card text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl'
+                    placeholder='📝 nom-du-fichier.db'
+                    value={fileName}
+                    onChange={(event) => setFileName(event.target.value)}
+                  />
                 </div>
-
+                <Button 
+                  onClick={handleCreateDatabase} 
+                  disabled={isLoading || fileName.trim().length === 0} 
+                  className='w-full sm:w-auto bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary border-2 border-primary/70 shadow-lg shadow-primary/30 transition-all duration-200 hover:scale-105 font-bold'
+                >
+                  <Database className='mr-2 h-4 w-4' />
+                  {isLoading ? '⏳ Création...' : '✨ Créer'}
+                </Button>
+                <Button 
+                  onClick={handleSyncDatabase} 
+                  disabled={isSyncing}
+                  variant='secondary' 
+                  className={`w-full sm:w-auto transition-all duration-200 hover:scale-105 font-bold ${
+                    !selectedDatabase 
+                      ? 'hidden opacity-50 cursor-not-allowed' 
+                      : isInitialized 
+                        ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-2 border-green-700 shadow-lg shadow-green-500/30 cursor-not-allowed' 
+                        : 'bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white border-2 border-yellow-700 shadow-lg shadow-yellow-500/30 cursor-pointer'
+                  }`}
+                >
+                  <RefreshCw className={`mr-2 h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
+                  {isInitialized ? "✅ Terminé" : isSyncing ? '🔄 Sync...' : '🔄 Sync'}
+                </Button>
+              </div>
+              
+              {/* Message d'état compact */}
+              <div className='mt-4 text-center'>
+                
               </div>
             </div>
-
-            {/* Composant principal de gestion */}
-            <div className='border-t border-white/10 pt-4'>
-            <div className='mt-3 grid grid-cols-1 gap-2 sm:grid-cols-[minmax(0,1fr)_auto_auto_auto] sticky-2'>
-                    <Input
-                      className='border-white/20 bg-slate-900/50 text-slate-100 placeholder:text-slate-400'
-                      placeholder='nom-du-fichier'
-                      value={fileName}
-                      onChange={(event) => setFileName(event.target.value)}
-                    />
-                    <Button 
-                      onClick={handleCreateDatabase} 
-                      disabled={isLoading || fileName.trim().length === 0} 
-                      className='w-full sm:w-auto cursor-pointer'
-                    >
-                      {isLoading ? 'Creation...' : 'Creer source'}
-                    </Button>
-                    <Button 
-                      onClick={handleSyncDatabase} 
-                      disabled={isSyncing || isInitialized}
-                      variant='secondary' 
-                      className={`w-full sm:w-auto ${!selectedDatabase ? 'hidden': isInitialized ? 'bg-emerald-500' : 'bg-amber-500 cursor-pointer '}`}
-                    >
-                      <RefreshCw className={`mr-2 h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
-                      {isInitialized ? "" :  isSyncing ? 'Synchronisation...' : 'Sync'}
-                    </Button>
+              
+              {/* Section fichiers optimisée */}
+              <div className='flex-1 overflow-hidden'>
+                <div className='h-full p-4 rounded-2xl bg-gradient-to-br from-muted/20 to-card border-2 border-dashed border-primary/30'>
+                  <div className='text-center'>
+                    <p className='text-xs text-muted-foreground'>Créez et gérez vos sources de données</p>
                   </div>
-                  
-              <CreateTextFileComponent/>
-            </div>
+                  <ScrollArea className="h-[calc(65vh-200px)] border-none p-3">
+                    <CreateTextFileComponent/>
+                  </ScrollArea>
+                  </div>
+                </div>
           </Card>
         </ScrollArea>
       </div>

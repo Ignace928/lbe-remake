@@ -1,11 +1,12 @@
-export async function getAllUsers() {
-  const result = await window.ipc.user.getAll()
-  console.log('UserService - getAllUsers result:', result)
+import { BackendUserResponse, UserResponse, UserSingleResponse } from './user_types'
+
+export async function getAllUsers(includePasswords: boolean = false): Promise<UserResponse> {
+  const result = await window.ipc.user.getAll(includePasswords)
   return result
 }
 
-export async function getUserById(id_user: number) {
-  return window.ipc.user.getById(id_user)
+export async function getUserById(id_user: number, includePassword: boolean = false): Promise<BackendUserResponse> {
+  return window.ipc.user.getById(id_user, includePassword)
 }
 
 export async function createUser(userData: { nom_user: string; mdp: string; role: string }) {

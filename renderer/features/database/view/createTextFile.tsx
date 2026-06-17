@@ -109,60 +109,52 @@ export function CreateTextFileComponent() {
   return (
     <div className='mt-4'>      
       {/* Affichage de la BDD sélectionnée */}
-      
-      
+            
       <div className='mt-4'>
         <div className='flex flex-row items-center gap-2'>
-          <FileSearch2 className='text-amber-50'/>
+          <div className='rounded-full bg-gradient-to-r from-primary to-secondary p-2 shadow-lg shadow-primary/20'>
+            <FileSearch2 className='h-4 w-4 text-primary-foreground'/>
+          </div>
           <Input 
-            className='w-1/2 border-white/20 bg-slate-900/50 text-slate-100 placeholder:text-slate-400'
-            placeholder='Chercher une base de données existant'
+            className='flex-1 border-2 border-primary/20 bg-gradient-to-r from-muted/50 to-card text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl'
+            placeholder='🔍 Chercher une base de données existante...'
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
         </div>
         
         {filteredDatabases.length === 0 ? (
-          <div className='mt-2 overflow-hidden flex items-center justify-center text-center rounded-md border border-white/10 bg-slate-950/35'>
-            <ScrollArea className='h-50 p-2 w-full '>
-              <p className='text-sm text-slate-300'>Aucune base de données trouvée 😥</p>
-            </ScrollArea>
+          <div className='mt-2 text-center py-8'>
+            <div className='text-4xl mb-2'>🔍</div>
+            <p className='text-sm text-muted-foreground'>Aucune base de données trouvée 😥</p>
           </div>
         ) : (
-          <div className='mt-2 overflow-hidden rounded-md border border-white/10 bg-slate-950/35'>
-            <ScrollArea className='h-50 p-2 w-full'>
-              <Table className='rounded-2xl'>
-                <TableHeader>
-                  <TableRow className='border-white/10 bg-[#252324] hover:bg-[#2523248f]'>
-                    <TableHead className='text-slate-300'>Source</TableHead>
-                    <TableHead className='text-slate-300'>Activité</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredDatabases.map((file) => (
-                    <TableRow key={file.path} className='rounded-md border text-slate-300 hover:bg-[#2523248f] border-white/10 bg-slate-900/50 px-2 py-1'>
-                      <TableCell>{file.name}</TableCell>
-                      <TableCell className='flex flex-cols items-center gap-6'>
-                        <Switch 
-                          checked={selectedDb?.path === file.path}
-                          onCheckedChange={() => selectedDb?.path === file.path ? handleClearSelection() : handleSelectDatabase(file)}
-                          disabled={isReconnecting}
-                        />
-                        
-                        <ModalHandleDelete
-                            personalization='w-10 h-10 m-1 rounded-b-full rounded-t-full cursor-pointer'
-                            btnVariant='default'
-                            state={false}
-                            title={`Suppression definitive de ${file.name}`}
-                            description='Cette action est irréversible! Voulez-vous continuer?'
-                            onConfirm={() => handleDeleteDatabase(file)}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </ScrollArea>
+          <div className='mt-2 space-y-2'>
+            {filteredDatabases.map((file) => (
+              <div key={file.path} className='flex items-center justify-between p-3 rounded-lg bg-card hover:bg-muted/50 transition-colors duration-200'>
+                <div className='flex items-center gap-3'>
+                  <div className='rounded-full bg-primary/10 p-2'>
+                    <FileSearch2 className='h-4 w-4 text-primary' />
+                  </div>
+                  <span className='font-medium text-foreground'>{file.name}</span>
+                </div>
+                <div className='flex items-center gap-3'>
+                  <Switch 
+                    checked={selectedDb?.path === file.path}
+                    onCheckedChange={() => selectedDb?.path === file.path ? handleClearSelection() : handleSelectDatabase(file)}
+                    disabled={isReconnecting}
+                  />
+                  <ModalHandleDelete
+                      personalization='h-8 w-8 rounded-full bg-destructive hover:bg-destructive/90 transition-colors duration-200'
+                      btnVariant='destructive'
+                      state={false}
+                      title={`Suppression definitive de ${file.name}`}
+                      description='Cette action est irréversible! Voulez-vous continuer?'
+                      onConfirm={() => handleDeleteDatabase(file)}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

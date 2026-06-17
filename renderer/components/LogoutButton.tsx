@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
-import { useAuthStore } from '@/store/authStore'
 import { useAnneeStore } from '@/store/anneStore'
 import { LogOut } from 'lucide-react'
+import { useAuthLogout } from '@/features/auth/auth_VModel'
 
 interface LogoutButtonProps {
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
@@ -17,16 +17,13 @@ export function LogoutButton({
   className = "",
   children 
 }: LogoutButtonProps) {
-  const { setUser } = useAuthStore()
   const { setAnne_active } = useAnneeStore()
+  const logout = useAuthLogout()
 
   const handleLogout = () => {
     // Nettoyer les stores
-    setUser(null)
+    logout()
     setAnne_active({ id_anne: null, labelle: "" })
-    
-    // Nettoyer le localStorage
-    localStorage.removeItem('user')
     
     // Rediriger vers la page de connexion
     window.location.href = '/'
