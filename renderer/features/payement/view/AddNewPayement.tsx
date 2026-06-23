@@ -1,7 +1,7 @@
 import { EleveInscritPicker } from '@/components/inscription/inscription_picker'
 import { TitleComponent } from '@/components/layout/title_component'
 import { Button } from '@/components/ui'
-import { useClearSelectedInscription, useSelectedInscription } from '@/store/inscriptionStore'
+import { useSelectedInscription, useSetInscription } from '@/store/inscriptionStore'
 import { BadgeDollarSign, BookmarkXIcon } from 'lucide-react'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
@@ -56,7 +56,7 @@ export default function AddNewPayement() {
                       </div>
                     )
                   }
-                  </section>
+                </section>
                
                
             </Card>
@@ -82,7 +82,7 @@ export default function AddNewPayement() {
   )
 }
 const ClearBtn = ()=>{
-  const clear = useClearSelectedInscription()
+  const {clear} = useSetInscription()
   return(
     <Button variant="outline" className='cursor-pointer'  onClick={clear}>
       Retour

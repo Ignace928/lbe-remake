@@ -50,7 +50,7 @@ export default function Payement_form({id}:{id:number}){
         }
         reset({
             id_inscription:id,
-            montant_paye:0,
+            montant_paye:undefined,
             id_type_frais:0,
             ref:""
         })
@@ -68,17 +68,34 @@ export default function Payement_form({id}:{id:number}){
                     </p>
                     <AlertDialogCancel className='rounded-full w-10 h-10 items-center'>x</AlertDialogCancel>
                 </AlertDialogTitle>
-                <AlertDialogDescription>
-                    Interessé: {inscription.eleve.nom_eleve} {inscription.eleve.post_nom_eleve}
+                <AlertDialogDescription className='font-semibold text-foreground font-serif'>
+                    Interessé : {inscription.eleve.nom_eleve} {inscription.eleve.post_nom_eleve}
                 </AlertDialogDescription>
             </AlertDialogHeader>
             
                 <form onSubmit={handleCreate}>
-                        {errors.id_inscription && (
-                            <p className='text-sm text-red-500'>{errors.id_inscription.message}</p>
-                        )}
+                {errors.id_inscription && (
+                    <p className='text-sm text-red-500'>{errors.id_inscription.message}</p>
+                )}
                     <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 
+                        <div className="space-y-2">
+                            <label htmlFor="montant" className="flex gap-4 items-center text-sm font-medium">
+                                Montant*
+                            </label>
+                            <Input
+                                id="montant"
+                                type="number"
+                                step="1"
+                                placeholder="0.00"
+                                {...register("montant_paye", { valueAsNumber: true })}
+                                className={errors.montant_paye ? 'border-red-500' : 'border-primary'}
+                            />
+                            <p className="text-lg font-semibold">{nombre.formatMontant(getValues("montant_paye")||0)} Ar</p>
+                            {errors.montant_paye && (
+                                <p className='text-sm text-red-500'>{errors.montant_paye.message}</p>
+                            )}
+                        </div>
                         <div className="space-y-2">
                             <label htmlFor="id_type_frais" className="text-sm font-medium">
                                 Raison*
@@ -90,23 +107,6 @@ export default function Payement_form({id}:{id:number}){
                         </div>
                         
                         <div className="space-y-2">
-                            <label htmlFor="montant" className="text-sm font-medium">
-                                Montant*
-                            </label>
-                            <p className="text-lg font-semibold">{nombre.formatMontant(getValues("montant_paye")||0)} Ar</p>
-                            <Input
-                                id="montant"
-                                type="number"
-                                step="1"
-                                placeholder="0.00"
-                                {...register("montant_paye", { valueAsNumber: true })}
-                                className={errors.montant_paye ? 'border-red-500' : ''}
-                            />
-                            {errors.montant_paye && (
-                                <p className='text-sm text-red-500'>{errors.montant_paye.message}</p>
-                            )}
-                        </div>
-                        <div className="space-y-2">
                             <label htmlFor="ref" className="text-sm font-medium">
                                 -Ref-
                             </label>
@@ -114,7 +114,7 @@ export default function Payement_form({id}:{id:number}){
                                 id="montant"
                                 type="text"
                                 {...register("ref")}
-                                className={errors.ref ? 'border-red-500' : ''}
+                                className={errors.ref ? 'border-red-500' : 'border-primary'}
                             />
                             {errors.ref && (
                                 <p className='text-sm text-red-500'>{errors.ref.message}</p>

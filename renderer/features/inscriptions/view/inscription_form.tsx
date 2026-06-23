@@ -16,7 +16,7 @@ import { useAnneeStore } from '@/store/anneStore'
 import { ElevePicker } from '@/components/eleve/eleve-picker'
 import { ClassePicker } from '@/components/classe/ClassePicker'
 import { SelectClasse } from '@/components/classe/classe_select'
-import { useInscriptionStore } from '@/store/inscriptionStore'
+import { useSetInscription } from '@/store/inscriptionStore'
 
 interface InscriptionFormProps {
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
@@ -61,7 +61,7 @@ export function InscriptionForm({trigger, open, close, inscription, idClasse, is
   }, [inscription, reset, idClasse])
 
   const {createInscription, updateInscription, refetch} = useInscriptionVm()
-  const clear = useInscriptionStore((state) => state.clear)
+  const {clear} = useSetInscription()
   const handleCreateInscription = async (data: CreateInscription) => {
     try {
       await createInscription.mutateAsync(data)

@@ -3,7 +3,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { InscriptionSearchById } from './inscriptionById'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardFooter, CardTitle } from '../ui/card'
-import { useSelectedInscription, useSelectInscription } from '@/store/inscriptionStore'
+import { useSelectedInscription } from '@/store/inscriptionStore'
 import { Inscription } from '@/features/inscriptions/inscription_types'
 
 interface InscriptionPickerProps {

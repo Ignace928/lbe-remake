@@ -16,25 +16,24 @@ export const AllPayementCard = ({id_inscription, showPayement}:allPayementCardPr
     const {data:res, isLoading, error} = usePayementById({id_inscription})
     if(isLoading){
         return(
-            <Card>
-                <div className="flex items-center justify-between">
-                    <Loader2 className='animate-spin'/>
-                </div>
-            </Card>
+            <div className="p-4 h-full flex justify-center rounded-md">
+                <Card className='mt-4 p-3 flex w-full h-30 justify-center items-center border-primary'>
+                    <Loader2 className='animate-spin text-primary'/>
+                </Card>
+            </div>
         )
     }else if(error){
         return (<p className='text-sm text-red-500'>Erreur de récupération</p>)
     }
     if(res.data.length===0){
         return(
-            <div className="mt-4 p-3 h-full flex items-center justify-center rounded-md">
-                <Card className='flex justify-center items-center p-5 animate-pulse'>
+            <div className="p-4 h-full flex justify-center rounded-md">
+                <Card className='mt-4 p-3 flex w-full h-30 justify-center items-center border-primary animate-pulse'>
                     Auccun payement trouvée
                 </Card>
             </div>
         )
-    }
-    
+    }else
     return (
         <ScrollArea className='p-4 h-full'>
             {

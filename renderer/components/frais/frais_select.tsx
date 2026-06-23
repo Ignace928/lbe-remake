@@ -42,7 +42,7 @@ export function SelectFrais({ Click, currentFrais = "" }: ClassePickerProps) {
                 error? (
                     <p className='font-mono text-red-500'>Erreur lors de la récupération des données</p>
                 ) : (
-                    <SelectContent>
+                    <SelectContent className='border-primary'>
                         <ScrollArea className='h-40'>
                             {
                                 data.map((frais)=>{

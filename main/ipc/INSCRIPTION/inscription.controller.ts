@@ -48,7 +48,7 @@ export function registerInscriptionController() {
       }
 
       const cursor = params?.cursor || 0
-      const limit = Math.min(params?.limit || 50, 100)
+      const limit = Math.min(params?.limit || 100, 200)
 
       const result = await Inscription.findAndCountAll({
         where: {

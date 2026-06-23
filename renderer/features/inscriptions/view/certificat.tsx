@@ -88,7 +88,7 @@ export function CertificatePreview({
       <div className="mt-5 space-y-3 text-sm leading-relaxed text-slate-700">
         <p>
           Je soussigné, Directeur de l&apos;établissement{" "}
-          <span className="font-semibold text-slate-900">LBE Schoolar</span>,
+          Lycée Benjamin Escande,
           certifie que l&apos;élève :
         </p>
         <p className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-center text-base font-bold text-slate-900">

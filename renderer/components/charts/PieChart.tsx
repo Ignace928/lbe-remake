@@ -44,6 +44,9 @@ export function PieChart({
     'hsl(var(--chart-3))',
     'hsl(var(--chart-4))',
     'hsl(var(--chart-5))',
+    'hsl(var(--background))',
+    'hsl(var(--foreground))',
+    'hsl(var(--foreground))',
   ]
   
   const pieColors = colors || defaultColors
@@ -75,16 +78,17 @@ export function PieChart({
           {showTooltip && (
             <Tooltip 
               contentStyle={{
-                backgroundColor: '#1f2937',
+                backgroundColor: 'var(--sidebar-primary)',
+                color:'var(--foreground)',
                 border: '1px solid #374151',
                 borderRadius: '6px'
               }}
-              labelStyle={{ color: '#f3f4f6' }}
+              labelStyle={{ color: 'var(--primary)' }}
             />
           )}
           {showLegend && (
             <Legend 
-              wrapperStyle={{ color: '#9ca3af' }}
+              wrapperStyle={{ color: '#ffffff' }}
             />
           )}
         </RePieChart>

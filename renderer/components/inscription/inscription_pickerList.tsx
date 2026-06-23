@@ -5,7 +5,7 @@ import { useAnneeStore } from '@/store/anneStore'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { ScrollArea } from '../ui/scroll-area'
 import { Loader2, PlayIcon } from 'lucide-react'
-import { useSelectedInscription, useSelectInscription } from '@/store/inscriptionStore'
+import { useSelectedInscription, useSetInscription } from '@/store/inscriptionStore'
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { SelectClasse } from '../classe/classe_select'
@@ -18,7 +18,7 @@ export default function InscriptionListPicker() {
     const anne = useAnneeStore().anne_Active.id_anne
     const [id_classe, setIdClasse] = useState(null)
     const {data:list, isLoading, error, refetch} = useInscriptionQuery({id_classe, id_anne:anne})
-    const setInscription = useSelectInscription()
+    const {select:setInscription} = useSetInscription()
     const selectedInscription = useSelectedInscription()
     const inscriptionPick = (inscrit:Inscription)=>{
         setInscription(inscrit)
@@ -76,7 +76,7 @@ export default function InscriptionListPicker() {
                             {
                                 
                                 list.rows.map((inscription)=>(
-                                    <TableRow className={`border-none ${inscription.id_inscription===selectedInscription?.id_inscription ? "bg-sidebar-primary hover:text-foreground text-sidebar-primary-foreground" : ""}`} 
+                                    <TableRow className={`border-none ${inscription.id_inscription===selectedInscription?.id_inscription ? "bg-sidebar-primary hover:text-foreground text-sidebar-primary-foreground cursor-pointer" : "cursor-pointer"}`} 
                                         onClick={()=>setInscription(inscription)} key={inscription.id_inscription}>
                                         <TableCell>{inscription.eleve.matricule}</TableCell>
                                         <TableCell className='flex items-center gap-4'>

@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { HeaderComponent } from '@/components/layout/header'
 import { Users, ChevronLeft, ChevronRight, LucideHome } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Card } from '@/components/ui/card'
 import { useAuthStore } from '@/store/authStore'
 import { useDatabaseStatusQuery } from '@/features/database/database_VModel'
@@ -40,11 +39,14 @@ export default function EtudiantPage() {
   }
 
   
+
+
+  
   // Fonction pour générer des données d'élève de test
   // const generateTestData = (count: number) => {
-  //   const noms = ['KABONGO', 'MUKUNA', 'TSHIBANDA', 'NGOY', 'LUBALA', 'MUTONDO', 'KANYINDA', 'MABIALA', 'LUKOKO', 'BISIMWA']
-  //   const postNoms = ['Jean', 'Pierre', 'Marie', 'Joseph', 'Antoine', 'François', 'Paul', 'Louis', 'Michel', 'André']
-  //   const lieux = ['Kinshasa', 'Lubumbashi', 'Matadi', 'Kisangani', 'Mbuji-Mayi', 'Kananga', 'Likasi', 'Kolwezi', 'Bukavu', 'Goma']
+  //   const noms = ['ANDRIANAVALONA', 'FIORENAMPITIAVANA', 'ANDRIAMANLINA', 'RAKOTONIAINA', 'RANDRIAMANAMPISOA', 'RALALARISOA', 'ANDRIAMANAMPISOA', 'RAKOTOARISOA', 'MAMILALAINA', 'RANDRIATSIZOVIANA']
+  //   const postNoms = ['Kuruko', 'Yagami', 'Marie', 'Gojo', 'Steve', 'François', 'Paul', 'Louis Gonzague', 'Michel', 'André', 'Roger', "Felix", 'Rengoku', 'Shin', "Kojin"]
+  //   const lieux = ['Mahajanga', 'Antananarivo', 'New City', 'Nagazaki', 'Ambositra', 'Kongo', 'Konoha', 'East Blue', 'Lyon', 'Marsel']
   //   const professions = ['Enseignant', 'Médecin', 'Ingénieur', 'Agriculteur', 'Commerçant', 'Fonctionnaire', 'Artisan', 'Chauffeur', 'Secrétaire', 'Comptable']
     
   //   const students = []
@@ -79,7 +81,7 @@ export default function EtudiantPage() {
   // // Handler pour la création massive d'étudiants
   // const handleMassiveCreate = async () => {
   //   // Confirmation avant de lancer la création massive
-  //   toast.warning("Génération de +1000 élève seed?", {
+  //   toast.warning("Génération de +4000 élèves seed?", {
   //     description:'Confirmez ou ignoré tout simplement',
   //     action:{
   //       label:"CONFIRMER",
@@ -89,13 +91,13 @@ export default function EtudiantPage() {
   //         })
       
   //         try {
-  //           const testData = generateTestData(20)
-  //           console.log('Début de la création massive de 30 étudiants...')
+  //           const testData = generateTestData(4000)
+  //           console.log('Début de la création massive de 4k étudiants...')
             
   //           // Créer les étudiants un par un pour éviter les surcharges
   //           for (let i = 0; i < testData.length; i++) {
   //             const student = testData[i]
-  //             console.log(`Création de l'étudiant ${i + 1}/1k: ${student.nom_eleve} ${student.post_nom_eleve}`)
+  //             console.log(`Création de l'étudiant ${i + 1}/4k: ${student.nom_eleve} ${student.post_nom_eleve}`)
               
   //             try {
   //               await createEleve.mutateAsync(student)
@@ -103,7 +105,7 @@ export default function EtudiantPage() {
   //               // Mettre à jour le toast tous les 10 étudiants
   //               if ((i + 1) % 10 === 0) {
   //                 toast.loading(`Création massive d'étudiants en cours...`, {
-  //                   description: `${i + 1}/1k étudiants créés...`,
+  //                   description: `${i + 1}/4k étudiants créés...`,
   //                   id: loadingToast
   //                 })
   //               }
@@ -133,6 +135,11 @@ export default function EtudiantPage() {
   //     }
   //   })
   // }
+
+
+
+
+
 
   // Handler pour la création d'étudiant avec toast stylisé
   const handleCreateStudent = async (data: any) => {
@@ -301,7 +308,7 @@ export default function EtudiantPage() {
                 disabled={isLoadingStudents}
               >
                 <Users className='h-4 w-4 mr-2' />
-                +1k Élèves
+                +4k Élèves
               </Button> */}
             </div>
 

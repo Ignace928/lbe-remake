@@ -3,7 +3,7 @@ import { BookMarkedIcon, ChevronRightCircle, DollarSignIcon, GraduationCapIcon, 
 import { useRouter } from 'next/router'
 import {motion} from "framer-motion"
 import { Card } from '../ui/card'
-import { useClearSelectedInscription, useInscriptionStore } from '@/store/inscriptionStore'
+import { useSetInscription } from '@/store/inscriptionStore'
 
 const enfant = {
     hidden: { opacity: 0},
@@ -49,7 +49,7 @@ export default function SidebarMotion({current}: Props) {
         {
           title: 'Payements',
           icon: DollarSignIcon,
-          route:'/paiements',
+          route:'/paiements/addNew',
         }
       ]
     
@@ -95,7 +95,7 @@ type CardSidebarProps = {
 
 const CardSidebar = ({icn:Icon, title, route, active}: CardSidebarProps) => {
     const router = useRouter()
-    const clear = useClearSelectedInscription()
+    const {clear} = useSetInscription()
     const navigate = ()=>{
       clear()
       router.push(route)

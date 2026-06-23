@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react"
 import {
-  useInscriptionStore,
   useIsInscriptionDetailOpen,
   useSelectedInscription,
+  useSetInscription,
 } from "@/store/inscriptionStore"
 import { InscriptionDataTable } from "./inscription_data_table"
 import { columns } from "./inscription_columns"
@@ -50,8 +50,7 @@ export function InscriptionTable({
     deleteInscription,
     refetch,
   } = useInscriptionVm({ id_anne, id_classe })
-  const select = useInscriptionStore((state) => state.select)
-  const clear = useInscriptionStore((state) => state.clear)
+  const {clear,select} = useSetInscription()
   const selected = useSelectedInscription()
   const isViewingDetails = useIsInscriptionDetailOpen()
   const [showForm, setShowForm] = useState(false)
@@ -105,7 +104,7 @@ export function InscriptionTable({
       open={showForm}
       close={() => setShowForm(false)}
       trigger={
-        <Button onClick={() => setShowForm(true)}>
+        <Button className="flex p-4" onClick={() => setShowForm(true)}>
           {selected ? (
             <>
               <PenBoxIcon className="mr-2 h-4 w-4" />

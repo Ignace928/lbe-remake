@@ -49,21 +49,23 @@ export default function EffectifClasse({id}: Props) {
                 {
                     filteredData.map((classe)=>(
                         <Card className='text-foreground border-primary/50 bg-linear-to-br from-muted/50 to-card' key={classe.id_classe}>
-                            <div className='flex justify-between pt-4 px-6'>
+                            <div className='flex justify-between bg-red-500/0 pt-4 px-6'>
                                 <p className='text-xl font-semibold'>{classe.nom_classe}</p>
                                 <div className='flex items-baseline-last justify-center gap-1'>
                                     <p className='text-sm'>Effectif</p>
                                     <p className='text-xl font-bold'>{classe.total}</p>
                                 </div>
                             </div>
-                            <PieChart
-                                data={[{name:"Fille",nb:classe.nb_femmes}, {name:"Garçon",nb:classe.nb_hommes}]}
-                                dataKey='nb'
-                                height={200}
-                                nameKey="label"
-                                showLegend={true}
-                                colors={["crimson", "#058888"]}
-                            />
+                            <div className='z-10 font-semibold'>
+                                <PieChart
+                                    data={[{name:"Fille",nb:classe.nb_femmes}, {name:"Garçon",nb:classe.nb_hommes}]}
+                                    dataKey='nb'
+                                    height={300}
+                                    nameKey="name"
+                                    showLegend={false}
+                                    colors={["crimson", "#058888"]}
+                                />
+                            </div>
                         </Card>
                     ))
                 }

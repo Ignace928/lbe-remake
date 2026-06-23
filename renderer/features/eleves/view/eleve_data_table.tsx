@@ -41,6 +41,7 @@ import { Plus, Users } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { SearchInput } from "@/components/search_input"
+import { ElevePicker } from "@/components/eleve/eleve-picker"
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, unknown>[]
@@ -126,7 +127,7 @@ export function DataTable<TData>({
               searchTerm={searchTerm}
               label="Rechercher par nom, matricule..."
             />
-            
+            <ElevePicker currentStudent="" Click={(e)=>onEditStudent(e)}/>
             {/* Filtres dropdown */}
             <div className="flex">
               <Select value={sexeFilter} onValueChange={setSexeFilter}>

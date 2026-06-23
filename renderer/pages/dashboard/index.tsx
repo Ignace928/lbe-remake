@@ -14,6 +14,7 @@ import LoadingPage from '@/components/loadingPage'
 import { useVisual } from '@/store/viz'
 import EffectifClasse from '@/features/visualisation/view/effectifClasse'
 import Recouvrement from '@/features/visualisation/view/Recouvrement'
+import SidebarMotion from '@/components/layout/Sidebar_Motion'
 
 export default function BoardPage() {
   const {anne_Active} = useAnneeStore()
@@ -80,6 +81,7 @@ export default function BoardPage() {
               
             </ScrollArea>
           </Card>  
+          <SidebarMotion current='/dashboard'/>
         </main>
 
 

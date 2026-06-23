@@ -495,7 +495,7 @@ export const themeDefault = {
   "--chart-5": "oklch(0.769 0.188 70.08)",
   "--sidebar": "oklch(0.985 0 0)",
   "--sidebar-foreground": "oklch(0.145 0 0)",
-  "--sidebar-primary": "oklch(0.205 0 0)",
+  "--sidebar-primary": "oklch(0.488 0.243 264.376)",
   "--sidebar-primary-foreground": "oklch(0.985 0 0)",
   "--sidebar-accent": "oklch(0.97 0 0)",
   "--sidebar-accent-foreground": "oklch(0.205 0 0)",

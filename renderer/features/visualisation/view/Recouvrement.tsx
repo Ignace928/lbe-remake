@@ -78,7 +78,7 @@ export default function Recouvrement({id_anne}: Props) {
                                     <Progress value={classe.taux_recouv}/>
                                 </div>
                             </div>
-                        ):(<p className='text-sm'>Auccun tarif mentionné 😴!</p>)
+                        ):(<p className='text-sm'>Auccun tarif / payement 😴!</p>)
                     }
                 </Card>
             ))

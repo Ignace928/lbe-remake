@@ -16,16 +16,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Eye, Users } from "lucide-react"
+import { Button, buttonVariants } from "@/components/ui/button"
+import { Download, Eye, Users } from "lucide-react"
 import ModalHandleDelete from "@/components/ModalHandleDelete"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { SearchInput } from "@/components/search_input"
 import { Inscription, UpdateInscription } from "../inscription_types"
 import { SummaryStudentSmall } from "@/components/classe/SummaryStudent"
-import { cn } from "@/lib/utils"
+
 import { Classe } from "@/features/classes/classe_types"
+import { PDFDownloadLink } from "@react-pdf/renderer"
+import { ListeAppel } from "./listeAppel"
+
+interface Persona {
+  studentName: string
+}
+function FullName(
+  inscription: Inscription,
+): Persona {
+  const { eleve } = inscription
+
+  const studentName = eleve ? `${eleve.nom_eleve} ${eleve.post_nom_eleve ?? ""}`.trim() : "-"
+  return { studentName }
+}
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, unknown>[]
@@ -47,7 +61,6 @@ export function InscriptionDataTable<TData>({
   isLoading = false,
   headerActions,
   classe,
-  onClasseUpdated,
 }: DataTableProps<TData>) {
   const [searchTerm, setSearchTerm] = React.useState("")
   // const [sorting, setSorting] = React.useState<SortingState>([])
@@ -72,22 +85,52 @@ export function InscriptionDataTable<TData>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
+  console.count()
+  const HandleListe = ()=>{
+    let numero = 0
+    const a = data.map((d)=>FullName(d as Inscription)).sort((a,b)=>a.studentName.localeCompare(b.studentName))
+    const listeEleves = a.map((d)=>{
+      numero+=1
+      return {
+        numero,
+        noms:d.studentName
+      }
+    })
+    return listeEleves
+  }
   
 
   return (
-    <div>
-      <section className="p-4 pr-6 mr-4 w-full bg-card fixed z-1 flex items-center justify-between">
-        <SearchInput
-          label="Matricule ou Nom"
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-        />
-        {headerActions ?? (
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Users className="h-5 w-5 text-primary" />
-            Liste des inscriptions
-          </CardTitle>
-        )}
+    <div className="flex flex-col min-h-0 h-full">
+      <section className="p-4 pr-6 mr-4 w-full bg-card items-center fixed z-1 grid grid-cols-3">
+        <div className="">
+          <SearchInput
+            label="Matricule ou Nom"
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+          />
+        </div>
+        <div className="col-span-2 flex items-center justify-center">
+          <section className="w-full bg-card rounded-2xl mb-2 px-6 py-3 text-center text-sm text-muted-foreground">
+            {classe && (
+              <PDFDownloadLink 
+                className={buttonVariants({variant:"outline", size:"sm"})}
+                document={<ListeAppel data={HandleListe()} classe={classe.nom_classe}/>}
+                fileName={`Liste_${classe.nom_classe}`}
+              >
+                {filteredData.length} Elève{filteredData.length > 1 ? "s" : ""}{filteredData.length !== data.length ? ` / ${data.length}  Total` : " (Effectif total)"}
+                <Download className="flex animate-bounce"/>
+              </PDFDownloadLink>
+            )}
+          </section>
+            {headerActions ?? (
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Users className="h-5 w-5 text-primary" />
+                Liste des inscriptions
+              </CardTitle>
+            )}
+        </div>
+          
       </section>
         
 
@@ -183,11 +226,7 @@ export function InscriptionDataTable<TData>({
             </ScrollArea>
           </Card>
         
-        <section  className="fixed bottom-0 w-full bg-card rounded-2xl mb-2 px-6 py-3 text-center text-sm text-muted-foreground">
-          <p>
-            {filteredData.length} Elève{filteredData.length > 1 ? "s" : ""}{filteredData.length !== data.length ? ` / ${data.length}  Total` : " (Effectif total)"}
-          </p>
-        </section>
+        
     
     </div>
   )

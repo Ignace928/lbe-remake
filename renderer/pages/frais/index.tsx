@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'

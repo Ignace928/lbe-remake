@@ -6,7 +6,6 @@ import { HeaderComponent } from "@/components/layout/header"
 import {
   ArrowLeftFromLine,
   BookMarked,
-  BookMarkedIcon,
   GraduationCap,
   LucideHome,
 } from "lucide-react"
@@ -24,8 +23,8 @@ import { getInscriptionFullName } from "@/features/inscriptions/view/inscription
 import { TitleComponent } from "@/components/layout/title_component"
 import { Classe } from "@/features/classes/classe_types"
 import {
-  useClearSelectedInscription,
   useSelectedInscription,
+  useSetInscription,
 } from "@/store/inscriptionStore"
 import SidebarMotion from "@/components/layout/Sidebar_Motion"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -122,7 +121,7 @@ export default function InscriptionPage() {
   // })
   const router = useRouter()
   const selected = useSelectedInscription()
-  const clear = useClearSelectedInscription()
+  const {clear} = useSetInscription()
 
   useEffect(() => {
     if (!hasHydrated) return

@@ -30,7 +30,7 @@ export default function CashPage() {
           <Card className="flex h-full min-h-0 flex-col overflow-hidden rounded-3xl border-x-2 border-primary/20 bg-linear-to-br from-card via-card to-muted/30 p-2 shadow-xl shadow-primary/5 backdrop-blur-md">  
             <PayementTable/>
           </Card>
-          <SidebarMotion current='/paiements'/>
+          <SidebarMotion current='/paiements/addNew'/>
         </main>
       </div>
     </>

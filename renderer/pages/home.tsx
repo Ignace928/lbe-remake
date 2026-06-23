@@ -1,32 +1,25 @@
-import React, { useActionState, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { HeaderComponent } from '@/components/layout/header'
 import {
   BookMarkedIcon,
-  BotIcon,
   DollarSignIcon,
-  GraduationCap,
   GraduationCapIcon,
   Home,
   LayoutDashboard,
   LucideUsers,
-  PowerOffIcon,
   Wallet,
 } from 'lucide-react'
-import { buttonVariants } from '@/components/ui/button'
 import { MiniCard } from '@/components/miniCard'
 import { useAnneeStore } from '@/store/anneStore'
 import { useAuthStore } from '@/store/authStore'
 import LoadingPage from '@/components/loadingPage'
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { LogoutButton } from '@/components/LogoutButton'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Card } from '@/components/ui/card'
-import Link from 'next/link'
 import { TitleComponent } from '@/components/layout/title_component'
 
 export default function HomePage() {
-  const {anne_Active, setAnne_active} = useAnneeStore()
+  const { anne_Active } = useAnneeStore()
   const {user, hasHydrated} = useAuthStore()
   const [loading, setLoading] = useState<boolean>(true)
   

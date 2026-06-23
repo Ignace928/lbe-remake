@@ -1,21 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { HeaderComponent } from '@/components/layout/header'
-import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { ArrowLeftFromLineIcon, BookOpenCheck, ChevronRight, GraduationCap, Layers, LucideHome, Search, Sparkles, Users } from 'lucide-react'
-import { SearchInput } from '@/components/search_input'
+import { LucideHome, Users } from 'lucide-react'
 import { useRouter } from 'next/router'
-import { useAnneeStore } from '@/store/anneStore'
 import { useAuthStore } from '@/store/authStore'
 import { useDatabaseStatusQuery } from '@/features/database/database_VModel'
 import LoadingPage from '@/components/loadingPage'

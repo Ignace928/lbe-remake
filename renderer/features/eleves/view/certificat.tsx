@@ -1,9 +1,11 @@
-import { Document, Page, Text, Image, View, StyleSheet, Font } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
+import logo from "../../../public/images/benjamin.png"
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+// import Image from 'next/image';
 
 // Optionnel : Enregistre une police si tu veux un look plus "officiel"
-// Font.register({ family: 'Helvetica-Bold', src: 'https://fonts.gstatic.com...'});
+Font.register({ family: 'Helvetica-Bold', src: 'https://fonts.gstatic.com...'});
 
 const styles = StyleSheet.create({
   page: {
@@ -74,7 +76,8 @@ export const SchoolCertificate: React.FC<{ data: CertificateProps }> = ({ data }
         
         {/* Entête */}
         <View style={styles.header}>
-          <Image src='/images/benjamin.png' style={{width:40, height:70}}/>
+          <Image src="/images/benjamin.png" style={{width:40, height:70}}/>
+          {/* <Image src="/images/benjamin.png" width={40} height={70}/> */}
           <View style={{ marginLeft:120, display:"flex",flexDirection:"column", alignItems:"center", textAlign:"center"}}>
             <Text style={{ fontSize: 12, fontWeight: 'bold'}}>LYCEE FJKM — BENJAMIN ESCANDE</Text>
             <Text style={{ fontSize: 9 }}>DREN AMORON'I MANIA Ambositra - 306</Text>

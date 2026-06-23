@@ -57,6 +57,7 @@ export const useCreateEleveMutation = () => {
     onSettled: () => {
       // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['eleves'] })
+      queryClient.invalidateQueries({ queryKey: ['effectifTotale'] })
     },
   })
 }
@@ -99,6 +100,7 @@ export const useUpdateEleveMutation = () => {
     onSettled: () => {
       // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['eleves'] })
+      queryClient.invalidateQueries({ queryKey: ['effectifTotale'] })
     },
   })
 }

@@ -54,6 +54,7 @@ export const useCreateInscriptionMutation = () => {
       queryClient.invalidateQueries({ queryKey: ['inscriptions'] })
       queryClient.invalidateQueries({ queryKey: ["kpiGlobal"] })
       queryClient.invalidateQueries({ queryKey: ['payement-par-classe'] })
+      queryClient.invalidateQueries({ queryKey: ['paiement-par-frais'] })
       queryClient.invalidateQueries({ queryKey: ['effectifTotale'] })
     },
   })
