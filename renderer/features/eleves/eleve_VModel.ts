@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api, EleveGetAllParams } from './eleve.service'
 import { UpdateEleve,} from './eleve_types'
-import { useAnneeStore } from '@/store/anneStore'
 
 // API Calls
 

@@ -54,7 +54,7 @@ export const ListeAppel: React.FC<{ classe:string, data: listeProps[] }> = ({ cl
     {/* size="A5" correspond à une demi-feuille A4. orientation="landscape" pour le format paysage */}
     <Page size="A4" orientation="portrait" style={styles.page}>
         <View style={styles.header}>
-            <Text style={styles.title}>Liste d'appel — {classe}</Text>
+            <Text style={styles.title}>Liste — {classe}</Text>
         </View>
         <View style={styles.container}>
             {

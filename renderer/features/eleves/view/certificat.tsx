@@ -71,7 +71,7 @@ interface CertificateProps {
 export const SchoolCertificate: React.FC<{ data: CertificateProps }> = ({ data }) => (
   <Document>
     {/* size="A5" correspond à une demi-feuille A4. orientation="landscape" pour le format paysage */}
-    <Page size="A5" orientation="landscape" style={styles.page}>
+    <Page size={{width:400, height:500}} orientation="landscape" style={styles.page}>
       <View style={styles.container}>
         
         {/* Entête */}

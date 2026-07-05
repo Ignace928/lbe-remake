@@ -5,12 +5,14 @@ import { useAnneeStore } from '@/store/anneStore'
 import { Loader2 } from 'lucide-react'
 import { Progress } from '@/components/ui/progress'
 import { useExplore } from '@/store/viz'
+import { useRouter } from 'next/navigation'
 
 type Props = {
     id_anne:string
 }
 
 export default function KpiGlobal({id_anne}: Props) {
+    const router = useRouter()
     const {data:res,isLoading,error} = useKpiGlobal(id_anne)
     const {explore} = useExplore()
     if(isLoading)return(
@@ -60,7 +62,7 @@ export default function KpiGlobal({id_anne}: Props) {
         </Card>
 
         <Card className='cursor-pointer hover:scale-105 transition-all duration-100 border-primary/20 bg-linear-to-br from-muted/20 to-card p-4' 
-            onClick={()=>explore("recouvrement")}
+            onClick={()=>router.push("dashboard/retardataire")}
         >
             <p className='text-sm text-muted-foreground'>En attente</p>
             <div className='flex gap-2 items-baseline text-2xl font-bold text-amber-600'>

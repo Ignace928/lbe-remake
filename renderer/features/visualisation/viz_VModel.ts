@@ -8,6 +8,7 @@ export const useKpiGlobal = (id:string)=>{
         staleTime:1000*60*5
     })
 }
+
 export const useEffectifClasse = (id:string)=>{
     return useQuery({
         queryKey:['effectifTotale'],
@@ -15,6 +16,7 @@ export const useEffectifClasse = (id:string)=>{
         staleTime:1000*60*5
     })
 }
+
 export const usePayeParClasse = (id:string)=>{
     return useQuery({
         queryKey:['payement-par-classe'],
@@ -22,6 +24,7 @@ export const usePayeParClasse = (id:string)=>{
         staleTime:1000*60*5
     })
 }
+
 export const useElevePending = (id_anne:string, id_classe:number)=>{
     return useQuery({
         queryKey:['pending', id_anne, id_classe],
@@ -34,6 +37,14 @@ export const usePayementParFrais = (id:string)=>{
     return useQuery({
         queryKey:['paiement-par-frais'],
         queryFn:()=>api.paiementParTypeFrais(id),
+        staleTime:1000*60*5
+    })
+}
+
+export const usePayementEnRetard = (id_annee:string, id_classe:number, limit?:number, offset?:number)=>{
+    return useQuery({
+        queryKey:[id_annee,id_classe,limit,offset],
+        queryFn:()=>api.elevesEnRetard(id_annee, id_classe, limit, offset),
         staleTime:1000*60*5
     })
 }
