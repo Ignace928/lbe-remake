@@ -4,9 +4,13 @@ import {
   UpdateClasse,
   ClasseResponse,
   ClasseSingleResponse,
+<<<<<<< HEAD
   BackendClasseResponse, 
   classesWithMatricules,
   ClasseWithMatriculeResponse
+=======
+  BackendClasseResponse 
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 } from './classe_types'
 
 // Fonction pour convertir les données du backend vers le frontend
@@ -38,6 +42,7 @@ export const api = {
   },
 
   // READ ALL
+<<<<<<< HEAD
   getAll: async (): Promise<classesWithMatricules[]> => {
     const response = await window.ipc.classe.getAll() as ClasseWithMatriculeResponse
     if (!response.success) {
@@ -57,6 +62,14 @@ export const api = {
       delegue_2_matricule: backendData.delegue_2_matricule || null,
       meilleur_eleve_matricule: backendData.meilleur_eleve_matricule || null
     }})
+=======
+  getAll: async (): Promise<Classe[]> => {
+    const response = await window.ipc.classe.getAll() as ClasseResponse
+    if (!response.success) {
+      throw new Error(response.message)
+    }
+    return response.data.map(a => convertBackendToFrontend(a))
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   },
 
   // READ BY ID

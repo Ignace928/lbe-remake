@@ -34,7 +34,10 @@ export const IPC_CHANNELS = {
   classeDelete: 'classe:delete',
   //INSCRIPTION
   inscriptionCreate: 'inscription:create',
+<<<<<<< HEAD
   inscriptionGetAllThisYear: 'inscription:get-all-this-year',
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   inscriptionGetAll: 'inscription:get-all',
   inscriptionGetById: 'inscription:get-by-id',
   inscriptionUpdate: 'inscription:update',
@@ -58,6 +61,7 @@ export const IPC_CHANNELS = {
   paiementUpdate: 'paiement:update',
   paiementDelete: 'paiement:delete',
   databaseStatus: 'database:status',
+<<<<<<< HEAD
   //KPI
   statsKpiGlobal:               'stats:kpi-global',
   statsEffectifsClasse:         'stats:effectifs-classe',
@@ -67,4 +71,6 @@ export const IPC_CHANNELS = {
   statsEncaissementMensuel:     'stats:encaissement-mensuel',
   statsDetailPaiementsEleve:    'stats:detail-paiements-eleve',
   statsTopClassesRecouvrement:  'stats:top-classes-recouvrement',
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 } as const

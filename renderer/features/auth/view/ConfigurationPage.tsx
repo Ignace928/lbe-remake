@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -72,6 +73,17 @@ export const ConfigurationPage = ({description} : {description:string}) => {
     </motion.section>
   )
   else
+=======
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { AlertTriangle, DatabaseZap } from "lucide-react"
+import Head from "next/head"
+import React from "react"
+
+export const ConfigurationPage = ({description} : {description:string}) => {
+  
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   return(
       <React.Fragment>
           <Head>
@@ -108,6 +120,7 @@ export const ConfigurationPage = ({description} : {description:string}) => {
                 </CardContent>
                 
                 <CardFooter className="flex flex-col gap-3">
+<<<<<<< HEAD
                   
                   <AlertDialog>
                     <AlertDialogTrigger className="w-full rounded-lg cursor-pointer flex items-center justify-center p-2 gap-4 bg-orange-600 hover:bg-orange-700">
@@ -128,6 +141,15 @@ export const ConfigurationPage = ({description} : {description:string}) => {
                         </div>
                       </AlertDialogContent>
                   </AlertDialog>
+=======
+                  <Button 
+                    onClick={() => window.location.href = '/admin' }
+                    className="w-full bg-orange-600 hover:bg-orange-700"
+                  >
+                    <DatabaseZap className="h-4 w-4 mr-2" />
+                    Aller à l'administration
+                  </Button>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                   
                   <Button 
                     variant="outline" 

@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 import { Sequelize } from "sequelize";
 
 // Instance Sequelize globale partagée entre tous les controllers
 let globalSequelize: Sequelize = null
 
 export function setGlobalSequelize(sequelize: Sequelize) {
+=======
+// Instance Sequelize globale partagée entre tous les controllers
+let globalSequelize: any = null
+
+export function setGlobalSequelize(sequelize: any) {
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   globalSequelize = sequelize
 }
 
