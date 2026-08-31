@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+<<<<<<< HEAD
 // ─── Schémas de base ──────────────────────────────────────────────────────────
 
 export const tarifSchema = z.object({
@@ -17,10 +18,31 @@ export const createTarifSchema = tarifSchema.omit({ id_tarif: true }).extend({
   montant_fixe: z.number()
     .min(0, 'Le montant doit être positif')
     .max(999999999999999.99, 'Le montant semble irréaliste'),
+=======
+// Types basés sur le modèle Sequelize
+export const tarifSchema = z.object({
+  id_tarif: z.number(),
+  id_classe: z.number(),
+  id_annee: z.string(),
+  id_type_frais: z.number(),
+  montant_fixe: z.number()
+    .min(0, 'Le montant doit être positif')
+    .max(999999.99, 'Le montant semble irréaliste'),
+})
+
+export const createTarifSchema = tarifSchema.omit({ id_tarif: true }).extend({
+  id_classe: z.number(),
+  id_annee: z.string(),
+  id_type_frais: z.number(),
+  montant_fixe: z.number()
+    .min(0, 'Le montant doit être positif')
+    .max(999999.99, 'Le montant semble irréaliste'),
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 })
 
 export const updateTarifSchema = createTarifSchema.partial()
 
+<<<<<<< HEAD
 // ─── Schéma enrichi (réponse GET avec jointures) ──────────────────────────────
 
 export const allTarifBackendSchema = tarifSchema.extend({
@@ -52,6 +74,13 @@ export type UpdateTarif = z.infer<typeof updateTarifSchema>
 
 // ─── Types de réponse API ─────────────────────────────────────────────────────
 
+=======
+export type Tarif = z.infer<typeof tarifSchema>
+export type CreateTarif = z.infer<typeof createTarifSchema>
+export type UpdateTarif = z.infer<typeof updateTarifSchema>
+
+// Types pour les réponses API
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 export interface TarifResponse {
   success: boolean
   message: string
@@ -64,6 +93,7 @@ export interface TarifSingleResponse {
   data: Tarif
 }
 
+<<<<<<< HEAD
 export type allTarifResponseTypes = {
   success: boolean
   message: string
@@ -71,12 +101,19 @@ export type allTarifResponseTypes = {
 }
 
 /** Réponse brute sur CREATE/UPDATE (pas de jointures, juste les IDs) */
+=======
+// Types pour la réponse brute du backend (avant conversion)
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 export interface BackendTarifResponse {
   success: boolean
   message: string
   data: {
     id_tarif: number
     id_classe: number
+<<<<<<< HEAD
+=======
+    id_annee: string
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     id_type_frais: number
     montant_fixe: number
   }
@@ -84,4 +121,8 @@ export interface BackendTarifResponse {
 
 export type TarifFieldErrors = {
   [K in keyof CreateTarif]?: string[]
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f

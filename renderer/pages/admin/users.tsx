@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useEffect } from 'react'
+=======
+import React from 'react'
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { HeaderComponent } from '@/components/layout/header'
@@ -13,15 +17,23 @@ import { User, CreateUser, UpdateUser } from '@/features/users/user_types'
 import { UserForm } from '@/features/users/view/user_form'
 import { UserTable } from '@/features/users/view/user_table'
 import { Plus, ArrowLeft, Users, UserIcon } from 'lucide-react'
+<<<<<<< HEAD
 import { useAuthStore } from '@/store/authStore'
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 export default function UsersPage() {
   const router = useRouter()
   const { data: users, isLoading, error, createUser, updateUser, deleteUser } = useUserVm()
+<<<<<<< HEAD
   const {user} = useAuthStore()
 
   const [search, setSearch] = React.useState('')
   const [show, setShow] = React.useState(false)
+=======
+
+  const [search, setSearch] = React.useState('')
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
   const handleCreateUser = async (data: CreateUser) => {
     try {
@@ -58,10 +70,13 @@ export default function UsersPage() {
       console.error('Error deleting user:', err)
     }
   }
+<<<<<<< HEAD
   useEffect(()=>{
     if(!user) window.location.href = '/'
     else if(user.role!=="admin") window.location.href = "/"
   },[])
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
   if (isLoading) return <LoadingPage size={40} />
 
@@ -81,9 +96,15 @@ export default function UsersPage() {
   }
 
   return (
+<<<<<<< HEAD
     <React.Fragment>
       <Head>
         <title>LBE Scholar - Utilisateur</title>
+=======
+    <>
+      <Head>
+        <title>Gestion des utilisateurs - LBE-schoolar</title>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       </Head>
       
       <div className='fixed top-0 z-20 w-full p-2 backdrop-blur-sm'>
@@ -126,12 +147,17 @@ export default function UsersPage() {
                   </div>
                   <Input 
                     className='pl-12 border-2 border-primary/20 bg-linear-to-r from-muted/50 to-card text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl'
+<<<<<<< HEAD
                     placeholder='🔍 Necro...'
+=======
+                    placeholder='🔍 Chercher un utilisateur...'
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
                   />
                 </div>
                 <UserForm
+<<<<<<< HEAD
                   showform={show}
                   hiddeform={()=>setShow(false)}
                   trigger={(
@@ -140,6 +166,12 @@ export default function UsersPage() {
                       ✨ Ajouter
                     </Button>
                   )}
+=======
+                  size = 'default'
+                  variant = "default"
+                  style = "bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary border-2 border-primary/70 shadow-lg shadow-primary/30 transition-all duration-200 hover:scale-105 font-bold"
+                  trigger='✨ Ajouter'
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                   onSubmit={handleCreateUser}
                   isLoading={createUser.isPending}
                   title="Ajouter un utilisateur"
@@ -161,6 +193,10 @@ export default function UsersPage() {
             </Card>
         </ScrollArea>
       </main>
+<<<<<<< HEAD
     </React.Fragment>
+=======
+    </>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   )
 }

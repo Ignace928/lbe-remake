@@ -1,11 +1,17 @@
 import { DataTypes, Model, Sequelize } from 'sequelize'
 
+<<<<<<< HEAD
 // ─── USER ────────────────────────────────────────────────────────────────────
 export class User extends Model {
   public id_user!: number
   public nom_user!: string
   public mdp!: string
   public role!: 'admin' | 'professeur' | 'secretaire'
+=======
+// Modèle USER
+export class User extends Model {
+  // Pas de champs publics pour éviter le conflit avec Sequelize
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 }
 
 export const initUser = (sequelize: Sequelize) => {
@@ -39,7 +45,11 @@ export const initUser = (sequelize: Sequelize) => {
   )
 }
 
+<<<<<<< HEAD
 // ─── ANNEE SCOLAIRE ───────────────────────────────────────────────────────────
+=======
+// Modèle ANNEESCOLAIRE
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 export class AnneeScolaire extends Model {
   public id_annee!: string
   public libelle!: string
@@ -68,10 +78,16 @@ export const initAnneeScolaire = (sequelize: Sequelize) => {
   )
 }
 
+<<<<<<< HEAD
 // ─── ELEVE ────────────────────────────────────────────────────────────────────
 export class Eleve extends Model {
   public id_eleve!: number
   public matricule!: string
+=======
+// Modèle ELEVE
+export class Eleve extends Model {
+  public id_eleve!: number
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   public nom_eleve!: string
   public post_nom_eleve?: string
   public sexe!: 'M' | 'F'
@@ -99,11 +115,14 @@ export const initEleve = (sequelize: Sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
+<<<<<<< HEAD
       matricule: {
         type: DataTypes.STRING(20),
         allowNull: false,
         unique: true,
       },
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       nom_eleve: {
         type: DataTypes.STRING(100),
         allowNull: false,
@@ -185,15 +204,26 @@ export const initEleve = (sequelize: Sequelize) => {
   )
 }
 
+<<<<<<< HEAD
 // ─── CLASSE ───────────────────────────────────────────────────────────────────
+=======
+// Modèle CLASSE
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 export class Classe extends Model {
   public id_classe!: number
   public nom_classe!: string
   public niveau!: string
+<<<<<<< HEAD
   public delegue_1?: string | null
   public delegue_2?: string | null
   public meilleur_eleve?: string | null
   public titulaire?: string | null
+=======
+  public delegue_1!: number | null
+  public delegue_2!: number | null
+  public meilleur_eleve!: number | null
+  public titulaire!: string | null
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 }
 
 export const initClasse = (sequelize: Sequelize) => {
@@ -213,6 +243,7 @@ export const initClasse = (sequelize: Sequelize) => {
         allowNull: false,
       },
       delegue_1: {
+<<<<<<< HEAD
         type: DataTypes.STRING(150),
         allowNull: true,
       },
@@ -223,6 +254,30 @@ export const initClasse = (sequelize: Sequelize) => {
       meilleur_eleve: {
         type: DataTypes.STRING(150),
         allowNull: true,
+=======
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: Eleve,
+          key: 'id_eleve',
+        },
+      },
+      delegue_2: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: Eleve,
+          key: 'id_eleve',
+        },
+      },
+      meilleur_eleve: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: Eleve,
+          key: 'id_eleve',
+        },
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       },
       titulaire: {
         type: DataTypes.STRING(100),
@@ -238,13 +293,21 @@ export const initClasse = (sequelize: Sequelize) => {
   )
 }
 
+<<<<<<< HEAD
 // ─── INSCRIPTION ──────────────────────────────────────────────────────────────
+=======
+// Modèle INSCRIPTION
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 export class Inscription extends Model {
   public id_inscription!: number
   public id_classe!: number
   public id_eleve!: number
+<<<<<<< HEAD
   public id_annee!: string
   public somme!: number
+=======
+  public id_annee!: number
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   public passant!: boolean
 }
 
@@ -259,13 +322,21 @@ export const initInscription = (sequelize: Sequelize) => {
       id_classe: {
         type: DataTypes.INTEGER,
         allowNull: false,
+<<<<<<< HEAD
         references: { model: Classe, key: 'id_classe' },
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT',
+=======
+        references: {
+          model: Classe,
+          key: 'id_classe',
+        },
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       },
       id_eleve: {
         type: DataTypes.INTEGER,
         allowNull: false,
+<<<<<<< HEAD
         references: { model: Eleve, key: 'id_eleve' },
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT',
@@ -281,6 +352,20 @@ export const initInscription = (sequelize: Sequelize) => {
         type: DataTypes.DECIMAL(15, 2),
         allowNull: false,
         defaultValue: 0,
+=======
+        references: {
+          model: Eleve,
+          key: 'id_eleve',
+        },
+      },
+      id_annee: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: AnneeScolaire,
+          key: 'id_annee',
+        },
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       },
       passant: {
         type: DataTypes.BOOLEAN,
@@ -293,6 +378,7 @@ export const initInscription = (sequelize: Sequelize) => {
       modelName: 'Inscription',
       tableName: 'INSCRIPTIONS',
       timestamps: false,
+<<<<<<< HEAD
       indexes: [
         { unique: true, fields: ['id_eleve', 'id_annee'] },
         { fields: ['id_classe'] },
@@ -300,10 +386,13 @@ export const initInscription = (sequelize: Sequelize) => {
         { fields: ['id_annee'] },
         { fields: ['id_annee',"id_classe"] },
       ],
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     }
   )
 }
 
+<<<<<<< HEAD
 // ─── TYPE FRAIS ───────────────────────────────────────────────────────────────
 export class TypeFrais extends Model {
   public id_type_frais!: number
@@ -313,6 +402,13 @@ export class TypeFrais extends Model {
 
   // Propriété virtuelle ajoutée par l'association many-to-many
   public Tarifs?: Tarif[]
+=======
+// Modèle TYPEFRAIS
+export class TypeFrais extends Model {
+  public id_type_frais!: number
+  public libelle!: string
+  public detail!: string
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 }
 
 export const initTypeFrais = (sequelize: Sequelize) => {
@@ -326,17 +422,23 @@ export const initTypeFrais = (sequelize: Sequelize) => {
       libelle: {
         type: DataTypes.STRING(100),
         allowNull: false,
+<<<<<<< HEAD
         unique: true,
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       },
       detail: {
         type: DataTypes.TEXT,
         allowNull: true,
       },
+<<<<<<< HEAD
       freq: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 1,
       },
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     },
     {
       sequelize,
@@ -347,6 +449,7 @@ export const initTypeFrais = (sequelize: Sequelize) => {
   )
 }
 
+<<<<<<< HEAD
 // ─── TARIF ────────────────────────────────────────────────────────────────────
 /**
  * Tarif est la table de jointure entre Classe et TypeFrais.
@@ -363,6 +466,13 @@ export const initTypeFrais = (sequelize: Sequelize) => {
 export class Tarif extends Model {
   public id_tarif!: number
   public id_classe!: number
+=======
+// Modèle TARIF
+export class Tarif extends Model {
+  public id_tarif!: number
+  public id_classe!: number
+  public id_annee!: number
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   public id_type_frais!: number
   public montant_fixe!: number
 }
@@ -378,19 +488,44 @@ export const initTarif = (sequelize: Sequelize) => {
       id_classe: {
         type: DataTypes.INTEGER,
         allowNull: false,
+<<<<<<< HEAD
         references: { model: Classe, key: 'id_classe' },
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT',
+=======
+        references: {
+          model: Classe,
+          key: 'id_classe',
+        },
+      },
+      id_annee: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: AnneeScolaire,
+          key: 'id_annee',
+        },
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       },
       id_type_frais: {
         type: DataTypes.INTEGER,
         allowNull: false,
+<<<<<<< HEAD
         references: { model: TypeFrais, key: 'id_type_frais' },
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT',
       },
       montant_fixe: {
         type: DataTypes.DECIMAL(15, 2),
+=======
+        references: {
+          model: TypeFrais,
+          key: 'id_type_frais',
+        },
+      },
+      montant_fixe: {
+        type: DataTypes.DECIMAL(10, 2),
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
         allowNull: false,
       },
     },
@@ -399,6 +534,7 @@ export const initTarif = (sequelize: Sequelize) => {
       modelName: 'Tarif',
       tableName: 'TARIFS',
       timestamps: false,
+<<<<<<< HEAD
       indexes: [
         {
           // Garantit qu'un seul tarif existe pour chaque paire (classe, frais).
@@ -409,11 +545,17 @@ export const initTarif = (sequelize: Sequelize) => {
         { fields: ['id_classe'] },
         { fields: ['id_type_frais'] },
       ],
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     }
   )
 }
 
+<<<<<<< HEAD
 // ─── PAIEMENT ─────────────────────────────────────────────────────────────────
+=======
+// Modèle PAIEMENT
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 export class Paiement extends Model {
   public id_paiement!: number
   public ref!: string
@@ -439,24 +581,45 @@ export const initPaiement = (sequelize: Sequelize) => {
       id_inscription: {
         type: DataTypes.INTEGER,
         allowNull: false,
+<<<<<<< HEAD
         references: { model: Inscription, key: 'id_inscription' },
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT',
+=======
+        references: {
+          model: Inscription,
+          key: 'id_inscription',
+        },
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       },
       id_type_frais: {
         type: DataTypes.INTEGER,
         allowNull: false,
+<<<<<<< HEAD
         references: { model: TypeFrais, key: 'id_type_frais' },
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT',
       },
       montant_paye: {
         type: DataTypes.DECIMAL(15, 2),
+=======
+        references: {
+          model: TypeFrais,
+          key: 'id_type_frais',
+        },
+      },
+      montant_paye: {
+        type: DataTypes.DECIMAL(10, 2),
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
         allowNull: false,
       },
       date_paiement: {
         type: DataTypes.DATEONLY,
+<<<<<<< HEAD
         defaultValue: DataTypes.NOW,
+=======
+        allowNull: false,
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       },
     },
     {
@@ -464,6 +627,7 @@ export const initPaiement = (sequelize: Sequelize) => {
       modelName: 'Paiement',
       tableName: 'PAIEMENTS',
       timestamps: false,
+<<<<<<< HEAD
       indexes: [
         { unique: true, fields: ['ref'] },
         { fields: ['id_inscription'] },
@@ -471,12 +635,20 @@ export const initPaiement = (sequelize: Sequelize) => {
         { fields: ['id_type_frais','id_inscription'] },
         { fields: ["date_paiement"] },
       ],
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     }
   )
 }
 
+<<<<<<< HEAD
 // ─── INITIALISATION GLOBALE ───────────────────────────────────────────────────
 export const initializeModels = (sequelize: Sequelize) => {
+=======
+// Fonction pour initialiser tous les modèles et définir les associations
+export const initializeModels = (sequelize: Sequelize) => {
+  // Initialisation des modèles
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   initUser(sequelize)
   initAnneeScolaire(sequelize)
   initEleve(sequelize)
@@ -486,6 +658,7 @@ export const initializeModels = (sequelize: Sequelize) => {
   initTarif(sequelize)
   initPaiement(sequelize)
 
+<<<<<<< HEAD
   // ── Inscription ──────────────────────────────────────────────────────────
   Classe.hasMany(Inscription, { foreignKey: 'id_classe', as: 'inscriptions' })
   Inscription.belongsTo(Classe, { foreignKey: 'id_classe', as: 'classe' })
@@ -532,3 +705,32 @@ export const initializeModels = (sequelize: Sequelize) => {
   TypeFrais.hasMany(Paiement, { foreignKey: 'id_type_frais', as: 'paiements' })
   Paiement.belongsTo(TypeFrais, { foreignKey: 'id_type_frais', as: 'typeFrais' })
 }
+=======
+  // Définition des associations
+  Classe.hasMany(Eleve, { foreignKey: 'delegue_1', as: 'delegue1' })
+  Classe.hasMany(Eleve, { foreignKey: 'delegue_2', as: 'delegue2' })
+  Classe.hasMany(Eleve, { foreignKey: 'meilleur_eleve', as: 'meilleurEleve' })
+  Eleve.belongsTo(Classe, { foreignKey: 'delegue_1', as: 'delegue1Classe' })
+  Eleve.belongsTo(Classe, { foreignKey: 'delegue_2', as: 'delegue2Classe' })
+  Eleve.belongsTo(Classe, { foreignKey: 'meilleur_eleve', as: 'meilleurEleveClasse' })
+
+  Classe.hasMany(Inscription, { foreignKey: 'id_classe', as: 'inscriptions' })
+  Eleve.hasMany(Inscription, { foreignKey: 'id_eleve', as: 'inscriptions' })
+  AnneeScolaire.hasMany(Inscription, { foreignKey: 'id_annee', as: 'inscriptions' })
+  Inscription.belongsTo(Classe, { foreignKey: 'id_classe', as: 'classe' })
+  Inscription.belongsTo(Eleve, { foreignKey: 'id_eleve', as: 'eleve' })
+  Inscription.belongsTo(AnneeScolaire, { foreignKey: 'id_annee', as: 'anneeScolaire' })
+
+  TypeFrais.hasMany(Tarif, { foreignKey: 'id_type_frais', as: 'tarifs' })
+  Classe.hasMany(Tarif, { foreignKey: 'id_classe', as: 'tarifs' })
+  AnneeScolaire.hasMany(Tarif, { foreignKey: 'id_annee', as: 'tarifs' })
+  Tarif.belongsTo(TypeFrais, { foreignKey: 'id_type_frais', as: 'typeFrais' })
+  Tarif.belongsTo(Classe, { foreignKey: 'id_classe', as: 'classe' })
+  Tarif.belongsTo(AnneeScolaire, { foreignKey: 'id_annee', as: 'anneeScolaire' })
+
+  TypeFrais.hasMany(Paiement, { foreignKey: 'id_type_frais', as: 'paiements' })
+  Inscription.hasMany(Paiement, { foreignKey: 'id_inscription', as: 'paiements' })
+  Paiement.belongsTo(TypeFrais, { foreignKey: 'id_type_frais', as: 'typeFrais' })
+  Paiement.belongsTo(Inscription, { foreignKey: 'id_inscription', as: 'inscription' })
+}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f

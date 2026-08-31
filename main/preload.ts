@@ -1,7 +1,10 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { IPC_CHANNELS } from './ipc/channels'
 import { UserType, UserType_noMDP } from './ipc/USER/user.Type'
+<<<<<<< HEAD
 import { PaiementCreateType } from './ipc/PAIEMENT/paiement.Type'
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 const handler = Object.freeze({
   hello: {
@@ -41,7 +44,11 @@ const handler = Object.freeze({
   },
   eleve: {
     create: (eleveData: any) => ipcRenderer.invoke(IPC_CHANNELS.eleveCreate, eleveData) as Promise<{success: boolean; message: string; data: any}>,
+<<<<<<< HEAD
     getAll: (params?: any) => ipcRenderer.invoke(IPC_CHANNELS.eleveGetAll, params) as Promise<{success: boolean; message: string; data: any}>,
+=======
+    getAll: () => ipcRenderer.invoke(IPC_CHANNELS.eleveGetAll) as Promise<{success: boolean; message: string; data: any}>,
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     getById: (id_eleve: number) => ipcRenderer.invoke(IPC_CHANNELS.eleveGetById, id_eleve) as Promise<{success: boolean; message: string; data: any}>,
     update: (id_eleve: number, eleveData: any) => ipcRenderer.invoke(IPC_CHANNELS.eleveUpdate, id_eleve, eleveData) as Promise<{success: boolean; message: string; data: any}>,
     delete: (id_eleve: number) => ipcRenderer.invoke(IPC_CHANNELS.eleveDelete, id_eleve) as Promise<{success: boolean; message: string; data: any}>,
@@ -56,8 +63,12 @@ const handler = Object.freeze({
   inscription: {
     create: (inscriptionData: any) => ipcRenderer.invoke(IPC_CHANNELS.inscriptionCreate, inscriptionData) as Promise<{success: boolean; message: string; data: any}>,
     getAll: () => ipcRenderer.invoke(IPC_CHANNELS.inscriptionGetAll) as Promise<{success: boolean; message: string; data: any}>,
+<<<<<<< HEAD
     getAllThisYear: (params?:any) => ipcRenderer.invoke(IPC_CHANNELS.inscriptionGetAllThisYear, params) as Promise<{success: boolean; message: string; data: any}>,
     getById: (params?:any) => ipcRenderer.invoke(IPC_CHANNELS.inscriptionGetById, params) as Promise<{success: boolean; message: string; data: any}>,
+=======
+    getById: (id_inscription: number) => ipcRenderer.invoke(IPC_CHANNELS.inscriptionGetById, id_inscription) as Promise<{success: boolean; message: string; data: any}>,
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     update: (id_inscription: number, inscriptionData: any) => ipcRenderer.invoke(IPC_CHANNELS.inscriptionUpdate, id_inscription, inscriptionData) as Promise<{success: boolean; message: string; data: any}>,
     delete: (id_inscription: number) => ipcRenderer.invoke(IPC_CHANNELS.inscriptionDelete, id_inscription) as Promise<{success: boolean; message: string; data: any}>,
   },
@@ -76,6 +87,7 @@ const handler = Object.freeze({
     delete: (id_tarif: number) => ipcRenderer.invoke(IPC_CHANNELS.tarifDelete, id_tarif) as Promise<{success: boolean; message: string; data: any}>,
   },
   paiement: {
+<<<<<<< HEAD
     create: (paiementData: PaiementCreateType) => ipcRenderer.invoke(IPC_CHANNELS.paiementCreate, paiementData) as Promise<{success: boolean; message: string; data: any}>,
     getAll: () => ipcRenderer.invoke(IPC_CHANNELS.paiementGetAll) as Promise<{success: boolean; message: string; data: any}>,
     getById: (params: {id_inscription:number}) => ipcRenderer.invoke(IPC_CHANNELS.paiementGetById, params) as Promise<{success: boolean; message: string; data: any}>,
@@ -106,6 +118,13 @@ const handler = Object.freeze({
 
     topClassesRecouvrement: (id_annee: string) =>
       ipcRenderer.invoke(IPC_CHANNELS.statsTopClassesRecouvrement, { id_annee }) as Promise<{success: boolean; message: string; data: any}>,
+=======
+    create: (paiementData: any) => ipcRenderer.invoke(IPC_CHANNELS.paiementCreate, paiementData) as Promise<{success: boolean; message: string; data: any}>,
+    getAll: () => ipcRenderer.invoke(IPC_CHANNELS.paiementGetAll) as Promise<{success: boolean; message: string; data: any}>,
+    getById: (id_paiement: number) => ipcRenderer.invoke(IPC_CHANNELS.paiementGetById, id_paiement) as Promise<{success: boolean; message: string; data: any}>,
+    update: (id_paiement: number, paiementData: any) => ipcRenderer.invoke(IPC_CHANNELS.paiementUpdate, id_paiement, paiementData) as Promise<{success: boolean; message: string; data: any}>,
+    delete: (id_paiement: number) => ipcRenderer.invoke(IPC_CHANNELS.paiementDelete, id_paiement) as Promise<{success: boolean; message: string; data: any}>,
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   },
 })
 

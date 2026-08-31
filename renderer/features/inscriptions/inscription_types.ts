@@ -1,4 +1,5 @@
 import { z } from 'zod'
+<<<<<<< HEAD
 export interface getAllThisYearParams{
   cursor?: number
   limit?: number
@@ -61,11 +62,16 @@ export const backendInscriptionSchema = z.object({
 })
 
 // Type final pour le frontend (après conversion)
+=======
+
+// Types basés sur le modèle Sequelize
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 export const inscriptionSchema = z.object({
   id_inscription: z.number(),
   id_classe: z.number(),
   id_eleve: z.number(),
   id_annee: z.string(),
+<<<<<<< HEAD
   somme: z.number(),
   passant: z.boolean(),
   classe: classeSchema.nullable(),
@@ -79,13 +85,25 @@ export const createInscriptionSchema = z.object({
   id_eleve: z.number().min(1,"Veuillez choisir un élève"),
   id_annee: z.string(),
   somme: z.number().default(0),
+=======
+  passant: z.boolean(),
+})
+
+export const createInscriptionSchema = inscriptionSchema.omit({ id_inscription: true }).extend({
+  id_classe: z.number(),
+  id_eleve: z.number(),
+  id_annee: z.string(),
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   passant: z.boolean().default(true),
 })
 
 export const updateInscriptionSchema = createInscriptionSchema.partial()
 
 export type Inscription = z.infer<typeof inscriptionSchema>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 export type CreateInscription = z.infer<typeof createInscriptionSchema>
 export type UpdateInscription = z.infer<typeof updateInscriptionSchema>
 
@@ -96,6 +114,7 @@ export interface InscriptionResponse {
   data: Inscription[]
 }
 
+<<<<<<< HEAD
 export interface getAllThisYearResult {
   success: boolean
   message: string
@@ -111,6 +130,8 @@ export interface getAllThisYearResult {
   }
 }
 
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 export interface InscriptionSingleResponse {
   success: boolean
   message: string
@@ -121,6 +142,7 @@ export interface InscriptionSingleResponse {
 export interface BackendInscriptionResponse {
   success: boolean
   message: string
+<<<<<<< HEAD
   data: z.infer<typeof backendInscriptionSchema>
 }
 
@@ -135,6 +157,15 @@ export interface BackendInscriptionData {
   classe?: z.infer<typeof classeSchema>
   eleve?: z.infer<typeof eleveSchema>
   anneeScolaire?: z.infer<typeof anneeScolaireSchema>
+=======
+  data: {
+    id_inscription: number
+    id_classe: number
+    id_eleve: number
+    id_annee: string
+    passant: boolean
+  }
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 }
 
 export type InscriptionFieldErrors = {

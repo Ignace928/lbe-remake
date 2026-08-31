@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 import ModeRoundedSwitcher from "../modeChooseRound"
 import ThemeSwitcher from "../themeChoose"
@@ -7,6 +8,11 @@ import { LogoutButton } from "../LogoutButton"
 import { useAnneeStore } from "@/store/anneStore"
 import { useRouter } from "next/router"
 import Image from "next/image"
+=======
+import ModeSwitcher from "../modeChoose"
+import ModeRoundedSwitcher from "../modeChooseRound"
+import ThemeSwitcher from "../themeChoose"
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 export function HeaderComponent({
   children,
@@ -76,6 +82,7 @@ export function HeaderComponent({
   return (
     <header className='w-full rounded-2xl border-secondary text-primary shadow-sm backdrop-blur-xl'>
       <div className='flex min-h-14 w-full items-center gap-2 px-3 sm:px-4 lg:px-6'>
+<<<<<<< HEAD
         <div className="flex items-center justify-center gap-2">
           <Image src="/images/benjamin.png" alt="lbe" height={20} width={20}/>
           <h1 className='truncate text-base font-semibold sm:text-lg'>{title}</h1>
@@ -83,11 +90,20 @@ export function HeaderComponent({
         <div className='ml-auto flex items-center gap-2'>
           {children}
           {headerButton()}
+=======
+        <h1 className='truncate text-base font-semibold sm:text-lg'>{title}</h1>
+        <div className='ml-auto flex items-center gap-2'>
+          {children}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
           <ThemeSwitcher/>
           <ModeRoundedSwitcher/>
         </div>
       </div>
+<<<<<<< HEAD
       <div className='h-px w-full bg-linear-to-r from-primary via-transparent to-primary' />
+=======
+      <div className='h-px w-full bg-gradient-to-r from-primary via-transparent to-primary' />
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     </header>
   )
 }

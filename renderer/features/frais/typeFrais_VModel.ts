@@ -3,6 +3,11 @@ import { api } from './typeFrais.service'
 import { UpdateTypeFrais } from './typeFrais_types'
 
 // API Calls
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 // Hooks
 export const useTypeFraisQuery = () => {
   return useQuery({
@@ -49,7 +54,10 @@ export const useCreateTypeFraisMutation = () => {
     onSettled: () => {
       // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['typeFrais'] })
+<<<<<<< HEAD
       queryClient.invalidateQueries({ queryKey: ["kpiGlobal"] })
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     },
   })
 }
@@ -85,10 +93,13 @@ export const useUpdateTypeFraisMutation = () => {
     onSettled: () => {
       // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['typeFrais'] })
+<<<<<<< HEAD
       queryClient.invalidateQueries({ queryKey: ["kpiGlobal"] })
       queryClient.invalidateQueries({ queryKey: ['payement-par-classe']})
       queryClient.invalidateQueries({ queryKey: ['paiement-par-frais'] })
       queryClient.invalidateQueries({ queryKey: ['effectifTotale'] })
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     },
   })
 }

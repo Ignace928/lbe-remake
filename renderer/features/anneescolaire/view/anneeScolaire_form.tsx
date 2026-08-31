@@ -59,12 +59,23 @@ export function AnneeScolaireForm({
   }, [anneeScolaire, reset])
 
   const onFormSubmit = (data: CreateAnneeScolaire | UpdateAnneeScolaire) => {
+<<<<<<< HEAD
     try {
       onSubmit(data)
+=======
+    console.log('onFormSubmit appelé avec:', data)
+    try {
+      onSubmit(data)
+      console.log('onSubmit appelé avec succès')
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       reset({
         libelle: ''
       })
       if (onOpenChange) {
+<<<<<<< HEAD
+=======
+        console.log('Fermeture de la boîte de dialogue')
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
         onOpenChange(false) // Fermer la boîte de dialogue après soumission
       }
     } catch (error) {

@@ -2,6 +2,7 @@ import { ipcMain } from 'electron'
 import { IPC_CHANNELS } from '../channels'
 import { Eleve } from '../../lib/data-types'
 import { getGlobalSequelize } from '../database'
+<<<<<<< HEAD
 import { EleveCreateType, EleveUpdateType, EleveGetAllParams, EleveGetAllResponse } from './eleve.Type'
 import { ForeignKeyConstraintError } from 'sequelize'
 
@@ -18,6 +19,10 @@ const generateMatricule = (id_eleve:any, sexe_eleve:any) => {
   }
   return null
 }
+=======
+import { EleveCreateType, EleveUpdateType } from './eleve.Type'
+
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 export function registerEleveController() {
   // CREATE - Créer un élève
   ipcMain.removeHandler(IPC_CHANNELS.eleveCreate)
@@ -31,6 +36,7 @@ export function registerEleveController() {
           data: null
         }
       }
+<<<<<<< HEAD
       const lastEleve = await Eleve.findAll({
         order: [['id_eleve', 'DESC']],
         limit: 1,
@@ -62,6 +68,19 @@ export function registerEleveController() {
           }
         }
       }
+=======
+
+      let createData: any = {
+        ...eleveData,
+        created_at: new Date()
+      }
+
+      // Si la table est vide et qu'un id_eleve est fourni, l'utiliser
+      if (eleveData.id_eleve) {
+        createData.id_eleve = eleveData.id_eleve
+      }
+      // Sinon, laisser l'auto-incrément gérer
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       
       // Créer l'élève
       const eleve = await Eleve.create(createData)
@@ -71,7 +90,10 @@ export function registerEleveController() {
         message: 'Élève créé avec succès',
         data: {
           id_eleve: eleve.dataValues.id_eleve,
+<<<<<<< HEAD
           matricule: eleve.dataValues.matricule,
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
           nom_eleve: eleve.dataValues.nom_eleve,
           post_nom_eleve: eleve.dataValues.post_nom_eleve,
           sexe: eleve.dataValues.sexe,
@@ -93,19 +115,32 @@ export function registerEleveController() {
       }
     } catch (error) {
       console.error('Erreur détaillée lors de la création:', error)
+<<<<<<< HEAD
       console.error('Stack trace:', error.stack)
       
       return {
         success: false,
         message: `Erreur: ${error.message}`,
+=======
+      
+      return {
+        success: false,
+        message: error.message,
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
         data: null
       }
     }
   })
 
+<<<<<<< HEAD
   // READ - Obtenir tous les élèves (avec pagination optimisée)
   ipcMain.removeHandler(IPC_CHANNELS.eleveGetAll)
   ipcMain.handle(IPC_CHANNELS.eleveGetAll, async (_event, params?: { cursor?: number; limit?: number }) => {
+=======
+  // READ - Obtenir tous les élèves
+  ipcMain.removeHandler(IPC_CHANNELS.eleveGetAll)
+  ipcMain.handle(IPC_CHANNELS.eleveGetAll, async (_event) => {
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     try {
       const sequelize = getGlobalSequelize()
       if (!sequelize) {
@@ -116,6 +151,7 @@ export function registerEleveController() {
         }
       }
 
+<<<<<<< HEAD
       // Paramètres de pagination avec valeurs par défaut
       const cursor = params?.cursor || 0
       const limit = Math.min(params?.limit || 50, 100) // Maximum 100 pour éviter la surcharge
@@ -168,6 +204,19 @@ export function registerEleveController() {
       }
     } catch (error) {
       console.error('Erreur lors de la récupération des élèves:', error)
+=======
+      const eleves = await Eleve.findAll({
+        order: [['nom_eleve', 'ASC']],
+        raw: true
+      })
+      
+      return {
+        success: true,
+        message: 'Élèves récupérés avec succès',
+        data: eleves
+      }
+    } catch (error) {
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       return {
         success: false,
         message: error.message,
@@ -238,6 +287,7 @@ export function registerEleveController() {
         }
       }
       
+<<<<<<< HEAD
       // Générer un nouveau matricule si le sexe a changé
       let updateData = { ...eleveData }
       if (eleveData.sexe && eleveData.sexe !== eleve.dataValues.sexe) {
@@ -249,12 +299,17 @@ export function registerEleveController() {
       
       // Mettre à jour l'élève
       await eleve.update(updateData)
+=======
+      // Mettre à jour l'élève
+      await eleve.update(eleveData)
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       
       return {
         success: true,
         message: 'Élève mis à jour avec succès',
         data: {
           id_eleve: eleve.dataValues.id_eleve,
+<<<<<<< HEAD
           matricule: eleve.dataValues.matricule,
           nom_eleve: eleve.dataValues.nom_eleve,
           post_nom_eleve: eleve.dataValues.post_nom_eleve,
@@ -270,6 +325,21 @@ export function registerEleveController() {
           profession_pere: eleve.dataValues.profession_pere,
           profession_mere: eleve.dataValues.profession_mere,
           etat: eleve.dataValues.etat,
+=======
+          nom_eleve: eleve.dataValues.nom_eleve,
+          bapteme: eleve.dataValues.bapteme,
+          sexe: eleve.dataValues.sexe,
+          date_de_naissance: eleve.dataValues.date_de_naissance,
+          lieu_de_naissance: eleve.dataValues.lieu_de_naissance,
+          pere: eleve.dataValues.pere,
+          mere: eleve.dataValues.mere,
+          tel: eleve.dataValues.tel,
+          adresse: eleve.dataValues.adresse,
+          tutelle: eleve.dataValues.tutelle,
+          tel_tutelle: eleve.dataValues.tel_tutelle,
+          address_tutelle: eleve.dataValues.address_tutelle,
+          religion: eleve.dataValues.religion,
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
           maladie: eleve.dataValues.maladie,
           taille: eleve.dataValues.taille,
           created_at: eleve.dataValues.created_at,
@@ -308,9 +378,44 @@ export function registerEleveController() {
       }
 
       // Vérifier s'il y a des inscriptions associées à cet élève
+<<<<<<< HEAD
       
 
       // Vérifier si l'élève est délégué ou meilleur élève dans une classe
+=======
+      const { Inscription } = require('../../lib/data-types')
+      const inscriptionCount = await Inscription.count({
+        where: { id_eleve }
+      })
+
+      if (inscriptionCount > 0) {
+        return {
+          success: false,
+          message: `Impossible de supprimer cet élève car il est associé à ${inscriptionCount} inscription(s)`,
+          data: null
+        }
+      }
+
+      // Vérifier si l'élève est délégué ou meilleur élève dans une classe
+      const { Classe } = require('../../lib/data-types')
+      const classeCount = await Classe.count({
+        where: {
+          [sequelize.Sequelize.Op.or]: [
+            { delegue_1: id_eleve },
+            { delegue_2: id_eleve },
+            { meilleur_eleve: id_eleve }
+          ]
+        }
+      })
+
+      if (classeCount > 0) {
+        return {
+          success: false,
+          message: `Impossible de supprimer cet élève car il est délégué ou meilleur élève dans ${classeCount} classe(s)`,
+          data: null
+        }
+      }
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       
       // Supprimer l'élève
       await eleve.destroy()
@@ -325,9 +430,12 @@ export function registerEleveController() {
         }
       }
     } catch (error) {
+<<<<<<< HEAD
       if(error instanceof ForeignKeyConstraintError){
         return {success: false, message:`Cet élève est associé à une inscription`, data:null}
       }
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       return {
         success: false,
         message: error.message,

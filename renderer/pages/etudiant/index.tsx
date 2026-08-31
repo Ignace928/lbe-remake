@@ -2,14 +2,24 @@ import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { HeaderComponent } from '@/components/layout/header'
+<<<<<<< HEAD
 import { Users, ChevronLeft, ChevronRight, LucideHome } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { useAuthStore } from '@/store/authStore'
+=======
+import { ArrowLeftFromLineIcon, Users } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Card } from '@/components/ui/card'
+import { useAuthStore } from '@/store/authStore'
+import { useAnneeStore } from '@/store/anneStore'
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 import { useDatabaseStatusQuery } from '@/features/database/database_VModel'
 import { useEleveVm } from '@/features/eleves/eleve_VModel'
 import { EleveTable } from '@/features/eleves/view/eleve_table'
 import LoadingPage from '@/components/loadingPage'
+<<<<<<< HEAD
 import { toast } from 'sonner'
 import { playSound } from '@/lib/soundSystem'
 import SidebarMotion from '@/components/layout/Sidebar_Motion'
@@ -141,6 +151,22 @@ export default function EtudiantPage() {
 
 
 
+=======
+import { Toaster, toast } from 'sonner'
+
+export default function EtudiantPage() {
+  const router = useRouter()
+  const [me, setMe] = useState('')
+  const {anne_Active} = useAnneeStore()
+  const {user, hasHydrated} = useAuthStore()
+  const {data, isLoading, error} = useDatabaseStatusQuery()
+  const { data: students, isLoading: isLoadingStudents, createEleve, updateEleve, deleteEleve } = useEleveVm()
+
+  const goHome = () => {
+    router.push('/home')
+  }
+
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   // Handler pour la création d'étudiant avec toast stylisé
   const handleCreateStudent = async (data: any) => {
     const loadingToast = toast.loading('Création de l\'étudiant en cours...', {
@@ -150,6 +176,7 @@ export default function EtudiantPage() {
     try {
       const result = await createEleve.mutateAsync(data)
       toast.dismiss(loadingToast)
+<<<<<<< HEAD
       toast.success(result.message || 'Ajout réussi', {
         description: `Les informations de ${data.nom_eleve} ${data.post_nom_eleve || ''} ont été ajoutées.`
       })
@@ -161,6 +188,24 @@ export default function EtudiantPage() {
         description: 'Veuillez vérifier les informations saisies et réessayer.'
       })
       playSound('error.wav')
+=======
+      toast.success(result.message || 'Étudiant créé avec succès', {
+        description: `L'étudiant ${data.nom_eleve} ${data.post_nom_eleve || ''} a été ajouté avec succès.`,
+        action: {
+          label: 'Voir',
+          onClick: () => console.log('Action de visualisation')
+        }
+      })
+    } catch (error: any) {
+      toast.dismiss(loadingToast)
+      toast.error(error.message || 'Erreur lors de la création de l\'étudiant', {
+        description: 'Veuillez vérifier les informations saisies et réessayer.',
+        action: {
+          label: 'Réessayer',
+          onClick: () => handleCreateStudent(data)
+        }
+      })
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     }
   }
 
@@ -174,6 +219,7 @@ export default function EtudiantPage() {
       const result = await updateEleve.mutateAsync({ id, data })
       toast.dismiss(loadingToast)
       toast.success(result.message || 'Étudiant mis à jour avec succès', {
+<<<<<<< HEAD
         description: `Les informations de ${data.nom_eleve} ont été mises à jour avec succès.`
       })
       playSound('success.wav')
@@ -184,6 +230,23 @@ export default function EtudiantPage() {
         description: 'Une erreur est survenue lors de la mise à jour. Veuillez réessayer.'
       })
       playSound('error.wav')
+=======
+        description: `Les informations de l'étudiant ont été mises à jour avec succès.`,
+        action: {
+          label: 'Voir',
+          onClick: () => console.log('Action de visualisation')
+        }
+      })
+    } catch (error: any) {
+      toast.dismiss(loadingToast)
+      toast.error(error.message || 'Erreur lors de la mise à jour de l\'étudiant', {
+        description: 'Une erreur est survenue lors de la mise à jour. Veuillez réessayer.',
+        action: {
+          label: 'Réessayer',
+          onClick: () => handleUpdateStudent(id, data)
+        }
+      })
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     }
   }
 
@@ -196,6 +259,7 @@ export default function EtudiantPage() {
     try {
       const result = await deleteEleve.mutateAsync(id)
       toast.dismiss(loadingToast)
+<<<<<<< HEAD
       toast.success(result.message || 'Elève supprimé définitivement', {
         description: 'Elève supprimé définitivement de la base de données 👍'
       })
@@ -208,6 +272,22 @@ export default function EtudiantPage() {
         action: {
           label: 'Forcer?',
           onClick: () => console.log('Suppression forcer 👉Non implémenté🥱')
+=======
+      toast.success(result.message || 'Étudiant supprimé avec succès', {
+        description: 'L\'étudiant a été supprimé définitivement de la base de données.',
+        action: {
+          label: 'Annuler',
+          onClick: () => console.log('Action d\'annulation (non implémentée)')
+        }
+      })
+    } catch (error: any) {
+      toast.dismiss(loadingToast)
+      toast.error(error.message || 'Erreur lors de la suppression de l\'étudiant', {
+        description: 'Impossible de supprimer cet étudiant. Il peut avoir des données associées.',
+        action: {
+          label: 'Voir détails',
+          onClick: () => console.log('Action de détails')
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
         }
       })
     }
@@ -215,7 +295,15 @@ export default function EtudiantPage() {
 
   useEffect(() => {
     if (!hasHydrated) return
+<<<<<<< HEAD
     if(!user) window.location.href = '/'
+=======
+    
+    if(!user) window.location.href = '/'
+    else{
+      setMe(user.nom_user)
+    }
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   }, [user, hasHydrated])
 
   if(isLoading || !hasHydrated || isLoadingStudents) return (<LoadingPage size={40}/>)
@@ -247,6 +335,7 @@ export default function EtudiantPage() {
   }
 
   return (
+<<<<<<< HEAD
     <>
       <Head>
         <title>Lycée Benjamin Escande - Elèves</title>
@@ -264,6 +353,24 @@ export default function EtudiantPage() {
 
         <main className="flex min-h-0 flex-1 flex-col overflow-hidden px-3 pb-3">
           <Card className="flex h-full min-h-0 flex-col overflow-hidden rounded-3xl border-x-2 border-primary/20 bg-linear-to-br from-card via-card to-muted/30 p-2 shadow-xl shadow-primary/5 backdrop-blur-md">  
+=======
+    <React.Fragment>
+      <Head>
+        <title>Étudiants - LBE Schoolar</title>
+      </Head>
+      <div className='fixed top-0 z-20 w-full p-2'>
+        <HeaderComponent title='Étudiants'>
+          <Button className='m-1 h-10 w-10 rounded-full' onClick={goHome}>
+            <ArrowLeftFromLineIcon />
+          </Button>
+          
+        </HeaderComponent>
+      </div>
+      <div className='app-page fixed w-full h-screen overflow-hidden pt-15'>
+        <ScrollArea className='h-full border-x-2 border-primary/20 rounded-3xl p-3'>
+          <Card className='border-none bg-linear-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
+            
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
             <EleveTable
               students={students}
@@ -273,6 +380,7 @@ export default function EtudiantPage() {
               createEleveMutation={createEleve}
               isUpdatePending={updateEleve.isPending || deleteEleve.isPending}
             />
+<<<<<<< HEAD
 
             {/* PAGINATION DATABASES */}
             <div className='flex items-center gap-2'>
@@ -320,5 +428,11 @@ export default function EtudiantPage() {
 
       </div>
     </>
+=======
+          </Card>
+        </ScrollArea>
+      </div>
+    </React.Fragment>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   )
 }
