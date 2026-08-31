@@ -5,7 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { loginSchema, LoginCredentials } from '../auth_types'
+<<<<<<< HEAD
+=======
 
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 interface AuthFormProps {
   onSubmit: (credentials: LoginCredentials) => void
   isLoading?: boolean

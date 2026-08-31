@@ -18,13 +18,21 @@ interface UserFormProps {
   title: string
   description: string
   submitButtonText: string
+<<<<<<< HEAD
+  showform?:boolean
+  hiddeform?:()=>void
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   disabled?: boolean
 }
 
 export function UserForm({
+<<<<<<< HEAD
+=======
   variant = "default",
   size = "default",
   style = "",
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   trigger,
   onSubmit,
   user,
@@ -32,6 +40,11 @@ export function UserForm({
   title,
   description,
   submitButtonText = "Enregistrer",
+<<<<<<< HEAD
+  showform,
+  hiddeform,
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   disabled = false
 }: UserFormProps) {
   const {
@@ -63,12 +76,30 @@ export function UserForm({
       mdp: '',
       role: 'secretaire'
     })
+<<<<<<< HEAD
+    hiddeform()
+  }
+  const handleCancel = () => {
+    reset({
+      nom_user: '',
+      mdp: '',
+      role: 'secretaire'
+    })
+    hiddeform()
+  }
+  
+  const isNecroUser = user && 'id_user' in user && user.id_user === 1;
+  return (
+    <AlertDialog open={showform}>
+      <AlertDialogTrigger>
+=======
   }
 
   const isNecroUser = user && 'id_user' in user && user.id_user === 1;
   return (
     <AlertDialog>
       <AlertDialogTrigger className={buttonVariants({ variant, className: `${style}`, size })}>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
         {trigger}
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-md border-primary text-foreground">
@@ -131,8 +162,13 @@ export function UserForm({
           </div>
 
           <AlertDialogFooter>
+<<<<<<< HEAD
+            <AlertDialogCancel onClick={handleCancel} className={buttonVariants({ variant: 'secondary' })}>
+              Fermer
+=======
             <AlertDialogCancel className={buttonVariants({ variant: 'secondary' })}>
               Annuler
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
             </AlertDialogCancel>
             <Button 
               type="submit" 

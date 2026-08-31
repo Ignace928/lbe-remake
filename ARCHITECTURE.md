@@ -5,6 +5,15 @@
 LBE Schoolar est une application de gestion scolaire desktop construite avec une architecture **Electron + Next.js** utilisant le pattern **Nextron**. L'architecture sépare clairement le processus principal (backend) du processus de rendu (frontend) avec une communication sécurisée via IPC.
 
 ```
+<<<<<<< HEAD
+┌────────────────────────────────────────────────────────────────┐
+│                    LBE Schoolar Architecture                   │
+├────────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐    IPC     ┌────────────────────────────────┐ │
+│  │   Main      │ ◄─────────►│         Renderer               │ │
+│  │  (Backend)  │            │        (Frontend)              │ │
+│  │             │            │                                │ │
+=======
 ┌─────────────────────────────────────────────────────────────┐
 │                    LBE Schoolar Architecture                    │
 ├─────────────────────────────────────────────────────────────┤
@@ -12,14 +21,20 @@ LBE Schoolar est une application de gestion scolaire desktop construite avec une
 │  │   Main      │ ◄─────────► │         Renderer               │ │
 │  │  (Backend)  │            │        (Frontend)              │ │
 │  │             │            │                                 │ │
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 │  │ • Electron  │            │ • Next.js                      │ │
 │  │ • SQLite3   │            │ • React                        │ │
 │  │ • Sequelize │            │ • Tailwind CSS                 │ │
 │  │ • IPC       │            │ • Zustand                      │ │
 │  └─────────────┘            │ • React Query                  │ │
 │                             │ • shadcn/ui                    │ │
+<<<<<<< HEAD
+│                             └────────────────────────────────┘ │
+└────────────────────────────────────────────────────────────────┘
+=======
 │                             └─────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 ```
 
 ## 📁 Structure des dossiers

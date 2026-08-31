@@ -3,6 +3,10 @@ import { IPC_CHANNELS } from '../channels'
 import { TypeFrais } from '../../lib/data-types'
 import { getGlobalSequelize } from '../database'
 import { TypeFraisCreateType, TypeFraisUpdateType } from './typeFrais.Type'
+<<<<<<< HEAD
+import { UniqueConstraintError } from 'sequelize'
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 export function registerTypeFraisController() {
   // CREATE - Créer un type de frais
@@ -18,6 +22,8 @@ export function registerTypeFraisController() {
         }
       }
 
+<<<<<<< HEAD
+=======
       // Vérifier si le libelle existe déjà
       const existingTypeFrais = await TypeFrais.findOne({
         where: { libelle: typeFraisData.libelle }
@@ -31,6 +37,7 @@ export function registerTypeFraisController() {
         }
       }
 
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       // Créer le type de frais
       const typeFrais = await TypeFrais.create(typeFraisData)
       
@@ -40,8 +47,14 @@ export function registerTypeFraisController() {
         data: typeFrais.dataValues
       }
     } catch (error) {
+<<<<<<< HEAD
+      if (error instanceof UniqueConstraintError) {
+        return { success: false, message: "Cette type existe déjà🥱", data: null }
+      }
+=======
       console.error('Erreur détaillée lors de la création:', error)
       
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       return {
         success: false,
         message: error.message,

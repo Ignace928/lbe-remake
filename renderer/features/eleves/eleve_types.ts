@@ -3,6 +3,10 @@ import { z } from 'zod'
 // Types basés sur le modèle Sequelize
 export const eleveSchema = z.object({
   id_eleve: z.number(),
+<<<<<<< HEAD
+  matricule: z.string(),
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   // matricule: z.string()
   //   .min(1, 'Le matricule est requis')
   //   .regex(/^\d+[MF]\/\d{2}$/, 'Format invalide. Ex: 123M/22'),
@@ -29,7 +33,11 @@ export const eleveSchema = z.object({
   created_at: z.date()
 })
 
+<<<<<<< HEAD
+export const createEleveSchema = eleveSchema.omit({ id_eleve: true, created_at: true, matricule: true }).extend({
+=======
 export const createEleveSchema = eleveSchema.omit({ id_eleve: true, created_at: true }).extend({
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   id_eleve: z.number().optional(), // Optionnel, seulement si la table est vide
   nom_eleve: z.string()
     .min(1, 'Le nom est requis')
@@ -53,7 +61,13 @@ export const createEleveSchema = eleveSchema.omit({ id_eleve: true, created_at: 
   taille: z.number().min(0, 'La taille doit être positive').max(300, 'La taille semble irréaliste').default(0)
 })
 
+<<<<<<< HEAD
+export const updateEleveSchema = createEleveSchema.partial().extend({
+  matricule: z.string().optional() // Permet la mise à jour du matricule par le backend
+})
+=======
 export const updateEleveSchema = createEleveSchema.partial()
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 export type Eleve = z.infer<typeof eleveSchema>
 export type CreateEleve = z.infer<typeof createEleveSchema>
@@ -63,7 +77,20 @@ export type UpdateEleve = z.infer<typeof updateEleveSchema>
 export interface EleveResponse {
   success: boolean
   message: string
+<<<<<<< HEAD
+  data: {
+    rows: Eleve[]
+    pagination: {
+      cursor: number
+      hasMore: boolean
+      totalCount: number
+      currentBatchSize: number
+      limit: number
+    }
+  }
+=======
   data: Eleve[]
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 }
 
 export interface EleveSingleResponse {
@@ -78,6 +105,23 @@ export interface BackendEleveResponse {
   message: string
   data: {
     id_eleve: number | string  // IPC peut convertir en string
+<<<<<<< HEAD
+    matricule: string
+    nom_eleve: string
+    post_nom_eleve?: string
+    sexe: string
+    date_naissance: string  // Date sera convertie en string
+    lieu_naissance?: string
+    nationalite?: string
+    adresse?: string
+    telephone?: string
+    email?: string
+    nom_pere?: string
+    nom_mere?: string
+    profession_pere?: string
+    profession_mere?: string
+    etat: string
+=======
     nom_eleve: string
     post_nom_eleve?: string
     bapteme?: string
@@ -92,6 +136,7 @@ export interface BackendEleveResponse {
     tel_tutelle?: string
     address_tutelle?: string
     religion?: string
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     maladie?: string
     taille?: number
     created_at: string  // Date sera convertie en string

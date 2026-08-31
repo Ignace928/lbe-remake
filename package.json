@@ -1,15 +1,26 @@
 {
   "private": true,
+<<<<<<< HEAD
+  "name": "LBE-schoolar",
+=======
   "name": "school-manager",
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   "description": "Une application de gestion scolaire pour LBE",
   "version": "1.0.0",
   "author": "Edwardo Ignace <edwardoignace74@gmail.com>",
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
+<<<<<<< HEAD
+    "clean:native": "if exist node_modules\\sqlite3\\build rmdir /s /q node_modules\\sqlite3\\build",
+    "build:64": "set \"npm_execpath=\" && set \"NPM_CLI_JS=\" && set npm_config_arch=x64 && electron-builder install-app-deps --arch=x64 && nextron build --win --x64",
+    "build:32": "set \"npm_execpath=\" && set \"NPM_CLI_JS=\" && set npm_config_arch=ia32 && electron-builder install-app-deps --arch=ia32 && nextron build --win --ia32",
+    "build:all": "pnpm run build:64 && pnpm run build:32",
+=======
     "build:all": "set \"npm_execpath=\" && set \"NPM_CLI_JS=\" && nextron build --win --x64 --ia32",
     "build:64": "set \"npm_execpath=\" && set \"NPM_CLI_JS=\" && nextron build --win --x64",
     "build:32": "set \"npm_execpath=\" && set \"NPM_CLI_JS=\" && nextron build --win --ia32",
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     "dev:ts": "pnpm exec tsc -p tsconfig.json --noEmit",
     "build": "set \"npm_execpath=\" && set \"NPM_CLI_JS=\" && nextron build",
     "postinstall": "set \"npm_execpath=\" && set \"NPM_CLI_JS=\" && electron-builder install-app-deps"

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+import React from 'react'
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from './classe.service'
 import { UpdateClasse } from './classe_types'
@@ -131,8 +135,14 @@ export const useClasseVm = () => {
   const updateMutation = useUpdateClasseMutation()
   const deleteMutation = useDeleteClasseMutation()
 
+<<<<<<< HEAD
+  
+  return {
+    // Query - les données sont déjà un tableau direct
+=======
   return {
     // Query
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     data: dataQuery.data || [],
     isLoading: dataQuery.isLoading,
     error: dataQuery.error,

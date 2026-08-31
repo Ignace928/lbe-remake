@@ -9,7 +9,11 @@ import { UpdateTarif } from './tarif_types'
 export const useTarifQuery = () => {
   return useQuery({
     queryKey: ['tarifs'],
+<<<<<<< HEAD
+    queryFn: ()=>api.getAll(),
+=======
     queryFn: api.getAll,
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     staleTime: 1000 * 60 * 5, // 5 minutes
   })
 }
@@ -51,6 +55,13 @@ export const useCreateTarifMutation = () => {
     onSettled: () => {
       // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['tarifs'] })
+<<<<<<< HEAD
+      queryClient.invalidateQueries({ queryKey: ["kpiGlobal"] })
+      queryClient.invalidateQueries({ queryKey: ['payement-par-classe'] })
+      queryClient.invalidateQueries({ queryKey: ['paiement-par-frais'] })
+      queryClient.invalidateQueries({ queryKey: ['effectifTotale'] })
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     },
   })
 }
@@ -86,6 +97,13 @@ export const useUpdateTarifMutation = () => {
     onSettled: () => {
       // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['tarifs'] })
+<<<<<<< HEAD
+      queryClient.invalidateQueries({ queryKey: ["kpiGlobal"] })
+      queryClient.invalidateQueries({ queryKey: ['payement-par-classe'] })
+      queryClient.invalidateQueries({ queryKey: ['paiement-par-frais'] })
+      queryClient.invalidateQueries({ queryKey: ['effectifTotale'] })
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     },
   })
 }
@@ -118,6 +136,13 @@ export const useDeleteTarifMutation = () => {
     onSettled: () => {
       // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['tarifs'] })
+<<<<<<< HEAD
+      queryClient.invalidateQueries({ queryKey: ["kpiGlobal"] })
+      queryClient.invalidateQueries({ queryKey: ['payement-par-classe'] })
+      queryClient.invalidateQueries({ queryKey: ['paiement-par-frais'] })
+      queryClient.invalidateQueries({ queryKey: ['effectifTotale'] })
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     },
   })
 }
@@ -146,6 +171,13 @@ export const useTarifVm = () => {
     // Actions combinées
     invalidateQueries: () => {
       queryClient.invalidateQueries({ queryKey: ['tarifs'] })
+<<<<<<< HEAD
+      queryClient.invalidateQueries({ queryKey: ["kpiGlobal"] })
+      queryClient.invalidateQueries({ queryKey: ['payement-par-classe'] })
+      queryClient.invalidateQueries({ queryKey: ['paiement-par-frais'] })
+      queryClient.invalidateQueries({ queryKey: ['effectifTotale'] })
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     }
   }
 }

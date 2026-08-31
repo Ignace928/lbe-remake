@@ -9,6 +9,19 @@ import {
 
 // Fonction pour convertir les données du backend vers le frontend
 const convertBackendToFrontend = (backendData: any): TypeFrais => {
+<<<<<<< HEAD
+  // Gérer le cas où les données sont dans dataValues (Sequelize)
+  const data = backendData.dataValues || backendData  
+  const result = {
+    id_type_frais: typeof data.id_type_frais === 'string' 
+      ? parseInt(data.id_type_frais, 10) 
+      : data.id_type_frais,
+    libelle: data.libelle,
+    detail: data.detail || '',
+    freq: data.freq
+  }
+  return result
+=======
   return {
     id_type_frais: typeof backendData.id_type_frais === 'string' 
       ? parseInt(backendData.id_type_frais, 10) 
@@ -16,6 +29,7 @@ const convertBackendToFrontend = (backendData: any): TypeFrais => {
     libelle: backendData.libelle,
     detail: backendData.detail || '',
   }
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 }
 
 export const api = {

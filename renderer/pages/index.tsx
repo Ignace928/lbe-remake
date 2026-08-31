@@ -124,6 +124,18 @@ export default function NextPage() {
   return (
     <React.Fragment>
       <Head>
+<<<<<<< HEAD
+        <title>Page de connection</title>
+      </Head>
+      <div className="flex h-dvh flex-col overflow-hidden">
+        <header className="z-20 shrink-0 p-2">
+          <HeaderComponent title='Lycée Benjamin Escande'></HeaderComponent>
+        </header>
+        
+        <main className="flex min-h-0 flex-1 flex-col overflow-hidden px-3 pb-3">
+          <Card className="flex items-center justify-center h-full min-h-0 flex-col overflow-hidden rounded-3xl border-x-2 border-primary/20 bg-linear-to-br from-card via-card to-muted/30 p-2 shadow-xl shadow-primary/5 backdrop-blur-md">  
+            
+=======
         <title>Se connecter - LBE Schoolar✨</title>
       </Head>
       <div className='fixed top-0 z-20 w-full p-2'>
@@ -133,14 +145,20 @@ export default function NextPage() {
         <ScrollArea className='h-full border-x-2 border-primary/20 rounded-3xl p-3'>
           <Card className='border-none bg-linear-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
             <CardContent className="flex items-center justify-center min-h-full">
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
               <AuthForm 
                 onSubmit={handleSubmit}
                 isLoading={loginMutation.isPending}
                 error={loginMutation.error ? 'Erreur de connexion. Veuillez réessayer.' : undefined}
               />
+<<<<<<< HEAD
+          </Card>
+        </main>
+=======
             </CardContent>
           </Card>
         </ScrollArea>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       </div>
     </React.Fragment>
   )

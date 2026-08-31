@@ -15,7 +15,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <ThemeProvider>
         <Toaster 
+<<<<<<< HEAD
+          position="top-center"
+=======
           position="top-left"
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
           expand={true}
           richColors
           toastOptions={{

@@ -19,6 +19,11 @@ import LoadingPage from '@/components/loadingPage'
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { LogoutButton } from '@/components/LogoutButton'
 import { ScrollArea } from '@/components/ui/scroll-area'
+<<<<<<< HEAD
+import { TitleComponent } from '@/components/layout/title_component'
+import { useTarifVm } from '@/features/tarifs/tarif_VModel'
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 export default function StarterPage() {
   
@@ -27,16 +32,32 @@ export default function StarterPage() {
   const {setAnne_active} = useAnneeStore()
   const {user, hasHydrated} = useAuthStore()
   const {data, isLoading, error} = useDatabaseStatusQuery()
+<<<<<<< HEAD
+  const {invalidateQueries} = useTarifVm()
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   const { data: anneesScolaires, isLoading: isLoadingAnnees, createAnneeScolaire } = useAnneeScolaireVm()
   // Debug logs pour comprendre ce qui se passe
   useEffect(()=>{
     if (!hasHydrated) return // Attendre l'hydratation officielle
     
     if(!user) window.location.href = '/'
+<<<<<<< HEAD
+    else if(user.role==="admin"){
+      setMe(user.nom_user)
+      router.push("/admin")
+    }
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     else{
       setMe(user.nom_user)
     }
   },[user, hasHydrated])
+<<<<<<< HEAD
+  
+  const go = () => {
+    router.push('/home')
+=======
 
   useEffect(() => {
     console.log('Router status:', {
@@ -59,6 +80,7 @@ export default function StarterPage() {
         window.location.href = '/home'
       }
     }
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   }
   
   const [showAddForm, setShowAddForm] = useState(false)
@@ -68,10 +90,15 @@ export default function StarterPage() {
   }
 
   const handleCreateAnneeScolaire = async (data: CreateAnneeScolaire) => {
+<<<<<<< HEAD
+    try {
+      await createAnneeScolaire.mutateAsync(data)
+=======
     console.log('handleCreateAnneeScolaire appelé avec:', data)
     try {
       await createAnneeScolaire.mutateAsync(data)
       console.log('Création réussie, fermeture du formulaire')
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       setShowAddForm(false) // Fermer le formulaire après la création
     } catch (err) {
       console.error('Error creating annee scolaire:', err)
@@ -109,6 +136,28 @@ export default function StarterPage() {
   // Si la base de données est initialisée, afficher les années scolaires
 
   return (
+<<<<<<< HEAD
+    <>
+      <Head>
+        <title>Let's start</title>
+      </Head>
+      
+      {/* Vérification de l'état de la base de données au démarrage */}
+      <div className="flex h-dvh flex-col overflow-hidden">
+        <header className="z-20 shrink-0 p-2">
+            <HeaderComponent title={`Bienvenue 👋 ${me} `}>            
+            </HeaderComponent>
+        </header>
+
+      <main className="flex min-h-0 flex-1 flex-col overflow-hidden px-3 pb-3">
+        <Card className="flex h-full min-h-0 flex-col overflow-hidden rounded-3xl border-x-2 border-primary/20 bg-linear-to-br from-card via-card to-muted/30 p-2 shadow-xl shadow-primary/5 backdrop-blur-md">  
+          <ScrollArea className='min-h-0 flex flex-col h-full'>
+
+
+
+
+            <TitleComponent Icon={Power}>
+=======
     <React.Fragment>
       <Head>
         <title>Set Anne scolaire</title>
@@ -149,6 +198,7 @@ export default function StarterPage() {
                 <div className='rounded-full p-3 shadow-lg transition-all duration-300 bg-gradient-to-r from-primary to-secondary'>
                   <Power className='h-6 w-6 text-primary-foreground transition-all duration-300' />
                 </div>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                 <div className='flex-1'>
                   <p className='text-lg font-bold text-foreground'>Sélectionner une année scolaire</p>
                   <p className='mt-1 text-sm text-muted-foreground'>
@@ -158,6 +208,16 @@ export default function StarterPage() {
                 <span className="text-sm font-bold text-primary px-3 py-1 rounded-full bg-primary/10">
                   {anneesScolaires?.length || 0} disponibles
                 </span>
+<<<<<<< HEAD
+            </TitleComponent>
+
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-4 lg:grid-cols-5 lg:gap-5 py-4'>
+              {anneesScolaires?.map((item) => (
+                  <Card
+                    key={item.id_annee}
+                    className='group h-full min-h-36 cursor-pointer border-2 border-primary/20 text-card-foreground transition-all duration-200 hover:-translate-y-1 hover:shadow-xl bg-linear-to-br from-muted/20 to-card'
+                    onClick={()=>{
+=======
               </div>
             </div>
             <div className='grid grid-cols-1 gap-4 sm:grid-cols-4 lg:grid-cols-5 lg:gap-5'>
@@ -167,12 +227,17 @@ export default function StarterPage() {
                     className='group h-full min-h-36 cursor-pointer border-2 border-primary/20 text-card-foreground transition-all duration-200 hover:-translate-y-1 hover:shadow-xl bg-gradient-to-br from-muted/20 to-card'
                     onClick={()=>{
                       console.log('Click sur année scolaire:', item)
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                       try {
                         setAnne_active({
                           id_anne: item.id_annee,
                           labelle: item.libelle
                         })
+<<<<<<< HEAD
+                        invalidateQueries()
+=======
                         console.log('Année active définie')
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         go()
                       } catch (error) {
                         console.error('Erreur dans le onClick:', error)
@@ -183,7 +248,11 @@ export default function StarterPage() {
                   >
                     <CardContent className='flex flex-col items-center justify-center gap-3 p-4 sm:p-5'>
                       <span className='font-semibold text-foreground'>{item.libelle}</span>
+<<<<<<< HEAD
+                      <div className='rounded-full bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground'>
+=======
                       <div className='rounded-full bg-primary/10 p-2 text-primary-foreground transition-colors group-hover:bg-primary group-hover:text-primary-foreground'>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         <Power className='h-5 w-5 sm:h-6 sm:w-6' />
                       </div>
                     </CardContent>
@@ -191,6 +260,48 @@ export default function StarterPage() {
                     </CardDescription>
                   </Card>
               ))}
+<<<<<<< HEAD
+
+              <Card
+                className='group bg-muted border-2 border-dashed border-primary/20 h-full min-h-36 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-xl'
+                onClick={Add_annee}
+                role='button'
+                tabIndex={0}
+              >
+                <CardContent className='w-full h-full flex items-center justify-center gap-3 p-4 sm:p-5'>
+                  <div className='rounded-full p-2 text-muted-foreground border-2 border-dashed border-primary/20 transition-colors bg-muted group-hover:bg-primary/10 group-hover:text-primary'>
+                    <Plus className='h-5 w-5 sm:h-6 sm:w-6' />
+                  </div>
+                </CardContent>
+                <CardDescription className='px-4 pb-4 text-center text-sm leading-relaxed text-muted-foreground sm:px-5 sm:pb-5'>
+                </CardDescription>
+              </Card>
+
+              {/* Formulaire d'ajout d'année scolaire */}
+              <AnneeScolaireForm
+                size="default"
+                variant="default"
+                style=""
+                trigger={null} // Pas de trigger car on utilise showAddForm
+                onSubmit={handleCreateAnneeScolaire}
+                isLoading={createAnneeScolaire.isPending}
+                title="Ajouter une année scolaire"
+                description="Créez une nouvelle année scolaire."
+                submitButtonText="Créer"
+                open={showAddForm}
+                onOpenChange={setShowAddForm}
+              />
+            </div>
+
+
+          </ScrollArea>
+        </Card>
+      </main>
+            
+      
+      </div>
+    </>
+=======
               <Card
                   className='group bg-muted border-2 border-dashed border-primary/20 h-full min-h-36 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-xl'
                   onClick={Add_annee}
@@ -225,5 +336,6 @@ export default function StarterPage() {
         onOpenChange={setShowAddForm}
       />
     </React.Fragment>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   )
 }

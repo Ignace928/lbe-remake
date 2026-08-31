@@ -3,6 +3,10 @@ import { Button } from '@/components/ui/button'
 import { useAnneeStore } from '@/store/anneStore'
 import { LogOut } from 'lucide-react'
 import { useAuthLogout } from '@/features/auth/auth_VModel'
+<<<<<<< HEAD
+import { useRouter } from 'next/router'
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 interface LogoutButtonProps {
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
@@ -26,7 +30,11 @@ export function LogoutButton({
     setAnne_active({ id_anne: null, labelle: "" })
     
     // Rediriger vers la page de connexion
+<<<<<<< HEAD
+    // window.location.href = '/'
+=======
     window.location.href = '/'
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   }
 
   return (

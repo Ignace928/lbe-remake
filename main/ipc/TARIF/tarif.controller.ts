@@ -3,6 +3,10 @@ import { IPC_CHANNELS } from '../channels'
 import { Tarif, Classe, AnneeScolaire, TypeFrais } from '../../lib/data-types'
 import { getGlobalSequelize } from '../database'
 import { TarifCreateType, TarifUpdateType } from './tarif.Type'
+<<<<<<< HEAD
+import { ForeignKeyConstraintError, UniqueConstraintError } from 'sequelize'
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 export function registerTarifController() {
   // CREATE - Créer un tarif
@@ -18,6 +22,9 @@ export function registerTarifController() {
         }
       }
 
+<<<<<<< HEAD
+      
+=======
       // Vérifier si la classe existe
       const classe = await Classe.findByPk(tarifData.id_classe)
       if (!classe) {
@@ -65,6 +72,7 @@ export function registerTarifController() {
         }
       }
 
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       // Créer le tarif
       const tarif = await Tarif.create(tarifData)
       
@@ -74,7 +82,18 @@ export function registerTarifController() {
         data: tarif.dataValues
       }
     } catch (error) {
+<<<<<<< HEAD
+      if(error instanceof UniqueConstraintError){
+        return{
+          success: false, message:"Le Tarif existe déjà pour cette classe 😴", data:null
+        }
+      }
+      if (error instanceof ForeignKeyConstraintError) {
+        return { success: false, message: "Une valeur référencée (tarif ou classe) n'existe pas", data: null }
+      }
+=======
       console.error('Erreur détaillée lors de la création:', error)
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       
       return {
         success: false,
@@ -97,7 +116,11 @@ export function registerTarifController() {
         }
       }
 
+<<<<<<< HEAD
+      const result = await Tarif.findAll({
+=======
       const tarifs = await Tarif.findAll({
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
         include: [
           {
             model: Classe,
@@ -105,16 +128,47 @@ export function registerTarifController() {
             attributes: ['id_classe', 'nom_classe', 'niveau']
           },
           {
+<<<<<<< HEAD
+=======
             model: AnneeScolaire,
             as: 'anneeScolaire',
             attributes: ['id_annee', 'libelle']
           },
           {
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
             model: TypeFrais,
             as: 'typeFrais',
             attributes: ['id_type_frais', 'libelle', 'detail']
           }
         ],
+<<<<<<< HEAD
+      })
+
+      const rows = result.map(tarif => {
+        const data = tarif.dataValues
+        // Extraire les associations depuis dataValues si elles existent
+        return {
+          id_tarif: data.id_tarif,
+          id_classe: data.id_classe,
+          id_type_frais:data.id_type_frais,
+          montant_fixe: data.montant_fixe,
+          classe: data.classe ? {
+            id_classe:data.classe.dataValues.id_classe,
+            nom_classe:data.classe.dataValues.nom_classe,
+            niveau:data.classe.dataValues.niveau
+          }: null,
+          typeFrais: data.typeFrais ? {
+            id_type_frais:data.typeFrais.dataValues.id_type_frais,
+            libelle:data.typeFrais.dataValues.libelle,
+            detail:data.typeFrais.dataValues.detail
+          }: null,
+        }
+      })
+      return {
+        success: true,
+        message: 'Tarifs récupérés avec succès',
+        data: rows,
+=======
         order: [['anneeScolaire', 'libelle', 'DESC'], ['classe', 'nom_classe', 'ASC'], ['typeFrais', 'libelle', 'ASC']]
       })
       
@@ -122,6 +176,7 @@ export function registerTarifController() {
         success: true,
         message: 'Tarifs récupérés avec succès',
         data: tarifs
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       }
     } catch (error) {
       return {
@@ -153,11 +208,14 @@ export function registerTarifController() {
             attributes: ['id_classe', 'nom_classe', 'niveau']
           },
           {
+<<<<<<< HEAD
+=======
             model: AnneeScolaire,
             as: 'anneeScolaire',
             attributes: ['id_annee', 'libelle']
           },
           {
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
             model: TypeFrais,
             as: 'typeFrais',
             attributes: ['id_type_frais', 'libelle', 'detail']
@@ -210,6 +268,9 @@ export function registerTarifController() {
         }
       }
 
+<<<<<<< HEAD
+      
+=======
       // Vérifier les associations si elles sont fournies
       if (tarifData.id_classe !== undefined) {
         const classe = await Classe.findByPk(tarifData.id_classe)
@@ -267,6 +328,7 @@ export function registerTarifController() {
           }
         }
       }
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       
       // Mettre à jour le tarif
       await tarif.update(tarifData)
@@ -277,6 +339,17 @@ export function registerTarifController() {
         data: tarif.dataValues
       }
     } catch (error) {
+<<<<<<< HEAD
+      if(error instanceof UniqueConstraintError){
+        return{
+          success: false, message:"Mise à jour impossible 😴!! Tarif existe déjà pour cette classe ", data:null
+        }
+      }
+      if (error instanceof ForeignKeyConstraintError) {
+        return { success: false, message: "Modification impossible 😴!! (tarif ou classe) n'existe pas", data: null }
+      }
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       return {
         success: false,
         message: error.message,
@@ -303,7 +376,11 @@ export function registerTarifController() {
       if (!tarif) {
         return {
           success: false,
+<<<<<<< HEAD
+          message: 'Le tarif est introuvalble 🥱!!',
+=======
           message: 'Tarif non trouvé',
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
           data: null
         }
       }

@@ -8,6 +8,12 @@ export const typeFraisSchema = z.object({
     .min(2, 'Le libellé doit contenir au moins 2 caractères')
     .max(100, 'Le libellé ne peut pas dépasser 100 caractères'),
   detail: z.string().optional(),
+<<<<<<< HEAD
+  freq: z.number()
+    .min(1, "Le nombre d'occurence de payement minimum est 1")
+    .max(12, "Le nombre max est limité à 12 comme les mois de l'année")
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 })
 
 export const createTypeFraisSchema = typeFraisSchema.omit({ id_type_frais: true }).extend({
@@ -18,7 +24,11 @@ export const createTypeFraisSchema = typeFraisSchema.omit({ id_type_frais: true 
   detail: z.string().optional(),
 })
 
+<<<<<<< HEAD
+export const updateTypeFraisSchema = typeFraisSchema.partial()
+=======
 export const updateTypeFraisSchema = createTypeFraisSchema.partial()
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 export type TypeFrais = z.infer<typeof typeFraisSchema>
 export type CreateTypeFrais = z.infer<typeof createTypeFraisSchema>

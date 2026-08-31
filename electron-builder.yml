@@ -1,5 +1,10 @@
+<<<<<<< HEAD
+appId: com.school.manager
+productName: LBE schoolar
+=======
 appId: com.lbe.nextron
 productName: School Manager LBE
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 copyright: Copyright © 2026 Edwardo Ignace
 directories:
   output: dist

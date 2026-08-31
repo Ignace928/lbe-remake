@@ -8,6 +8,10 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { DatePicker } from '@/components/ui/date-picker'
 import { CreateEleve, UpdateEleve, createEleveSchema, updateEleveSchema } from '../eleve_types'
 import { ScrollArea } from '@/components/ui/scroll-area'
+<<<<<<< HEAD
+import { IdCard, IdCardLanyard, Pen } from 'lucide-react'
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 interface EleveFormProps {
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
@@ -49,7 +53,11 @@ export function EleveForm({
       nom_eleve: '',
       post_nom_eleve: '',
       sexe: 'M',
+<<<<<<< HEAD
+      date_naissance: new Date().toISOString().split('T')[0], // Date du jour au format YYYY-MM-DD
+=======
       date_naissance: '',
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       lieu_naissance: '',
       nationalite: '',
       adresse: '',
@@ -69,6 +77,15 @@ export function EleveForm({
   useEffect(() => {
     if (eleve) {
       reset(eleve)
+<<<<<<< HEAD
+    }
+  }, [eleve, reset])
+
+  // Le matricule est généré côté backend, pas besoin de le générer ici
+
+  const onFormSubmit = (data: CreateEleve | UpdateEleve) => {
+    
+=======
     } else {
       // Pour la création, générer automatiquement le matricule
       generateMatricule()
@@ -98,6 +115,7 @@ export function EleveForm({
 
   const onFormSubmit = (data: CreateEleve | UpdateEleve) => {
     console.log('Soumission du formulaire:', data)
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     onSubmit(data)
     if (!eleve) {
       // Réinitialiser seulement pour la création
@@ -105,7 +123,11 @@ export function EleveForm({
         nom_eleve: '',
         post_nom_eleve: '',
         sexe: 'M',
+<<<<<<< HEAD
+        date_naissance: new Date().toISOString().split('T')[0], // Date du jour au format YYYY-MM-DD
+=======
         date_naissance: '',
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
         lieu_naissance: '',
         nationalite: '',
         adresse: '',
@@ -126,9 +148,15 @@ export function EleveForm({
   // Si trigger est null, afficher directement le contenu, sinon utiliser AlertDialog
   if (trigger === null) {
     return (
+<<<<<<< HEAD
+            <div className='pt-5'>
+        
+                <form onSubmit={handleSubmit(onFormSubmit)} id="eleve" className="space-y-4 py-4">
+=======
             <ScrollArea>
                 
                 <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 py-4">
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {/* Champ ID (uniquement pour le premier étudiant) */}
                     {isFirstStudent && !eleve && (
@@ -149,17 +177,29 @@ export function EleveForm({
                         </div>
                     )}
 
+<<<<<<< HEAD
+                    {/* Matricule (généré automatiquement côté backend) */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">Matricule</label>
+                        <Input
+                        value={(eleve && 'matricule' in eleve ? eleve.matricule : "Généré automatiquement") as string}
+=======
                     {/* Matricule (généré automatiquement) */}
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Matricule *</label>
                         <Input
                         value={generateMatricule()}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         readOnly
                         className="font-medium bg-muted/50 border-muted-foreground/30 cursor-not-allowed"
                         placeholder="Généré automatiquement"
                         />
                         <p className="text-xs text-muted-foreground">
+<<<<<<< HEAD
+                        Format: ID+Sexe/AA (ex: 123M/24) - Généré automatiquement lors de la création
+=======
                         Format: ID+Sexe/AA (ex: 123M/24) - ID: champ ci-dessus, Sexe: champ ci-dessous, AA: année actuelle
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         </p>
                     </div>
 
@@ -169,7 +209,11 @@ export function EleveForm({
                         <Input
                         {...register('nom_eleve')}
                         placeholder="Nom de l'élève"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.nom_eleve ? 'border-red-500 animate-pulse' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.nom_eleve ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.nom_eleve && (
                         <p className="text-sm text-red-600 mt-1">{errors.nom_eleve.message}</p>
@@ -178,11 +222,19 @@ export function EleveForm({
 
                     {/* Post-nom */}
                     <div className="space-y-2">
+<<<<<<< HEAD
+                        <label className="text-sm font-medium">Prénoms</label>
+                        <Input
+                        {...register('post_nom_eleve')}
+                        placeholder="Prénoms de l'élève"
+                        className={`font-medium ${errors.post_nom_eleve ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         <label className="text-sm font-medium">Post-nom</label>
                         <Input
                         {...register('post_nom_eleve')}
                         placeholder="Post-nom de l'élève"
                         className={`font-medium ${errors.post_nom_eleve ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.post_nom_eleve && (
                         <p className="text-sm text-red-600 mt-1">{errors.post_nom_eleve.message}</p>
@@ -193,7 +245,11 @@ export function EleveForm({
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Sexe *</label>
                         <Select value={watch('sexe')} onValueChange={(value) => setValue('sexe', value as 'M' | 'F')}>
+<<<<<<< HEAD
+                        <SelectTrigger className={`font-medium ${errors.sexe ? 'border-red-500' : 'border border-sidebar-primary'}`}>
+=======
                         <SelectTrigger className={`font-medium ${errors.sexe ? 'border-red-500' : ''}`}>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                             <SelectValue placeholder="Sélectionner le sexe" />
                         </SelectTrigger>
                         <SelectContent>
@@ -213,7 +269,11 @@ export function EleveForm({
                         value={watch('date_naissance')}
                         onChange={(date) => setValue('date_naissance', date)}
                         placeholder="Sélectionner la date de naissance"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.date_naissance ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.date_naissance ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.date_naissance && (
                         <p className="text-sm text-red-600 mt-1">{errors.date_naissance.message}</p>
@@ -226,7 +286,11 @@ export function EleveForm({
                         <Input
                         {...register('lieu_naissance')}
                         placeholder="Lieu de naissance"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.lieu_naissance ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.lieu_naissance ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.lieu_naissance && (
                         <p className="text-sm text-red-600 mt-1">{errors.lieu_naissance.message}</p>
@@ -239,7 +303,11 @@ export function EleveForm({
                         <Input
                         {...register('nationalite')}
                         placeholder="Nationalité"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.nationalite ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.nationalite ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.nationalite && (
                         <p className="text-sm text-red-600 mt-1">{errors.nationalite.message}</p>
@@ -252,7 +320,11 @@ export function EleveForm({
                         <Input
                         {...register('adresse')}
                         placeholder="Adresse complète"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.adresse ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.adresse ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.adresse && (
                         <p className="text-sm text-red-600 mt-1">{errors.adresse.message}</p>
@@ -265,7 +337,11 @@ export function EleveForm({
                         <Input
                         {...register('telephone')}
                         placeholder="Numéro de téléphone"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.telephone ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.telephone ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.telephone && (
                         <p className="text-sm text-red-600 mt-1">{errors.telephone.message}</p>
@@ -279,7 +355,11 @@ export function EleveForm({
                         {...register('email')}
                         type="email"
                         placeholder="Adresse email"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.email ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.email ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.email && (
                         <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
@@ -292,7 +372,11 @@ export function EleveForm({
                         <Input
                         {...register('nom_pere')}
                         placeholder="Nom du père"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.nom_pere ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.nom_pere ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.nom_pere && (
                         <p className="text-sm text-red-600 mt-1">{errors.nom_pere.message}</p>
@@ -305,7 +389,11 @@ export function EleveForm({
                         <Input
                         {...register('nom_mere')}
                         placeholder="Nom de la mère"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.nom_mere ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.nom_mere ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.nom_mere && (
                         <p className="text-sm text-red-600 mt-1">{errors.nom_mere.message}</p>
@@ -318,7 +406,11 @@ export function EleveForm({
                         <Input
                         {...register('profession_pere')}
                         placeholder="Profession du père"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.profession_pere ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.profession_pere ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.profession_pere && (
                         <p className="text-sm text-red-600 mt-1">{errors.profession_pere.message}</p>
@@ -331,7 +423,11 @@ export function EleveForm({
                         <Input
                         {...register('profession_mere')}
                         placeholder="Profession de la mère"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.profession_mere ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.profession_mere ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.profession_mere && (
                         <p className="text-sm text-red-600 mt-1">{errors.profession_mere.message}</p>
@@ -342,7 +438,11 @@ export function EleveForm({
                     <div className="space-y-2">
                         <label className="text-sm font-medium">État *</label>
                         <Select value={watch('etat')} onValueChange={(value) => setValue('etat', value as 'Actif' | 'Inactif')}>
+<<<<<<< HEAD
+                        <SelectTrigger className={`font-medium ${errors.etat ? 'border-red-500' : 'border border-sidebar-primary'}`}>
+=======
                         <SelectTrigger className={`font-medium ${errors.etat ? 'border-red-500' : ''}`}>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                             <SelectValue placeholder="Sélectionner l'état" />
                         </SelectTrigger>
                         <SelectContent>
@@ -361,7 +461,11 @@ export function EleveForm({
                         <Input
                         {...register('maladie')}
                         placeholder="Maladie chronique (si applicable)"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.maladie ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.maladie ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.maladie && (
                         <p className="text-sm text-red-600 mt-1">{errors.maladie.message}</p>
@@ -375,7 +479,11 @@ export function EleveForm({
                         {...register('taille', { valueAsNumber: true })}
                         type="number"
                         placeholder="Taille en cm"
+<<<<<<< HEAD
+                        className={`font-medium ${errors.taille ? 'border-red-500' : 'border border-sidebar-primary'}`}
+=======
                         className={`font-medium ${errors.taille ? 'border-red-500' : ''}`}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                         />
                         {errors.taille && (
                         <p className="text-sm text-red-600 mt-1">{errors.taille.message}</p>
@@ -384,6 +492,26 @@ export function EleveForm({
                     </div>
 
 
+<<<<<<< HEAD
+                </form>
+                <section className='fixed bottom-0 w-full bg-card p-4 left-0 flex justify-end '>
+                    <Button 
+                        type="submit" 
+                        form='eleve'
+                        disabled={isLoading || disabled}
+                        className={`rounded-full cursor-pointer ${eleve && "bg-amber-500 text-black hover:bg-amber-400"}`}
+                    >
+                        {isLoading ? 'Traitement...' : submitButtonText}
+                        {
+                            eleve?(<Pen/>):(<IdCardLanyard/>)
+                        }
+                    </Button>
+                </section>
+        </div>
+    )
+  }
+
+=======
                     <Button 
                         type="submit" 
                         disabled={isLoading || disabled}
@@ -455,4 +583,5 @@ export function EleveForm({
   //     </AlertDialogContent>
   //   </AlertDialog>
   // )
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 }

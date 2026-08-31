@@ -3,18 +3,35 @@ import Head from 'next/head'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { HeaderComponent } from '@/components/layout/header'
+<<<<<<< HEAD
+import { ArrowLeft, Database, RefreshCw } from 'lucide-react'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { CreateTextFileComponent } from '@/features/database/view/createTextFile'
+import { useCreateDatabaseMutation, useDatabaseState, useSyncDatabaseMutation } from '@/features/database/database_VModel'
+import { toast } from 'sonner'
+import { Input } from '@/components/ui/input'
+import { useRouter } from 'next/router'
+import { useAuthStore } from '@/store/authStore'
+=======
 import { ArrowLeftFromLineIcon, Database, RefreshCw } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { CreateTextFileComponent } from '@/features/database/view/createTextFile'
 import { useCreateDatabaseMutation, useDatabaseListQuery, useDatabaseState, useSyncDatabaseMutation } from '@/features/database/database_VModel'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 export default function dataBasesPage() {
   
   const [fileName, setFileName] = useState('')
   const { isInitialized, selectedDatabase, databases } = useDatabaseState()
+<<<<<<< HEAD
+  const {user} = useAuthStore()
+  // const {isLoading: isLinstening} = useDatabaseListQuery()
+  const router = useRouter()
+=======
   const {isLoading: isLinstening} = useDatabaseListQuery()
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   
   const syncMutation = useSyncDatabaseMutation()
   const createMutation = useCreateDatabaseMutation()
@@ -59,28 +76,54 @@ export default function dataBasesPage() {
       })
     }
   }
+<<<<<<< HEAD
+  // const goHome = () => {
+  //   if (typeof window !== 'undefined') window.location.href = '/admin'
+  // }
+  React.useEffect(()=>{
+    if(!user) window.location.href = '/'
+    else if(user.role!=="admin") window.location.href = "/"
+  },[])
+=======
   const goHome = () => {
     if (typeof window !== 'undefined') window.location.href = '/admin'
   }
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
   return (
     <React.Fragment>
       <Head>
+<<<<<<< HEAD
+        <title>LBE schoolar - Source de données </title>
+      </Head>
+      <div className='fixed top-0 z-20 w-full p-2'>
+        <HeaderComponent title='Source de données'>
+          <Button className='w-10 h-10 m-1 rounded-full hover:cursor-pointer' onClick={()=>router.push("/admin")}>
+            <ArrowLeft />
+=======
         <title>Source de données - LBE-schoolar</title>
       </Head>
       <div className='fixed top-0 z-20 w-full p-2'>
         <HeaderComponent title='Source de données'>
           <Button className='w-10 h-10 m-1 rounded-full' onClick={goHome}>
             <ArrowLeftFromLineIcon />
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
           </Button>
         </HeaderComponent>
       </div>
       <div className='app-page fixed w-full h-screen overflow-hidden pt-15'> {/* Offset pour le header fixe */}
         <ScrollArea className='h-full border-x-2 border-primary/20 rounded-3xl p-3'>
+<<<<<<< HEAD
+            <Card className='border-none bg-linear-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
+            {/* Header et statut combinés */}
+            <div className='mb-6'>
+              <div className={`flex items-center gap-4 p-4 rounded-2xl bg-linear-to-r from-primary/10 to-secondary/10 border-2 transition-all duration-300 ${
+=======
             <Card className='border-none bg-gradient-to-br from-card via-card to-muted/30 p-6 backdrop-blur-md shadow-xl shadow-primary/5 sm:p-7'>
             {/* Header et statut combinés */}
             <div className='mb-6'>
               <div className={`flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-primary/10 to-secondary/10 border-2 transition-all duration-300 ${
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                 !selectedDatabase 
                   ? 'border-destructive/50' 
                   : isInitialized 
@@ -89,10 +132,17 @@ export default function dataBasesPage() {
               }`}>
                 <div className={`rounded-full p-3 shadow-lg transition-all duration-300 ${
                   !selectedDatabase 
+<<<<<<< HEAD
+                    ? 'bg-linear-to-r from-destructive to-destructive/80' 
+                    : isInitialized 
+                      ? 'bg-linear-to-r from-green-500 to-green-600' 
+                      : 'bg-linear-to-r from-yellow-500 to-yellow-600'
+=======
                     ? 'bg-gradient-to-r from-destructive to-destructive/80' 
                     : isInitialized 
                       ? 'bg-gradient-to-r from-green-500 to-green-600' 
                       : 'bg-gradient-to-r from-yellow-500 to-yellow-600'
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                 }`}>
                   <Database className={`h-6 w-6 text-white transition-all duration-300 ${
                     !selectedDatabase 
@@ -113,7 +163,11 @@ export default function dataBasesPage() {
                   <div className='mt-4 flex justify-end'>
                 </div>
                 <span className='flex flex-row gap-2 items-center justify-start text-sm text-muted-foreground'>
+<<<<<<< HEAD
+                <div className={`h-3 w-3 rounded-full shadow-lg ${!selectedDatabase ? 'hidden' : isInitialized ? 'bg-linear-to-r from-green-400 to-green-600 animate-pulse' : 'bg-linear-to-r from-yellow-400 to-yellow-600'}`} />
+=======
                 <div className={`h-3 w-3 rounded-full shadow-lg ${!selectedDatabase ? 'hidden' : isInitialized ? 'bg-gradient-to-r from-green-400 to-green-600 animate-pulse' : 'bg-gradient-to-r from-yellow-400 to-yellow-600'}`} />
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                   <p>
                     {
                       !selectedDatabase 
@@ -139,12 +193,20 @@ export default function dataBasesPage() {
               <div className='grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1fr)_auto_auto_auto] items-center'>
                 <div className='relative'>
                   <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+<<<<<<< HEAD
+                    <div className='rounded-full bg-linear-to-r from-primary to-secondary p-1.5 shadow-lg shadow-primary/20'>
+=======
                     <div className='rounded-full bg-gradient-to-r from-primary to-secondary p-1.5 shadow-lg shadow-primary/20'>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                       <Database className='h-4 w-4 text-primary-foreground' />
                     </div>
                   </div>
                   <Input
+<<<<<<< HEAD
+                    className='pl-12 border-2 border-primary/20 bg-linear-to-r from-muted/50 to-card text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl'
+=======
                     className='pl-12 border-2 border-primary/20 bg-gradient-to-r from-muted/50 to-card text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl'
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                     placeholder='📝 nom-du-fichier.db'
                     value={fileName}
                     onChange={(event) => setFileName(event.target.value)}
@@ -153,7 +215,11 @@ export default function dataBasesPage() {
                 <Button 
                   onClick={handleCreateDatabase} 
                   disabled={isLoading || fileName.trim().length === 0} 
+<<<<<<< HEAD
+                  className='w-full sm:w-auto bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary border-2 border-primary/70 shadow-lg shadow-primary/30 transition-all duration-200 hover:scale-105 font-bold'
+=======
                   className='w-full sm:w-auto bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary border-2 border-primary/70 shadow-lg shadow-primary/30 transition-all duration-200 hover:scale-105 font-bold'
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                 >
                   <Database className='mr-2 h-4 w-4' />
                   {isLoading ? '⏳ Création...' : '✨ Créer'}
@@ -166,8 +232,13 @@ export default function dataBasesPage() {
                     !selectedDatabase 
                       ? 'hidden opacity-50 cursor-not-allowed' 
                       : isInitialized 
+<<<<<<< HEAD
+                        ? 'bg-linear-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-2 border-green-700 shadow-lg shadow-green-500/30 cursor-not-allowed' 
+                        : 'bg-linear-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white border-2 border-yellow-700 shadow-lg shadow-yellow-500/30 cursor-pointer'
+=======
                         ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-2 border-green-700 shadow-lg shadow-green-500/30 cursor-not-allowed' 
                         : 'bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white border-2 border-yellow-700 shadow-lg shadow-yellow-500/30 cursor-pointer'
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                   }`}
                 >
                   <RefreshCw className={`mr-2 h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
@@ -183,6 +254,10 @@ export default function dataBasesPage() {
               
               {/* Section fichiers optimisée */}
               <div className='flex-1 overflow-hidden'>
+<<<<<<< HEAD
+                <CreateTextFileComponent/>
+              </div>
+=======
                 <div className='h-full p-4 rounded-2xl bg-gradient-to-br from-muted/20 to-card border-2 border-dashed border-primary/30'>
                   <div className='text-center'>
                     <p className='text-xs text-muted-foreground'>Créez et gérez vos sources de données</p>
@@ -192,6 +267,7 @@ export default function dataBasesPage() {
                   </ScrollArea>
                   </div>
                 </div>
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
           </Card>
         </ScrollArea>
       </div>

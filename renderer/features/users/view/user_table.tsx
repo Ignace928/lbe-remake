@@ -5,6 +5,10 @@ import { UserForm } from './user_form'
 import ModalHandleDelete from '@/components/ModalHandleDelete'
 import { User, CreateUser, UpdateUser } from '../user_types'
 import { Edit, User as UserIcon, Shield, GraduationCap, FileText } from 'lucide-react'
+<<<<<<< HEAD
+import { Button } from '@/components/ui'
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 interface UserTableProps {
   users: User[]
@@ -21,7 +25,11 @@ export function UserTable({
   onDeleteUser, 
   isUpdatePending 
 }: UserTableProps) {
+<<<<<<< HEAD
+  const [userEdit, setUserEdit] = React.useState<User|null>(null)
+=======
   
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   const filteredUsers = users.filter(user => 
     user.nom_user?.toLowerCase().includes(search.toLowerCase())
   )
@@ -115,12 +123,25 @@ export function UserTable({
               </TableCell>
               <TableCell className='flex items-center gap-2'>
                 <UserForm
+<<<<<<< HEAD
+                  showform={userEdit!==null}
+                  hiddeform={()=>setUserEdit(null)}
+                  trigger={(
+                    <Button variant='ghost' onClick={()=>setUserEdit(user)}
+                      className="bg-linear-to-r from-amber-400 to-orange-500 text-white hover:from-amber-500 hover:to-orange-600 border-2 border-amber-600 shadow-lg shadow-amber-500/30 h-10 text-xs font-bold rounded-full transition-all duration-200 hover:scale-105">
+                      ✏️ Modifier
+                    </Button>
+                  )}
+                  onSubmit={(data) => handleUpdateUser(userEdit, data)}
+                  user={userEdit}
+=======
                   size="sm"
                   variant="ghost"
                   style="bg-gradient-to-r from-amber-400 to-orange-500 text-white hover:from-amber-500 hover:to-orange-600 border-2 border-amber-600 shadow-lg shadow-amber-500/30 h-10 text-xs font-bold rounded-full transition-all duration-200 hover:scale-105"
                   trigger='✏️ Modifier'
                   onSubmit={(data) => handleUpdateUser(user, data)}
                   user={user}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
                   isLoading={isUpdatePending}
                   title="Modifier l'utilisateur"
                   description={`Modifiez les informations de l'utilisateur ${user.nom_user}.`}

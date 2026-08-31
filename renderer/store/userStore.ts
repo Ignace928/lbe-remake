@@ -78,11 +78,14 @@ export const useUserStore = create<UserStore>()(
     {
       name: 'user-storage',
       storage: createJSONStorage(() => sessionStorage),
+<<<<<<< HEAD
+=======
       onRehydrateStorage: () => (state) => {
         if (state) {
           // Pas besoin de hasHydrated ici car on utilise les données directement
         }
       }
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
     }
   )
 )

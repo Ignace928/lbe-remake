@@ -3,6 +3,10 @@ import { IPC_CHANNELS } from '../channels'
 import { Classe, Eleve } from '../../lib/data-types'
 import { getGlobalSequelize } from '../database'
 import { ClasseCreateType, ClasseUpdateType } from './classe.Type'
+<<<<<<< HEAD
+import { QueryTypes } from 'sequelize'
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
 export function registerClasseController() {
   // CREATE - Créer une classe
@@ -83,6 +87,35 @@ export function registerClasseController() {
           data: []
         }
       }
+<<<<<<< HEAD
+  
+      // Requête SQL brute avec jointures pour récupérer uniquement les matricules
+      const classesWithMatricules = await sequelize.query(`
+        SELECT 
+          c.id_classe,
+          c.nom_classe,
+          c.niveau,
+          c.delegue_1,
+          c.delegue_2,
+          c.meilleur_eleve,
+          c.titulaire,
+          e1.matricule AS delegue_1_matricule,
+          e2.matricule AS delegue_2_matricule,
+          m.matricule AS meilleur_eleve_matricule
+        FROM CLASSES c
+        LEFT JOIN ELEVES e1 ON CAST(c.delegue_1 AS INTEGER) = e1.id_eleve
+        LEFT JOIN ELEVES e2 ON CAST(c.delegue_2 AS INTEGER) = e2.id_eleve
+        LEFT JOIN ELEVES m ON CAST(c.meilleur_eleve AS INTEGER) = m.id_eleve
+        ORDER BY c.nom_classe ASC
+      `, {
+        type: QueryTypes.SELECT
+      })
+  
+      return {
+        success: true,
+        message: 'Classes récupérées avec succès',
+        data: classesWithMatricules // Contient déjà les données pures sans erreur de clonage
+=======
 
       const classes = await Classe.findAll({
         include: [
@@ -109,6 +142,7 @@ export function registerClasseController() {
         success: true,
         message: 'Classes récupérées avec succès',
         data: classes
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
       }
     } catch (error) {
       return {
@@ -117,7 +151,11 @@ export function registerClasseController() {
         data: []
       }
     }
+<<<<<<< HEAD
+})
+=======
   })
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
 
   // READ - Obtenir une classe par ID
   ipcMain.removeHandler(IPC_CHANNELS.classeGetById)

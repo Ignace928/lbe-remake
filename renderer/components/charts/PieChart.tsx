@@ -44,6 +44,12 @@ export function PieChart({
     'hsl(var(--chart-3))',
     'hsl(var(--chart-4))',
     'hsl(var(--chart-5))',
+<<<<<<< HEAD
+    'hsl(var(--background))',
+    'hsl(var(--foreground))',
+    'hsl(var(--foreground))',
+=======
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
   ]
   
   const pieColors = colors || defaultColors
@@ -75,16 +81,29 @@ export function PieChart({
           {showTooltip && (
             <Tooltip 
               contentStyle={{
+<<<<<<< HEAD
+                backgroundColor: 'var(--sidebar-primary)',
+                color:'var(--foreground)',
+                border: '1px solid #374151',
+                borderRadius: '6px'
+              }}
+              labelStyle={{ color: 'var(--primary)' }}
+=======
                 backgroundColor: '#1f2937',
                 border: '1px solid #374151',
                 borderRadius: '6px'
               }}
               labelStyle={{ color: '#f3f4f6' }}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
             />
           )}
           {showLegend && (
             <Legend 
+<<<<<<< HEAD
+              wrapperStyle={{ color: '#ffffff' }}
+=======
               wrapperStyle={{ color: '#9ca3af' }}
+>>>>>>> 0f8417fef8585d803b9c1436b515535d49ba654f
             />
           )}
         </RePieChart>
