@@ -3,15 +3,17 @@ import { HeaderComponent } from '@/components/layout/header'
 import SidebarMotion from '@/components/layout/Sidebar_Motion'
 import { TitleComponent } from '@/components/layout/title_component'
 import LoadingPage from '@/components/loadingPage'
-import { Button } from '@/components/ui'
+import { Button, buttonVariants } from '@/components/ui'
 import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { ListeRetardataire } from '@/features/visualisation/view/retardataireList'
 import { usePayementEnRetard } from '@/features/visualisation/viz_VModel'
 import { useAnneeStore } from '@/store/anneStore'
 import { useAuthStore } from '@/store/authStore'
 import { useVisual } from '@/store/viz'
-import { ArrowLeftFromLineIcon, Loader, LucideLayoutDashboard } from 'lucide-react'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import { ArrowLeftFromLineIcon, Download, Loader, LucideLayoutDashboard } from 'lucide-react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -89,8 +91,30 @@ export const Rendering = ({anne, classe}:props) => {
   }else if(isError){
     return(<Loader className='text-red-700 animate-spin'/>)
   }
+  const listeRetardataire = ()=>{
+    const ls = res.data.map((d)=>{
+      return{
+        classe: d.nom_classe,
+        matricule: d.matricule,
+        nom: d.nom_complet,
+        verse: d.somme_versee,
+        total: d.total_du,
+        ecart: d.ecart,
+      }
+    })
+    return ls
+  }
   return(
-    <div className='flex'>
+    <div className='flex flex-col gap-4'>
+      {res.data && (
+        <PDFDownloadLink 
+          className={buttonVariants({variant:"outline", size:"sm"})}
+          document={<ListeRetardataire data={listeRetardataire()}/>}
+          fileName={`Retardataire`}
+        >
+          Télécharger <Download className='animate-bounce'/>
+        </PDFDownloadLink>
+      )}
       <Table>
         <TableHeader className='relative'>
             <TableRow className='border-primary/10 sticky top-0 hover:bg-primary/5'>
@@ -103,17 +127,18 @@ export const Rendering = ({anne, classe}:props) => {
             </TableRow>
         </TableHeader>
         <TableBody>
-            {
-                res.data.map((eleve) =>(
-                    <TableRow key={eleve.id_eleve} className='border-primary/10 hover:cursor-pointer hover:bg-primary/5'>
-                        <TableCell className='font-mono text-xs text-muted-foreground sm:text-sm'>{eleve.nom_classe}</TableCell>
-                        <TableCell className='font-mono text-xs text-muted-foreground sm:text-sm'>{eleve.matricule}</TableCell>
-                        <TableCell className='text-muted-foreground'>{eleve.nom_complet}</TableCell>
-                        <TableCell className='text-muted-foreground'>{eleve.somme_versee}</TableCell>
-                        <TableCell className='text-muted-foreground'>{eleve.total_du}</TableCell>
-                        <TableCell className='font-medium text-foreground'>{eleve.ecart}</TableCell>
-                    </TableRow>
-            ))}
+        {
+            res.data.map((eleve) =>(
+                <TableRow key={eleve.id_eleve} className='border-primary/10 hover:cursor-pointer hover:bg-primary/5'>
+                    <TableCell className='font-mono text-xs text-muted-foreground sm:text-sm'>{eleve.nom_classe}</TableCell>
+                    <TableCell className='font-mono text-xs text-muted-foreground sm:text-sm'>{eleve.matricule}</TableCell>
+                    <TableCell className='text-muted-foreground'>{eleve.nom_complet}</TableCell>
+                    <TableCell className='text-muted-foreground'>{eleve.somme_versee}</TableCell>
+                    <TableCell className='text-muted-foreground'>{eleve.total_du}</TableCell>
+                    <TableCell className='font-medium text-foreground'>{eleve.ecart}</TableCell>
+                </TableRow>
+            ))
+        }
         </TableBody>
       </Table>
     </div>

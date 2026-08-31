@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { EleveForm } from './eleve_form'
 import { DataTable } from './eleve_data_table'
 import { columns, EleveTableData } from './eleve_columns'
 import { Button } from '@/components/ui/button'
 import { ArrowLeftFromLine, Users } from 'lucide-react'
-import ModalHandleDelete from '@/components/ModalHandleDelete'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { TitleComponent } from '@/components/layout/title_component'
 
 interface EleveTableProps {
